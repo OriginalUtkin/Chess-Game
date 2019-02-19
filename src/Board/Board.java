@@ -1,6 +1,11 @@
 package Board;
 import Enums.Color;
 
+/**
+ *
+ * @author xutkin00, xpolis03
+ */
+
 public class Board {
     public Cell[][] gameBoard;
 

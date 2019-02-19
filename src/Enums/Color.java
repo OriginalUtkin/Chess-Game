@@ -1,5 +1,10 @@
 package Enums;
 
+/**
+ *
+ * @author xutkin00, xpolis03
+ */
+
 public enum Color {
     WHITE, BLACK;
 

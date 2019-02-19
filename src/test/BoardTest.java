@@ -5,6 +5,11 @@ import static org.junit.Assert.*;
 import Board.Board;
 
 
+/**
+ *
+ * @author xutkin00, xpolis03
+ */
+
 public class BoardTest {
 
     @Test
