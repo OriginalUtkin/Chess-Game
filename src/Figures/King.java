@@ -2,6 +2,10 @@ package Figures;
 
 import Abstracts.Figure;
 
+/**
+ *
+ * @author xutkin00, xpolis03
+ */
 
 public class King extends Figure {
 

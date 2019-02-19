@@ -2,6 +2,11 @@ package Abstracts;
 
 import Enums.Color;
 
+/**
+ *
+ * @author xutkin00, xpolis03
+ */
+
 abstract public class Figure {
 
     private Color color;
