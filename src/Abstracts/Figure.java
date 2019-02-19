@@ -18,9 +18,6 @@ abstract public class Figure {
     private int current_row;
     private int currnet_column;
 
-    private int new_row;
-    private int new_column;
-
     @Override
     public String toString() {
         //TODO: implementation is needed
