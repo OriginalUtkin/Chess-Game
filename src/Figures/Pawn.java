@@ -1,13 +1,13 @@
 package Figures;
 
-import Abstracts.Piece;
+import Abstracts.ChessPiece;
 
 /**
  *
  * @author xutkin00, xpolis03
  */
 
-public class Pawn extends Piece {
+public class Pawn extends ChessPiece {
 
     @Override
     public boolean move(int new_row, int new_column) {
