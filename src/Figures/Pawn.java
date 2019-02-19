@@ -1,6 +1,7 @@
 package Figures;
 
 import Abstracts.ChessPiece;
+import Enums.Color;
 
 /**
  *
@@ -8,6 +9,10 @@ import Abstracts.ChessPiece;
  */
 
 public class Pawn extends ChessPiece {
+
+    public Pawn(Color color, int current_row, int current_column){
+        super(color,'p', 1, current_row, current_column);
+    }
 
     @Override
     public boolean move(int new_row, int new_column) {

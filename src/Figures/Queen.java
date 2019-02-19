@@ -1,6 +1,7 @@
 package Figures;
 
 import Abstracts.ChessPiece;
+import Enums.Color;
 
 /**
  *
@@ -8,6 +9,10 @@ import Abstracts.ChessPiece;
  */
 
 public class Queen extends ChessPiece {
+
+    public Queen(Color color, int current_row, int current_column){
+        super(color,'D', 9, current_row, current_column);
+    }
 
     @Override
     public boolean move(int new_row, int new_column) {
