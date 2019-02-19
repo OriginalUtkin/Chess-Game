@@ -1,5 +1,5 @@
 package Board;
-import Abstracts.Figure;
+import Abstracts.Piece;
 import Enums.Color;
 
 
@@ -11,24 +11,24 @@ import Enums.Color;
 public class Cell {
 
     private Color color;
-    private Figure figure;
+    private Piece piece;
     private char letter;
     private int number;
 
-    Cell(Color color, Figure figure, char letter, int number){
+    Cell(Color color, Piece piece, char letter, int number){
         this.color = color;
-        this.figure = figure;
+        this.piece = piece;
         this.letter = letter;
         this.number = number;
 
     }
 
-    public Figure getFigure(){
-        return this.figure;
+    public Piece getPiece(){
+        return this.piece;
     }
 
-    public void setFigure(Figure figure){
-        this.figure = figure;
+    public void setPiece(Piece piece){
+        this.piece = piece;
     }
 
     public boolean isFree(){
@@ -37,7 +37,7 @@ public class Cell {
          *
          * @return boolean; True in case that cell is empty. Otherwise False is returned
          */
-        return this.figure == null ? true : false;
+        return this.piece == null ? true : false;
     }
 
     @Override

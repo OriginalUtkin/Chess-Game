@@ -7,7 +7,7 @@ import Enums.Color;
  * @author xutkin00, xpolis03
  */
 
-abstract public class Figure {
+abstract public class Piece {
 
     private Color color;
 
