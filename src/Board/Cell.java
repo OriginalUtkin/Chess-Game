@@ -1,5 +1,5 @@
 package Board;
-import Abstracts.Piece;
+import Abstracts.ChessPiece;
 import Enums.Color;
 
 
@@ -11,11 +11,11 @@ import Enums.Color;
 public class Cell {
 
     private Color color;
-    private Piece piece;
+    private ChessPiece piece;
     private char letter;
     private int number;
 
-    Cell(Color color, Piece piece, char letter, int number){
+    Cell(Color color, ChessPiece piece, char letter, int number){
         this.color = color;
         this.piece = piece;
         this.letter = letter;
@@ -23,11 +23,11 @@ public class Cell {
 
     }
 
-    public Piece getPiece(){
+    public ChessPiece getPiece(){
         return this.piece;
     }
 
-    public void setPiece(Piece piece){
+    public void setPiece(ChessPiece piece){
         this.piece = piece;
     }
 
