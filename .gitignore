@@ -1,8 +1,5 @@
 .idea/
 out/
-junit-4.13-beta-2.jar
-hamcrest-core-2.1.jar
-hamcrest-2.1.jar
-hamcrest-library-2.1.jar
+*.jar
 .DS_Store
-IJA.iml
+*.iml
