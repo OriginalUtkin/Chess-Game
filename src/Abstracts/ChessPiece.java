@@ -42,9 +42,6 @@ abstract public class ChessPiece {
     }
 
     public List<Cell> getPossiblePositions(){
-        /**
-         * 
-         */
         return this.possiblePositions;
     }
 
