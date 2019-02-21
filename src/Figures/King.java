@@ -14,8 +14,8 @@ import java.util.List;
 
 public class King extends ChessPiece {
 
-    public King(Color color, int current_row, int current_column){
-        super(color,'K', 10, current_row, current_column);
+    public King(Color color){
+        super(color,'K', 10);
         this.calculatePossibleMovements();
     }
 

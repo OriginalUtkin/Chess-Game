@@ -13,8 +13,8 @@ import java.util.List;
 
 public class Knight extends ChessPiece {
 
-    public Knight(Color color, int current_row, int current_column){
-        super(color,'J', 3, current_row, current_column);
+    public Knight(Color color){
+        super(color,'J', 3);
     }
 
     @Override

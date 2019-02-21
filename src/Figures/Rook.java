@@ -13,8 +13,8 @@ import java.util.List;
 
 public class Rook extends ChessPiece {
 
-    public Rook(Color color, int current_row, int current_column){
-        super(color,'V', 5, current_row, current_column);
+    public Rook(Color color){
+        super(color,'V', 5);
         this.calculatePossibleMovements();
     }
 

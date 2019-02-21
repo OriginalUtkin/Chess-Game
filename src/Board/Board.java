@@ -28,7 +28,7 @@ public class Board {
 
             for (int column = 0; column < 8; column++){
 
-                this.gameBoard[row][column] = new Cell(current_cell_color, null, cellLetters[column], row+1);
+                this.gameBoard[row][column] = new Cell(current_cell_color, null, cellLetters[column], row+1, row, column);
                 current_cell_color = current_cell_color == Color.WHITE ? Color.BLACK : Color.WHITE;
             }
         }

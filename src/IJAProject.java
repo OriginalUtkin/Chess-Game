@@ -24,7 +24,7 @@ public class IJAProject {
         Game chessGame = new Game();
 
         /** TODO seems as fuck. refactor it. Coordinates will be set right from Cell */
-        chessGame.setPiece(new King(Color.BLACK, 0,0), 0, 0);
+        chessGame.setPiece(new King(Color.BLACK), 0, 0);
 
         // Simulate mouse button click
         ChessPiece boardPiece = chessGame.getBoardCell(0, 0);

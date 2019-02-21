@@ -13,8 +13,8 @@ import java.util.List;
 
 public class Bishop extends ChessPiece {
 
-    public Bishop(Color color, int current_row, int current_column){
-        super(color,'S', 3, current_row, current_column);
+    public Bishop(Color color){
+        super(color,'S', 3);
     }
 
     @Override

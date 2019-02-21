@@ -14,12 +14,16 @@ public class Cell {
     private ChessPiece piece;
     private char letter;
     private int number;
+    private int row;
+    private int column;
 
-    Cell(Color color, ChessPiece piece, char letter, int number){
+    Cell(Color color, ChessPiece piece, char letter, int number, int row, int column){
         this.color = color;
         this.piece = piece;
         this.letter = letter;
         this.number = number;
+        this.row = row;
+        this.column = column;
 
     }
 
@@ -28,7 +32,11 @@ public class Cell {
     }
 
     public void setPiece(ChessPiece piece){
+
         this.piece = piece;
+
+        this.piece.setRow(this.row);
+        this.piece.setColumn(this.column);
     }
 
     public boolean isFree(){

@@ -24,18 +24,24 @@ abstract public class ChessPiece {
     protected int current_column;
 
 
-    public ChessPiece(Color color, char abbreviation, int value, int current_row, int current_name){
+    public ChessPiece(Color color, char abbreviation, int value){
         this.color = color;
         this.abbreviation = abbreviation;
         this.value = value;
-        this.current_row = current_row;
-        this.current_column = current_name;
     }
 
     @Override
     public String toString() {
         //TODO: implementation is needed
         return "";
+    }
+
+    public void setRow(int x){
+        this.current_row = x;
+    }
+
+    public void setColumn(int y){
+        this.current_column = y;
     }
 
     public void movePiece(int new_x, int new_y){
@@ -52,8 +58,8 @@ abstract public class ChessPiece {
          * TODO: Calculate path from src do dst
          */
 
-        this.current_row = new_x;
-        this.current_column = new_y;
+        this.setRow(new_x);
+        this.setColumn(new_y);
     }
 
     abstract public List<Movement> calculatePossibleMovements();
