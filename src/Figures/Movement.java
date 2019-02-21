@@ -1,14 +1,20 @@
 package Figures;
 
+/**
+ *
+ * @author xutkin00, xpolis03
+ */
+
 public class Movement {
     private int x;
     private int y;
 
-    public Movement(int x_position, int y_position) throws IllegalArgumentException{
+    public Movement(int x_position, int y_position){
         /**
          * Constructor of Movement class
          *
-         * @exception IllegalArgumentException in case if x or y coordinate not in interval [0, 7]
+         * @param x_position dst row value
+         * @param y_position dst column value
          */
         this.x = x_position;
         this.y = y_position;
