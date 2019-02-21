@@ -3,6 +3,9 @@ package Figures;
 import Abstracts.ChessPiece;
 import Enums.Color;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author xutkin00, xpolis03
@@ -15,6 +18,9 @@ public class Queen extends ChessPiece {
     }
 
     @Override
-    protected void calculatePossibleMovements(){
+    public List<Movement> calculatePossibleMovements(){
+        List<Movement> possibleMovements =  new ArrayList<>();
+
+        return possibleMovements;
     }
 }

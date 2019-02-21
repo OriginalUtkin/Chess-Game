@@ -6,6 +6,7 @@ import Enums.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  *
  * @author xutkin00, xpolis03
@@ -19,38 +20,42 @@ public class King extends ChessPiece {
     }
 
     @Override
-    protected void calculatePossibleMovements(){
+    public List<Movement> calculatePossibleMovements(){
         /**
          * Calculate possible movements from current position
          *
          * @return List of all possible movements
          */
 
-        this.possibleMovements.clear();
+        List<Movement> possibleMovements =  new ArrayList<>();
+//        TODO: refactor this bullshit- > add new method for calculating horizontal/ vertical coordinates
 
-        int[][] moveset = new int[][]{
-                {super.current_row - 1, super.current_column},
-                {super.current_row + 1, super.current_column},
 
-                {super.current_row, super.current_column + 1},
-                {super.current_row, super.current_column - 1},
+        if (super.current_row - 1 >= 0)
+            possibleMovements.add(new Movement(super.current_row - 1, super.current_column));
 
-                {super.current_row + 1, super.current_column + 1},
-                {super.current_row + 1, super.current_column - 1},
+        if (super.current_row + 1 <= 7)
+            possibleMovements.add(new Movement(super.current_row + 1, super.current_column));
 
-                {super.current_row - 1, super.current_column + 1},
-                {super.current_row - 1, super.current_column - 1}
-        };
+        if (super.current_column - 1 >= 0)
+            possibleMovements.add(new Movement(super.current_row , super.current_column - 1));
 
-        for(int counter = 0; counter < 8; counter++){
+        if (super.current_row + 1 <= 7)
+            possibleMovements.add(new Movement(super.current_row , super.current_column + 1));
 
-            try {
-                this.possibleMovements.add(new Movement(moveset[counter][0], moveset[counter][1]));
+        if (super.current_row + 1 <= 7 && super.current_column + 1 <=7)
+            possibleMovements.add(new Movement(super.current_row + 1, super.current_column + 1));
 
-            }catch (IllegalArgumentException exception){
-                continue;
-            }
-        }
+        if (super.current_row + 1 <= 7 && super.current_column - 1 >= 0)
+            possibleMovements.add(new Movement(super.current_row + 1, super.current_column - 1));
+
+        if (super.current_row - 1 >= 0 && super.current_column + 1 <= 7)
+            possibleMovements.add(new Movement(super.current_row - 1, super.current_column + 1));
+
+        if (super.current_row - 1 >= 0 && super.current_column - 1 >= 0)
+            possibleMovements.add(new Movement(super.current_row - 1, super.current_column - 1));
+
+        return possibleMovements;
 
     }
 

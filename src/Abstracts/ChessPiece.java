@@ -23,7 +23,6 @@ abstract public class ChessPiece {
     protected int current_row;
     protected int current_column;
 
-    protected List<Movement> possibleMovements;
 
     public ChessPiece(Color color, char abbreviation, int value, int current_row, int current_name){
         this.color = color;
@@ -31,7 +30,6 @@ abstract public class ChessPiece {
         this.value = value;
         this.current_row = current_row;
         this.current_column = current_name;
-        this.possibleMovements = new ArrayList<Movement>();
     }
 
     @Override
@@ -40,16 +38,26 @@ abstract public class ChessPiece {
         return "";
     }
 
-    public List<Movement> getPossiblePositions(){
-        return this.possibleMovements;
-    }
+    public void movePiece(int new_x, int new_y){
+        /**
+         * Move piece from current position to new. Change current piece coordinates
+         *
+         * @param int new_x new row coordinate
+         * @param int new_y new column coordinate
+         *
+         * @return void
+         */
 
-    public void move_piece(int new_x, int new_y){
+        /**
+         * TODO: Calculate path from src do dst
+         */
+
         this.current_row = new_x;
         this.current_column = new_y;
-
-        this.calculatePossibleMovements();
     }
 
-    abstract protected void calculatePossibleMovements();
+    abstract public List<Movement> calculatePossibleMovements();
+
+    // TODO: Calculate path from current position to dst
+//    abstract public List<Movement> calculatePath();
 }
