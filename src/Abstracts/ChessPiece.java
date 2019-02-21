@@ -1,9 +1,8 @@
 package Abstracts;
 
-import Board.Board;
-import Board.Cell;
+
 import Enums.Color;
-import com.sun.xml.internal.xsom.impl.scd.Iterators;
+import Figures.Movement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ abstract public class ChessPiece {
     protected int current_row;
     protected int current_column;
 
-    protected List<Cell> possiblePositions;
+    protected List<Movement> possibleMovements;
 
     public ChessPiece(Color color, char abbreviation, int value, int current_row, int current_name){
         this.color = color;
@@ -32,7 +31,7 @@ abstract public class ChessPiece {
         this.value = value;
         this.current_row = current_row;
         this.current_column = current_name;
-        this.possiblePositions = new ArrayList<>();
+        this.possibleMovements = new ArrayList<Movement>();
     }
 
     @Override
@@ -41,9 +40,16 @@ abstract public class ChessPiece {
         return "";
     }
 
-    public List<Cell> getPossiblePositions(){
-        return this.possiblePositions;
+    public List<Movement> getPossiblePositions(){
+        return this.possibleMovements;
     }
 
-    protected abstract void calculatePossibleMovements();
+    public void move_piece(int new_x, int new_y){
+        this.current_row = new_x;
+        this.current_column = new_y;
+
+        this.calculatePossibleMovements();
+    }
+
+    abstract protected void calculatePossibleMovements();
 }

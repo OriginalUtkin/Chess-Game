@@ -16,5 +16,10 @@ public class Pawn extends ChessPiece {
 
     @Override
     protected void calculatePossibleMovements(){
+        if (super.color == Color.WHITE) {
+
+        }else{
+
+        }
     }
 }
