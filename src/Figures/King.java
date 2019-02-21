@@ -28,19 +28,29 @@ public class King extends ChessPiece {
 
         this.possibleMovements.clear();
 
-        List<Movement> possibleMovements = new ArrayList<Movement>();
+        int[][] moveset = new int[][]{
+                {super.current_row - 1, super.current_column},
+                {super.current_row + 1, super.current_column},
 
-        this.possibleMovements.add(new Movement(super.current_row -1, super.current_column));
-        this.possibleMovements.add(new Movement(super.current_row + 1, super.current_column));
+                {super.current_row, super.current_column + 1},
+                {super.current_row, super.current_column - 1},
 
-        this.possibleMovements.add(new Movement(super.current_row , super.current_column + 1));
-        this.possibleMovements.add(new Movement(super.current_row , super.current_column - 1));
+                {super.current_row + 1, super.current_column + 1},
+                {super.current_row + 1, super.current_column - 1},
 
-        this.possibleMovements.add(new Movement(super.current_row + 1, super.current_column+1));
-        this.possibleMovements.add(new Movement(super.current_row + 1, super.current_column - 1));
+                {super.current_row - 1, super.current_column + 1},
+                {super.current_row - 1, super.current_column - 1}
+        };
 
-        this.possibleMovements.add(new Movement(super.current_row - 1, super.current_column + 1));
-        this.possibleMovements.add(new Movement(super.current_row - 1, super.current_column -1));
+        for(int counter = 0; counter < 8; counter++){
+
+            try {
+                this.possibleMovements.add(new Movement(moveset[counter][0], moveset[counter][1]));
+
+            }catch (IllegalArgumentException exception){
+                continue;
+            }
+        }
 
     }
 
