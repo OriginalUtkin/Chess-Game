@@ -7,11 +7,13 @@ import java.util.List;
 public class Game {
 
     Board gameBoard;
-    List<Board> gameStatements;
+
+//    List<Board> gameStatements;
 
     public Game(){
         this.gameBoard = new Board();
-        this.gameStatements = new ArrayList<Board>();
+//        this.gameStatements = new ArrayList<Board>();
+
     }
 
     public void gameState(){

@@ -19,24 +19,38 @@ public class Cell {
 
     Cell(Color color, ChessPiece piece, char letter, int number, int row, int column){
         this.color = color;
-        this.piece = piece;
         this.letter = letter;
         this.number = number;
         this.row = row;
         this.column = column;
 
+        this.piece = piece;
+
     }
 
     public ChessPiece getPiece(){
+        /***
+         * Return piece that is currently staying on cell object
+         *
+         * @return ChessPiece object - piece on cell
+         */
         return this.piece;
     }
 
     public void setPiece(ChessPiece piece){
-
+        /**
+         * Set chess piece on cell. If piece is represented by ChessPiece object recalculate piece coordinates.
+         *
+         * @param ChessPiece piece object on the game board
+         *
+         * @return void
+         */
         this.piece = piece;
 
-        this.piece.setRow(this.row);
-        this.piece.setColumn(this.column);
+        if (piece != null){
+            this.piece.setRow(this.row);
+            this.piece.setColumn(this.column);
+        }
     }
 
     public boolean isFree(){

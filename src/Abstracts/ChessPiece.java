@@ -23,6 +23,8 @@ abstract public class ChessPiece {
     protected int current_row;
     protected int current_column;
 
+    protected boolean moveFlag;
+
 
     public ChessPiece(Color color, char abbreviation, int value){
         this.color = color;
@@ -60,6 +62,15 @@ abstract public class ChessPiece {
 
         this.setRow(new_x);
         this.setColumn(new_y);
+    }
+
+    public Color getColor(){
+        /**
+         * Piece color getter
+         *
+         * @return color of piece
+         */
+        return this.color;
     }
 
     abstract public List<Movement> calculatePossibleMovements();
