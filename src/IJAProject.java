@@ -50,7 +50,7 @@ public class IJAProject {
             }
         });
 
-        JMenuItem refreshGame = new JMenuItem("Refresh");
+        JMenuItem refreshGame = new JMenuItem("Restart");
         menuGame.add(refreshGame);
         refreshGame.setFont(font);
 
