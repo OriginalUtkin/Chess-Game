@@ -4,9 +4,6 @@ import Enums.Color;
 import Figures.Movement;
 import Board.Cell;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Game {
 
     Board gameBoard;
@@ -60,16 +57,9 @@ public class Game {
          */
         final Cell dstCell = this.gameBoard.gameBoard[movement.get_x()][movement.get_y()];
 
-        if (movement.getAddtitionalCheck())
+        if (movement.getAdditionalCheck())
             return !dstCell.isFree() && dstCell.getPiece().getColor() != pieceColor;
 
-        if (dstCell.isFree())
-            return true;
-
-        // Destination cell contains a chess piece of other player
-        if (dstCell.getPiece().getColor() != pieceColor)
-            return true;
-
-        return false;
+        return dstCell.isFree() || dstCell.getPiece().getColor() != pieceColor;
     }
 }
