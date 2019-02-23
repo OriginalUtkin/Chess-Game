@@ -1,10 +1,7 @@
 import Abstracts.ChessPiece;
 import Board.Board;
 import Enums.Color;
-import Figures.King;
-import Figures.Movement;
-import Figures.Pawn;
-import Figures.Rook;
+import Figures.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +20,8 @@ public class IJAProject {
          */
         Game chessGame = new Game();
 
-        chessGame.setPiece(new Pawn(Color.WHITE), 0, 0);
-        chessGame.setPiece(new King(Color.BLACK), 1, 0);
+        chessGame.setPiece(new Queen(Color.WHITE), 0, 0);
+//        chessGame.setPiece(new King(Color.BLACK), 1, 0);
 
         // Simulate mouse button click. Now we have a chess piece from selected cell
         ChessPiece boardPiece = chessGame.getBoardPiece(0, 0);

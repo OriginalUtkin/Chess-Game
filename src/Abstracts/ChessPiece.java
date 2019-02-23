@@ -90,32 +90,32 @@ abstract public class ChessPiece implements Serializable {
 
             if (this.currentRow + counter <= 7 && this.currentColumn + counter <=7)
                 diagonalMovements.add(new Movement(
-                        this.currentRow + 1,
-                        this.currentColumn + 1,
+                        this.currentRow + counter,
+                        this.currentColumn + counter,
                         additionalFlag,
                         Direction.DIAGONAL)
                 );
 
             if (this.currentRow + counter <= 7 && this.currentColumn - counter >= 0)
                 diagonalMovements.add(new Movement(
-                        this.currentRow + 1,
-                        this.currentColumn - 1,
+                        this.currentRow + counter,
+                        this.currentColumn - counter,
                         additionalFlag,
                         Direction.DIAGONAL)
                 );
 
             if (this.currentRow - counter >= 0 && this.currentColumn + counter <= 7)
                 diagonalMovements.add(new Movement(
-                        this.currentRow - 1,
-                        this.currentColumn + 1,
+                        this.currentRow - counter,
+                        this.currentColumn + counter,
                         additionalFlag,
                         Direction.DIAGONAL)
                 );
 
             if (this.currentRow - counter >= 0 && this.currentColumn - counter >= 0)
                 diagonalMovements.add(new Movement(
-                        this.currentRow - 1,
-                        this.currentColumn - 1,
+                        this.currentRow - counter,
+                        this.currentColumn - counter,
                         additionalFlag,
                         Direction.DIAGONAL)
                 );
