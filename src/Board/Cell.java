@@ -10,12 +10,14 @@ import Enums.Color;
 
 public class Cell {
 
-    private Color color;
+    final private Color color;
+    final private char letter;
+    final private int number;
+    final private int row;
+    final private int column;
+
     private ChessPiece piece;
-    private char letter;
-    private int number;
-    private int row;
-    private int column;
+
 
     Cell(Color color, ChessPiece piece, char letter, int number, int row, int column){
         this.color = color;
@@ -30,7 +32,7 @@ public class Cell {
 
     public ChessPiece getPiece(){
         /***
-         * Return piece that is currently staying on cell object
+         * Return piece that is currently staying on cell object.
          *
          * @return ChessPiece object - piece on cell
          */
@@ -41,7 +43,7 @@ public class Cell {
         /**
          * Set chess piece on cell. If piece is represented by ChessPiece object recalculate piece coordinates.
          *
-         * @param ChessPiece piece object on the game board
+         * @param piece object on the game board
          *
          * @return void
          */
@@ -55,15 +57,29 @@ public class Cell {
 
     public boolean isFree(){
         /**
-         * Check if any chess piece is staying on the cell
+         * Check if any chess piece is staying on the cell.
          *
          * @return boolean; True in case that cell is empty. Otherwise False is returned
          */
         return this.piece == null;
     }
 
-    @Override
-    public String toString() {
+    public String getFullString() {
+        /**
+         * Return full representation of cell in string format.
+         *
+         * @return string in format cell_number + cell_letter + cell_color
+         */
         return String.valueOf(this.number) + letter + this.color;
+    }
+
+    @Override
+    public String toString(){
+        /**
+         * Return representation of cell in string format.
+         *
+         * @return string in format cell_letter + cell_number
+         */
+        return letter+String.valueOf(this.number);
     }
 }

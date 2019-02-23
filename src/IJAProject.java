@@ -46,7 +46,6 @@ public class IJAProject {
 
         /**
          * Move string:
-         * getBoardCell -> to string (src)
          * if returned piece not Pawn -> To string
          * Before calling setPiece get dst cell and call toString (dst)
          */
