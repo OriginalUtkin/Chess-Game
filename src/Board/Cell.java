@@ -59,7 +59,7 @@ public class Cell {
          *
          * @return boolean; True in case that cell is empty. Otherwise False is returned
          */
-        return this.piece == null ? true : false;
+        return this.piece == null;
     }
 
     @Override

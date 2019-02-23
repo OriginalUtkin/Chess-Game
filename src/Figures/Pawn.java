@@ -55,18 +55,4 @@ public class Pawn extends ChessPiece {
 
         return possibleMovements;
     }
-
-    @Override
-    public void movePiece(int new_x, int new_y){
-        // TODO: Tests are needed
-
-        /**
-         * Move function for Pawn piece.
-         */
-        if (this.startedPosition)
-            this.startedPosition = false;
-
-        super.movePiece(new_x, new_y);
-
-    }
 }

@@ -23,9 +23,6 @@ abstract public class ChessPiece implements Serializable {
     protected int currentRow;
     protected int currentColumn;
 
-    protected boolean moveFlag;
-
-
     public ChessPiece(Color color, char abbreviation, int value){
         this.color = color;
         this.abbreviation = abbreviation;
