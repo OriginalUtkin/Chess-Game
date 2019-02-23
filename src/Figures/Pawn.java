@@ -27,30 +27,30 @@ public class Pawn extends ChessPiece {
         // Calculate possible extra movement from start pawn position
         if (this.startedPosition)
             if (this.color == Color.BLACK)
-                possibleMovements.add(new Movement(this.currentRow - 2, this.currentColumn));
+                possibleMovements.add(new Movement(this.currentRow - 2, this.currentColumn, false));
 
             else
-                possibleMovements.add(new Movement(this.currentRow + 2, this.currentColumn));
+                possibleMovements.add(new Movement(this.currentRow + 2, this.currentColumn, false));
 
             // Common paw move set depends on paw color
         if (this.color == Color.WHITE){
             if (this.currentRow + 1 <= 7)
-                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn));
+                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn, false));
 
             if(this.currentRow + 1 <= 7 && this.currentColumn + 1 <= 7)
-                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn + 1));
+                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn + 1, true));
 
             if(this.currentRow - 1 >= 0 && this.currentColumn + 1 <= 7)
-                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn + 1));
+                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn + 1, true));
         }else{
             if (this.currentRow - 1 >= 0)
-                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn));
+                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn, false));
 
             if(this.currentRow - 1 >= 0 && this.currentColumn - 1 >= 0)
-                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn - 1));
+                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn - 1, true));
 
             if(this.currentRow + 1 <= 7 && this.currentColumn - 1 >= 0)
-                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn - 1));
+                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn - 1, true));
         }
 
         return possibleMovements;

@@ -8,9 +8,9 @@ package Figures;
 public class Movement {
     final private int x;
     final private int y;
-    private boolean additionalCheck;
+    private boolean additionalFlag;
 
-    public Movement(int x_position, int y_position){
+    public Movement(int x_position, int y_position, boolean additionalFlag){
         /**
          * Constructor of Movement class
          *
@@ -19,16 +19,15 @@ public class Movement {
          */
         this.x = x_position;
         this.y = y_position;
-        this.additionalCheck = false;
-
+        this.additionalFlag = additionalFlag;
     }
 
     public void setAdditionalCheck(){
-        this.additionalCheck = true;
+        this.additionalFlag = true;
     }
 
     public boolean getAddtitionalCheck(){
-        return this.additionalCheck;
+        return this.additionalFlag;
     }
 
 

@@ -31,28 +31,28 @@ public class King extends ChessPiece {
 //        TODO: refactor this bullshit- > add new method for calculating horizontal/ vertical coordinates
 
         if (super.currentRow - 1 >= 0)
-            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn));
+            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn, false));
 
         if (super.currentRow + 1 <= 7)
-            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn));
+            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn, false));
 
         if (super.currentColumn - 1 >= 0)
-            possibleMovements.add(new Movement(super.currentRow, super.currentColumn - 1));
+            possibleMovements.add(new Movement(super.currentRow, super.currentColumn - 1, false));
 
         if (super.currentRow + 1 <= 7)
-            possibleMovements.add(new Movement(super.currentRow, super.currentColumn + 1));
+            possibleMovements.add(new Movement(super.currentRow, super.currentColumn + 1, false));
 
         if (super.currentRow + 1 <= 7 && super.currentColumn + 1 <=7)
-            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn + 1));
+            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn + 1, false));
 
         if (super.currentRow + 1 <= 7 && super.currentColumn - 1 >= 0)
-            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn - 1));
+            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn - 1, false));
 
         if (super.currentRow - 1 >= 0 && super.currentColumn + 1 <= 7)
-            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn + 1));
+            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn + 1, false));
 
         if (super.currentRow - 1 >= 0 && super.currentColumn - 1 >= 0)
-            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn - 1));
+            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn - 1, false));
 
         return possibleMovements;
 
