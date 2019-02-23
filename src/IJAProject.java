@@ -40,10 +40,13 @@ public class IJAProject {
         // Current chess piece is pawn. There could be option to add new movements for selected piece
         if (boardPiece.getAbbreviation() == 'p'){
 
+
         }
 
         // Return PossibleMoves to GUI and show them on board. Now we're waiting for new input from player.
 
+        // if player choose a cell which isn't represented in PossibleMovements List -> clear selected cell and give him option to choose another cell
+        // else change x and y coordinates for chess piece , set pointer to piece in src cell to null dst pointer to chessPiece. Current player Turn is done -> return Turn string
 
         /**
          * Move string:

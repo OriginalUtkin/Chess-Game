@@ -5,7 +5,6 @@ import Enums.Color;
 import Figures.Movement;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,8 +20,8 @@ abstract public class ChessPiece implements Serializable {
 
     final protected int value;
 
-    protected int current_row;
-    protected int current_column;
+    protected int currentRow;
+    protected int currentColumn;
 
     protected boolean moveFlag;
 
@@ -39,11 +38,19 @@ abstract public class ChessPiece implements Serializable {
     }
 
     final public void setRow(int x){
-        this.current_row = x;
+        this.currentRow = x;
     }
 
     final public void setColumn(int y){
-        this.current_column = y;
+        this.currentColumn = y;
+    }
+
+    final public int getCurrentRow(){
+        return this.currentRow;
+    }
+
+    final public int getCurrentColumn(){
+        return this.currentColumn;
     }
 
     final public char getAbbreviation(){return this.abbreviation;}

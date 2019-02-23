@@ -48,12 +48,20 @@ public class Game {
          * 1) Destination cell is free
          * 2) Destination cell isn't free but contains enemy player chess piece
          *
+         * Check if additionalCheck flag is set. If so, that means that this movement should be
+         * processed using other rules (pawn diagonal movement):
+         * 1) Destination cell shouldn't be free
+         * 2) Same as 2 point above
+         *
          * @param Movement movement - possible movement of chess piece
          * @param Color color - color of chess piece
          *
          * @return true if chess piece movement is possible, false otherwise
          */
         final Cell dstCell = this.gameBoard.gameBoard[movement.get_x()][movement.get_y()];
+
+        if (movement.getAddtitionalCheck())
+            return !dstCell.isFree() && dstCell.getPiece().getColor() != pieceColor;
 
         if (dstCell.isFree())
             return true;
@@ -64,12 +72,4 @@ public class Game {
 
         return false;
     }
-
-    public Movement newPawnMovement(int currentPawnX, int currentPawnY){
-
-        return new Movement(0, 0);
-
-    }
-
-
 }

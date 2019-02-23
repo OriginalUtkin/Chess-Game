@@ -6,8 +6,9 @@ package Figures;
  */
 
 public class Movement {
-    private int x;
-    private int y;
+    final private int x;
+    final private int y;
+    private boolean additionalCheck;
 
     public Movement(int x_position, int y_position){
         /**
@@ -18,7 +19,18 @@ public class Movement {
          */
         this.x = x_position;
         this.y = y_position;
+        this.additionalCheck = false;
+
     }
+
+    public void setAdditionalCheck(){
+        this.additionalCheck = true;
+    }
+
+    public boolean getAddtitionalCheck(){
+        return this.additionalCheck;
+    }
+
 
     public int get_x(){
         return this.x;

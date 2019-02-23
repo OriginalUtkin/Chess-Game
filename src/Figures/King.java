@@ -31,29 +31,29 @@ public class King extends ChessPiece {
 //        TODO: refactor this bullshit- > add new method for calculating horizontal/ vertical coordinates
 
 
-        if (super.current_row - 1 >= 0)
-            possibleMovements.add(new Movement(super.current_row - 1, super.current_column));
+        if (super.currentRow - 1 >= 0)
+            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn));
 
-        if (super.current_row + 1 <= 7)
-            possibleMovements.add(new Movement(super.current_row + 1, super.current_column));
+        if (super.currentRow + 1 <= 7)
+            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn));
 
-        if (super.current_column - 1 >= 0)
-            possibleMovements.add(new Movement(super.current_row , super.current_column - 1));
+        if (super.currentColumn - 1 >= 0)
+            possibleMovements.add(new Movement(super.currentRow, super.currentColumn - 1));
 
-        if (super.current_row + 1 <= 7)
-            possibleMovements.add(new Movement(super.current_row , super.current_column + 1));
+        if (super.currentRow + 1 <= 7)
+            possibleMovements.add(new Movement(super.currentRow, super.currentColumn + 1));
 
-        if (super.current_row + 1 <= 7 && super.current_column + 1 <=7)
-            possibleMovements.add(new Movement(super.current_row + 1, super.current_column + 1));
+        if (super.currentRow + 1 <= 7 && super.currentColumn + 1 <=7)
+            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn + 1));
 
-        if (super.current_row + 1 <= 7 && super.current_column - 1 >= 0)
-            possibleMovements.add(new Movement(super.current_row + 1, super.current_column - 1));
+        if (super.currentRow + 1 <= 7 && super.currentColumn - 1 >= 0)
+            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn - 1));
 
-        if (super.current_row - 1 >= 0 && super.current_column + 1 <= 7)
-            possibleMovements.add(new Movement(super.current_row - 1, super.current_column + 1));
+        if (super.currentRow - 1 >= 0 && super.currentColumn + 1 <= 7)
+            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn + 1));
 
-        if (super.current_row - 1 >= 0 && super.current_column - 1 >= 0)
-            possibleMovements.add(new Movement(super.current_row - 1, super.current_column - 1));
+        if (super.currentRow - 1 >= 0 && super.currentColumn - 1 >= 0)
+            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn - 1));
 
         return possibleMovements;
 
