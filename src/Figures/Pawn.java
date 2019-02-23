@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public class Pawn extends ChessPiece {
-    boolean startedPosition;
+    private boolean startedPosition;
 
     public Pawn(Color color){
         super(color,'p', 1);
@@ -26,31 +26,31 @@ public class Pawn extends ChessPiece {
 
         // Calculate possible extra movement from start pawn position
         if (this.startedPosition)
-            if (this.color == Color.BLACK)
-                possibleMovements.add(new Movement(this.currentRow - 2, this.currentColumn, false));
+            if (super.color == Color.BLACK)
+                possibleMovements.add(new Movement(super.currentRow - 2, super.currentColumn, false));
 
             else
-                possibleMovements.add(new Movement(this.currentRow + 2, this.currentColumn, false));
+                possibleMovements.add(new Movement(super.currentRow + 2, super.currentColumn, false));
 
             // Common paw move set depends on paw color
-        if (this.color == Color.WHITE){
-            if (this.currentRow + 1 <= 7)
-                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn, false));
+        if (super.color == Color.WHITE){
+            if (super.currentRow + 1 <= 7)
+                possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn, false));
 
-            if(this.currentRow + 1 <= 7 && this.currentColumn + 1 <= 7)
-                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn + 1, true));
+            if(super.currentRow + 1 <= 7 && super.currentColumn + 1 <= 7)
+                possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn + 1, true));
 
-            if(this.currentRow - 1 >= 0 && this.currentColumn + 1 <= 7)
-                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn + 1, true));
+            if(super.currentRow - 1 >= 0 && super.currentColumn + 1 <= 7)
+                possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn + 1, true));
         }else{
-            if (this.currentRow - 1 >= 0)
-                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn, false));
+            if (super.currentRow - 1 >= 0)
+                possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn, false));
 
-            if(this.currentRow - 1 >= 0 && this.currentColumn - 1 >= 0)
-                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn - 1, true));
+            if(super.currentRow - 1 >= 0 && super.currentColumn - 1 >= 0)
+                possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn - 1, true));
 
-            if(this.currentRow + 1 <= 7 && this.currentColumn - 1 >= 0)
-                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn - 1, true));
+            if(super.currentRow + 1 <= 7 && super.currentColumn - 1 >= 0)
+                possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn - 1, true));
         }
 
         return possibleMovements;
