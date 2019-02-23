@@ -62,8 +62,8 @@ abstract public class ChessPiece implements Serializable {
          * @return void
          */
 
-        this.setRow(new_x);
-        this.setColumn(new_y);
+        this.currentRow = new_x;
+        this.currentColumn = new_y;
     }
 
 

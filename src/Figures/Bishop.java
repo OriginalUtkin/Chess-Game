@@ -19,7 +19,7 @@ public class Bishop extends ChessPiece {
 
     @Override
     public List<Movement> calculatePossibleMovements(){
-        List<Movement> possibleMovements =  new ArrayList<>();
+        List<Movement> possibleMovements =  new ArrayList<>(super.getDiagonalMovements(7));
 
         return possibleMovements;
     }

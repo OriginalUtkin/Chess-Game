@@ -23,20 +23,8 @@ public class Rook extends ChessPiece {
 
         List<Movement> possibleMovements =  new ArrayList<>();
 
-        for(int counter = 1; counter < 8; counter++){
-
-//            if (super.currentRow + counter <= 7)
-//                possibleMovements.add(new Movement(super.currentRow + counter, super.currentColumn, false));
-//
-//            if (super.currentRow - counter >= 0)
-//                possibleMovements.add(new Movement(super.currentRow - counter, super.currentColumn, false));
-//
-//            if (super.currentColumn + counter <= 7)
-//                possibleMovements.add(new Movement(super.currentRow, super.currentColumn + counter, false));
-//
-//            if (super.currentColumn - counter  >= 0)
-//                possibleMovements.add(new Movement(super.currentRow, super.currentColumn - counter, false));
-        }
+        possibleMovements.addAll(super.getVerticalMovements(7));
+        possibleMovements.addAll(super.getHorizontalMovements(7));
 
         return possibleMovements;
     }
