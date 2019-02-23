@@ -32,6 +32,9 @@ public class IJAProject {
 
         Font font = new Font("Verdana", Font.PLAIN, 14);
 
+        // Tabs
+        Tab tabs = new Tab();
+
 
         /*Menu*/
         JMenuBar menuBar = new JMenuBar();
@@ -41,6 +44,12 @@ public class IJAProject {
         JMenuItem newGame = new JMenuItem("New");
         newGame.setFont(font);
         menuGame.add(newGame);
+
+        newGame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tabs.addNewTab(frame, "Game 2");
+            }
+        });
 
         JMenuItem refreshGame = new JMenuItem("Refresh");
         menuGame.add(refreshGame);
@@ -75,9 +84,8 @@ public class IJAProject {
         menuBar.add(menuView);
 
         // Makes new Tab
-        Tab firstTab = new Tab();
-        firstTab.addNewTab(frame, "Game 1");
-        firstTab.addNewTab(frame, "Game 2");
+        // testing
+        tabs.addNewTab(frame, "Game 1");
 
         frame.setVisible(true);
 
