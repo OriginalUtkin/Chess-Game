@@ -30,7 +30,6 @@ public class King extends ChessPiece {
         List<Movement> possibleMovements =  new ArrayList<>();
 //        TODO: refactor this bullshit- > add new method for calculating horizontal/ vertical coordinates
 
-
         if (super.currentRow - 1 >= 0)
             possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn));
 

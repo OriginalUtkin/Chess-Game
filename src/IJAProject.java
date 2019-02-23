@@ -37,12 +37,6 @@ public class IJAProject {
                 possibleMovements.remove(counter);
         }
 
-        // Current chess piece is pawn. There could be option to add new movements for selected piece
-        if (boardPiece.getAbbreviation() == 'p'){
-
-
-        }
-
         // Return PossibleMoves to GUI and show them on board. Now we're waiting for new input from player.
 
         // if player choose a cell which isn't represented in PossibleMovements List -> clear selected cell and give him option to choose another cell
