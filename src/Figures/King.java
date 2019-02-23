@@ -27,35 +27,12 @@ public class King extends ChessPiece {
          * @return List of all possible movements
          */
 
-        List<Movement> possibleMovements =  new ArrayList<>();
-//        TODO: refactor this bullshit- > add new method for calculating horizontal/ vertical coordinates
+        List<Movement> possibleMovements = new ArrayList<>();
 
-        if (super.currentRow - 1 >= 0)
-            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn, false));
-
-        if (super.currentRow + 1 <= 7)
-            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn, false));
-
-        if (super.currentColumn - 1 >= 0)
-            possibleMovements.add(new Movement(super.currentRow, super.currentColumn - 1, false));
-
-        if (super.currentRow + 1 <= 7)
-            possibleMovements.add(new Movement(super.currentRow, super.currentColumn + 1, false));
-
-        if (super.currentRow + 1 <= 7 && super.currentColumn + 1 <=7)
-            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn + 1, false));
-
-        if (super.currentRow + 1 <= 7 && super.currentColumn - 1 >= 0)
-            possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn - 1, false));
-
-        if (super.currentRow - 1 >= 0 && super.currentColumn + 1 <= 7)
-            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn + 1, false));
-
-        if (super.currentRow - 1 >= 0 && super.currentColumn - 1 >= 0)
-            possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn - 1, false));
+        possibleMovements.addAll(super.getVerticalMovements(1));
+        possibleMovements.addAll(super.getHorizontalMovements(1));
+        possibleMovements.addAll(super.getDiagonalMovements(1));
 
         return possibleMovements;
-
     }
-
 }

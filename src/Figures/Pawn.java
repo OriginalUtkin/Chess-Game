@@ -22,36 +22,15 @@ public class Pawn extends ChessPiece {
     @Override
     public List<Movement> calculatePossibleMovements(){
 
-        List<Movement> possibleMovements =  new ArrayList<>();
+        List<Movement> possibleMovements = new ArrayList<>();
+        int maxPossibleMovements = 1;
 
         // Calculate possible extra movement from start pawn position
         if (this.startedPosition)
-            if (super.color == Color.BLACK)
-                possibleMovements.add(new Movement(super.currentRow - 2, super.currentColumn, false));
+            maxPossibleMovements = 2;
 
-            else
-                possibleMovements.add(new Movement(super.currentRow + 2, super.currentColumn, false));
-
-            // Common paw move set depends on paw color
-        if (super.color == Color.WHITE){
-            if (super.currentRow + 1 <= 7)
-                possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn, false));
-
-            if(super.currentRow + 1 <= 7 && super.currentColumn + 1 <= 7)
-                possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn + 1, true));
-
-            if(super.currentRow - 1 >= 0 && super.currentColumn + 1 <= 7)
-                possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn + 1, true));
-        }else{
-            if (super.currentRow - 1 >= 0)
-                possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn, false));
-
-            if(super.currentRow - 1 >= 0 && super.currentColumn - 1 >= 0)
-                possibleMovements.add(new Movement(super.currentRow - 1, super.currentColumn - 1, true));
-
-            if(super.currentRow + 1 <= 7 && super.currentColumn - 1 >= 0)
-                possibleMovements.add(new Movement(super.currentRow + 1, super.currentColumn - 1, true));
-        }
+        possibleMovements.addAll(super.getVerticalMovements(maxPossibleMovements));
+        possibleMovements.addAll(super.getDiagonalMovements(1));
 
         return possibleMovements;
     }
