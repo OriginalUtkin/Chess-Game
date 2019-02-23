@@ -4,6 +4,7 @@ package Abstracts;
 import Enums.Color;
 import Figures.Movement;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +13,13 @@ import java.util.List;
  * @author xutkin00, xpolis03
  */
 
-abstract public class ChessPiece {
+abstract public class ChessPiece implements Serializable {
 
-    protected Color color;
+    final protected Color color;
 
-    protected char abbreviation;
+    final protected char abbreviation;
 
-    protected int value;
+    final protected int value;
 
     protected int current_row;
     protected int current_column;
@@ -34,15 +35,14 @@ abstract public class ChessPiece {
 
     @Override
     public String toString() {
-        //TODO: implementation is needed
-        return "";
+        return Character.toString(this.abbreviation);
     }
 
-    public void setRow(int x){
+    final public void setRow(int x){
         this.current_row = x;
     }
 
-    public void setColumn(int y){
+    final public void setColumn(int y){
         this.current_column = y;
     }
 
@@ -56,15 +56,11 @@ abstract public class ChessPiece {
          * @return void
          */
 
-        /**
-         * TODO: Calculate path from src do dst
-         */
-
         this.setRow(new_x);
         this.setColumn(new_y);
     }
 
-    public Color getColor(){
+    final public Color getColor(){
         /**
          * Piece color getter
          *
