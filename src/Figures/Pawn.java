@@ -24,17 +24,34 @@ public class Pawn extends ChessPiece {
 
         List<Movement> possibleMovements =  new ArrayList<>();
 
+        // Calculate possible extra movement from start pawn position
         if (this.startedPosition)
-            possibleMovements.add(new Movement(this.currentRow + 2, this.currentColumn));
+            if (this.color == Color.BLACK)
+                possibleMovements.add(new Movement(this.currentRow - 2, this.currentColumn));
 
-        if (this.currentRow + 1 <= 7)
-            possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn));
+            else
+                possibleMovements.add(new Movement(this.currentRow + 2, this.currentColumn));
 
-        if(this.currentRow + 1 <= 7 && this.currentColumn + 1 <= 7)
-            possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn + 1));
+            // Common paw move set depends on paw color
+        if (this.color == Color.WHITE){
+            if (this.currentRow + 1 <= 7)
+                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn));
 
-        if(this.currentRow - 1 >= 0 && this.currentColumn + 1 <= 7)
-            possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn + 1));
+            if(this.currentRow + 1 <= 7 && this.currentColumn + 1 <= 7)
+                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn + 1));
+
+            if(this.currentRow - 1 >= 0 && this.currentColumn + 1 <= 7)
+                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn + 1));
+        }else{
+            if (this.currentRow - 1 >= 0)
+                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn));
+
+            if(this.currentRow - 1 >= 0 && this.currentColumn - 1 >= 0)
+                possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn - 1));
+
+            if(this.currentRow + 1 <= 7 && this.currentColumn - 1 >= 0)
+                possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn - 1));
+        }
 
         return possibleMovements;
     }
