@@ -1,6 +1,7 @@
 import Abstracts.ChessPiece;
 import Board.Board;
 import Enums.Color;
+import Enums.Direction;
 import Figures.Movement;
 import Board.Cell;
 
@@ -46,19 +47,31 @@ public class Game {
          * 2) Destination cell isn't free but contains enemy player chess piece
          *
          * Check if additionalCheck flag is set. If so, that means that this movement should be
-         * processed using other rules (pawn diagonal movement):
+         * processed using other rules (pawn diagonal movement, pawn vertical movement):
+         *
+         * Diagonal:
          * 1) Destination cell shouldn't be free
          * 2) Same as 2 point above
          *
-         * @param Movement movement - possible movement of chess piece
-         * @param Color color - color of chess piece
+         * Vertical:
+         * 1) Destination cell SHOULD be free
+         *
+         * @param movement - possible movement of chess piece
+         * @param color - color of chess piece
          *
          * @return true if chess piece movement is possible, false otherwise
          */
+
         final Cell dstCell = this.gameBoard.gameBoard[movement.get_x()][movement.get_y()];
 
-        if (movement.getAdditionalCheck())
-            return !dstCell.isFree() && dstCell.getPiece().getColor() != pieceColor;
+        if (movement.getAdditionalCheck()) {
+
+            if (movement.getDirection() == Direction.DIAGONAL)
+                return !dstCell.isFree() && dstCell.getPiece().getColor() != pieceColor;
+
+            if (movement.getDirection() == Direction.VERTICAL)
+                return dstCell.isFree();
+        }
 
         return dstCell.isFree() || dstCell.getPiece().getColor() != pieceColor;
     }

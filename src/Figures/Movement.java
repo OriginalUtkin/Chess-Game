@@ -1,5 +1,7 @@
 package Figures;
 
+import Enums.Direction;
+
 /**
  *
  * @author xutkin00, xpolis03
@@ -9,8 +11,9 @@ public class Movement {
     final private int x;
     final private int y;
     final private boolean additionalFlag;
+    final private Direction direction;
 
-    public Movement(int x_position, int y_position, boolean additionalFlag){
+    public Movement(int x_position, int y_position, boolean additionalFlag, Direction direction){
         /**
          * Constructor of Movement class
          *
@@ -20,7 +23,13 @@ public class Movement {
          */
         this.x = x_position;
         this.y = y_position;
+
         this.additionalFlag = additionalFlag;
+        this.direction = direction;
+    }
+
+    public Direction getDirection(){
+        return this.direction;
     }
 
     public boolean getAdditionalCheck(){

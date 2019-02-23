@@ -21,8 +21,14 @@ public class Pawn extends ChessPiece {
 
     @Override
     public List<Movement> calculatePossibleMovements(){
+        /**
+         *  Pawn can only move forward one square
+         *  Pawn can move forward two squares (if desired) on it's first move of the game
+         *  When capturing other pieces, a pawn can only move forward diagonally one square
+         */
 
         List<Movement> possibleMovements = new ArrayList<>();
+
         int maxPossibleMovements = 1;
 
         // Calculate possible extra movement from start pawn position

@@ -23,11 +23,11 @@ public class IJAProject {
          */
         Game chessGame = new Game();
 
-//        chessGame.setPiece(new Pawn(Color.WHITE), 0, 0);
-        chessGame.setPiece(new King(Color.BLACK), 1, 1);
+        chessGame.setPiece(new Pawn(Color.WHITE), 0, 0);
+        chessGame.setPiece(new King(Color.BLACK), 1, 0);
 
         // Simulate mouse button click. Now we have a chess piece from selected cell
-        ChessPiece boardPiece = chessGame.getBoardPiece(1, 1);
+        ChessPiece boardPiece = chessGame.getBoardPiece(0, 0);
 
         // Get all possible statements of current piece
         List<Movement> possibleMovements = new ArrayList<>(boardPiece.calculatePossibleMovements()) ;

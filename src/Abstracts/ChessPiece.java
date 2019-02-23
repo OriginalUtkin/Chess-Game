@@ -2,6 +2,7 @@ package Abstracts;
 
 
 import Enums.Color;
+import Enums.Direction;
 import Figures.Movement;
 
 import java.io.Serializable;
@@ -86,17 +87,38 @@ abstract public class ChessPiece implements Serializable {
             additionalFlag = true;
 
         for (int counter = 1; counter < maxDiagonalStep + 1; counter++){
+
             if (this.currentRow + counter <= 7 && this.currentColumn + counter <=7)
-                diagonalMovements.add(new Movement(this.currentRow + 1, this.currentColumn + 1, additionalFlag));
+                diagonalMovements.add(new Movement(
+                        this.currentRow + 1,
+                        this.currentColumn + 1,
+                        additionalFlag,
+                        Direction.DIAGONAL)
+                );
 
             if (this.currentRow + counter <= 7 && this.currentColumn - counter >= 0)
-                diagonalMovements.add(new Movement(this.currentRow + 1, this.currentColumn - 1, additionalFlag));
+                diagonalMovements.add(new Movement(
+                        this.currentRow + 1,
+                        this.currentColumn - 1,
+                        additionalFlag,
+                        Direction.DIAGONAL)
+                );
 
             if (this.currentRow - counter >= 0 && this.currentColumn + counter <= 7)
-                diagonalMovements.add(new Movement(this.currentRow - 1, this.currentColumn + 1, additionalFlag));
+                diagonalMovements.add(new Movement(
+                        this.currentRow - 1,
+                        this.currentColumn + 1,
+                        additionalFlag,
+                        Direction.DIAGONAL)
+                );
 
             if (this.currentRow - counter >= 0 && this.currentColumn - counter >= 0)
-                diagonalMovements.add(new Movement(this.currentRow - 1, this.currentColumn - 1, additionalFlag));
+                diagonalMovements.add(new Movement(
+                        this.currentRow - 1,
+                        this.currentColumn - 1,
+                        additionalFlag,
+                        Direction.DIAGONAL)
+                );
         }
 
         return diagonalMovements;
@@ -107,17 +129,32 @@ abstract public class ChessPiece implements Serializable {
 
         List<Movement> verticalMovements = new ArrayList<>();
 
+        boolean additionalFlag = false;
+
+        if (this.abbreviation == 'p')
+            additionalFlag = true;
+
         for (int counter = 1; counter < maxVerticalStep + 1; counter++){
 
             if (this.currentRow - counter >= 0) {
-                verticalMovements.add(new Movement(this.currentRow - counter, this.currentColumn, false));
+                verticalMovements.add(new Movement(
+                        this.currentRow - counter,
+                        this.currentColumn,
+                        additionalFlag,
+                        Direction.VERTICAL)
+                );
 
                 if (this.abbreviation == 'p' && this.color == Color.BLACK)
                     continue;
             }
 
             if (this.currentRow + counter <= 7) {
-                verticalMovements.add(new Movement(this.currentRow + counter, this.currentColumn, false));
+                verticalMovements.add(new Movement(
+                        this.currentRow + counter,
+                        this.currentColumn,
+                        additionalFlag,
+                        Direction.VERTICAL)
+                );
 
                 if (this.abbreviation == 'p' && this.color == Color.WHITE)
                     continue;
@@ -135,10 +172,19 @@ abstract public class ChessPiece implements Serializable {
         for (int counter = 1; counter < maxHorizantalStep + 1; counter++){
 
             if (this.currentColumn - counter >= 0)
-                horizontalMovements.add(new Movement(this.currentRow, this.currentColumn - counter, false));
+                horizontalMovements.add(new Movement(this.currentRow
+                        , this.currentColumn - counter,
+                        false,
+                        Direction.HORIZONTAL)
+                );
 
             if (this.currentRow + counter <= 7)
-                horizontalMovements.add(new Movement(this.currentRow, this.currentColumn + counter, false));
+                horizontalMovements.add(new Movement(
+                        this.currentRow,
+                        this.currentColumn + counter,
+                        false,
+                        Direction.HORIZONTAL)
+                );
         }
 
         return horizontalMovements;
