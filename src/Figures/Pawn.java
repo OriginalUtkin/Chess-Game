@@ -40,4 +40,10 @@ public class Pawn extends ChessPiece {
 
         return possibleMovements;
     }
+
+    @Override
+    public void movePiece(int new_x, int new_y){
+        super.movePiece(new_x, new_y);
+        this.startedPosition = false;
+    }
 }
