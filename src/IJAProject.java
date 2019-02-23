@@ -39,7 +39,7 @@ public class IJAProject {
 
         // Return PossibleMoves to GUI and show them on board. Now we're waiting for new input from player.
 
-        // if player choose a cell which isn't represented in PossibleMovements List -> clear selected cell and give him option to choose another cell
+        // if player choose a cell which isn't represented in PossibleMovements List as dst cell -> clear selected cell and give him option to choose another cell
         // else change x and y coordinates for chess piece , set pointer to piece in src cell to null dst pointer to chessPiece. Current player Turn is done -> return Turn string
 
         /**

@@ -21,8 +21,20 @@ public class Pawn extends ChessPiece {
 
     @Override
     public List<Movement> calculatePossibleMovements(){
-        // TODO: Implementation stuff -> Pawn could move to 1 or 2 cells from start position
+
         List<Movement> possibleMovements =  new ArrayList<>();
+
+        if (this.startedPosition)
+            possibleMovements.add(new Movement(this.currentRow + 2, this.currentColumn));
+
+        if (this.currentRow + 1 <= 7)
+            possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn));
+
+        if(this.currentRow + 1 <= 7 && this.currentColumn + 1 <= 7)
+            possibleMovements.add(new Movement(this.currentRow + 1, this.currentColumn + 1));
+
+        if(this.currentRow - 1 >= 0 && this.currentColumn + 1 <= 7)
+            possibleMovements.add(new Movement(this.currentRow - 1, this.currentColumn + 1));
 
         return possibleMovements;
     }
