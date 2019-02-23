@@ -46,6 +46,8 @@ abstract public class ChessPiece implements Serializable {
         this.current_column = y;
     }
 
+    final public char getAbbreviation(){return this.abbreviation;}
+
     public void movePiece(int new_x, int new_y){
         /**
          * Move piece from current position to new. Change current piece coordinates

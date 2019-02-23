@@ -25,7 +25,7 @@ public class IJAProject {
         chessGame.setPiece(new King(Color.BLACK), 0, 0);
 
         // Simulate mouse button click. Now we have a chess piece from selected cell
-        ChessPiece boardPiece = chessGame.getBoardCell(0, 0);
+        ChessPiece boardPiece = chessGame.getBoardPiece(0, 0);
 
         // Get all possible statements of current piece
         List<Movement> possibleMovements = new ArrayList<>(boardPiece.calculatePossibleMovements()) ;
@@ -35,6 +35,11 @@ public class IJAProject {
 
             if (!chessGame.isPossible(possibleMovements.get(counter), boardPiece.getColor()))
                 possibleMovements.remove(counter);
+        }
+
+        // Current chess piece is pawn. There could be option to add new movements for selected piece
+        if (boardPiece.getAbbreviation() == 'p'){
+
         }
 
         // Return PossibleMoves to GUI and show them on board. Now we're waiting for new input from player.

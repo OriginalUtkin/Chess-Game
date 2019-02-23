@@ -23,13 +23,16 @@ public class Game {
 
     }
 
-    public ChessPiece getBoardCell(int x, int y){
-
-        if (!this.gameBoard.gameBoard[x][y].isFree())
-            return this.gameBoard.gameBoard[x][y].getPiece();
-
-        else
-            return null;
+    public ChessPiece getBoardPiece(final int x, final int y){
+        /**
+         * Return chess piece that is staying on cell with coordinates x and y.
+         *
+         * @param int x - row coordinate; array index 0 - 7
+         * @param int y - column coordinate; array index 0 - 7
+         *
+         * @return ChessPiece object if chess piece is staying on selected cell; null otherwise
+         */
+        return this.gameBoard.gameBoard[x][y].getPiece();
     }
 
     public void setPiece(ChessPiece piece, int x, int y){
@@ -38,7 +41,18 @@ public class Game {
     }
 
     public boolean isPossible(final Movement movement, final Color pieceColor){
-
+        /**
+         * Check if movement of chess piece is possible.
+         *
+         * Chess piece can move to destination cell in case:
+         * 1) Destination cell is free
+         * 2) Destination cell isn't free but contains enemy player chess piece
+         *
+         * @param Movement movement - possible movement of chess piece
+         * @param Color color - color of chess piece
+         *
+         * @return true if chess piece movement is possible, false otherwise
+         */
         final Cell dstCell = this.gameBoard.gameBoard[movement.get_x()][movement.get_y()];
 
         if (dstCell.isFree())
@@ -49,6 +63,12 @@ public class Game {
             return true;
 
         return false;
+    }
+
+    public Movement newPawnMovement(int currentPawnX, int currentPawnY){
+
+        return new Movement(0, 0);
+
     }
 
 
