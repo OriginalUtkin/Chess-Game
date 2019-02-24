@@ -41,59 +41,26 @@ public class Game {
 
 
     public void initializeGUI(JPanel panel, Graphics g){
-//        JButton[][] c1squares = new JButton[8][8];
-//        Insets Margin = new Insets(0,0,0,0);
-//        ImageIcon icon = new ImageIcon(new BufferedImage(70, 70, BufferedImage.TYPE_INT_ARGB));
-//        System.out.println(c1squares.length);
-//        for (int i = 0; i < c1squares.length; i++) {
-//            for (int j = 0; j < c1squares[i].length; j++) {
-//                System.out.println(c1squares[i].length);
-//                JButton b = new JButton();
-//                b.setBorder(BorderFactory.createLineBorder(Color.black));
-//                b.addMouseListener(mouseListener);
-//
-//                b.setMargin(Margin);
-//                b.setIcon(icon);
-//                if ((j % 2 == 1 && i % 2 == 1) || (j % 2 == 0 && i % 2 == 0)) {
-//                    b.setBackground(new Color(211,211,211));
-//                } else {
-//                    b.setBackground(new Color(70,130,180));
-//                }
-//                c1squares[j][i] = b;
-//            }
-//        }
-//        for (int i = 0; i < 8; i++) {
-//            for (int j = 0; j < 8; j++) {
-//                panel.add(c1squares[j][i]);
-//            }
-//        }
-
-        Square[][] c1squares = new Square[8][8];
-        for (int i = 0; i < c1squares.length; i++) {
-            for (int j = 0; j < c1squares[i].length; j++) {
+        Square[][] squares = new Square[8][8];
+        for (int i = 0; i < squares.length; i++) {
+            for (int j = 0; j < squares[i].length; j++) {
 
                 Square square = new Square();
 
                 if ((j % 2 == 1 && i % 2 == 1) || (j % 2 == 0 && i % 2 == 0)) {
-                    square.setBackground(Color.WHITE);
+                    square.setBackground(new Color(211,211,211));
                 } else {
-                    square.setBackground(Color.BLACK);
+                    square.setBackground(new Color(70,130,180));
                 }
 
-                c1squares[i][j] = square;
+                squares[i][j] = square;
 
-                DrawSquare drawing = new DrawSquare(75/c1squares.length, 75/c1squares.length,
-                        c1squares[i][j].getBackground());
-
-
-//                g.setColor(currentSquare.getBackground());
-//                g.fillRect(i * 50 / c1squares.length, j * 50 / c1squares.length, 50 / c1squares.length,
-//                        50 / c1squares.length);
+                DrawSquare drawing = new DrawSquare(75/squares.length, 75/squares.length,
+                        squares[i][j].getBackground());
 
                 panel.add(drawing);
             }
         }
-
     }
 
     MouseListener mouseListener = new MouseAdapter() {
@@ -188,7 +155,7 @@ public class Game {
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.setColor(color);
-                g.fillRect(x, y, 75, 75);
+                g.fillRect(x-8, y-8, 75, 75);
             }
         }
     }
