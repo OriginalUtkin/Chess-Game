@@ -204,7 +204,7 @@ abstract public class ChessPiece implements Serializable {
                         this.currentRow + counter,
                         this.currentColumn,
                         false,
-                        Direction.HORIZONTAL_RIGTH)
+                        Direction.HORIZONTAL_RIGHT)
                 );
         }
 

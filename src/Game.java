@@ -5,7 +5,6 @@ import Enums.Direction;
 import Figures.Movement;
 import Board.Cell;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -144,7 +143,7 @@ public class Game {
                     if (verticalDown)
                         movementIterator.remove();
                 }
-            } else if (currentMovement.getDirection() == Direction.HORIZONTAL_RIGTH) {
+            } else if (currentMovement.getDirection() == Direction.HORIZONTAL_RIGHT) {
 
                 if (!horizontalRight) {
 

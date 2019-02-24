@@ -1,10 +1,8 @@
 import Abstracts.ChessPiece;
 import Enums.Color;
-import Enums.Direction;
 import Figures.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class IJAProject {
@@ -13,9 +11,9 @@ public class IJAProject {
 
         /**
          * PSEUDO CODE:
-         * Create chess piece (just for debugging. Pieces will be created during board init)
-         * Get possible moves
-         * Remove from possible moves variable cells which has been already obtained by other piece with the same color or add new possible movements in case of pawn
+         * Create chess piece (just for debugging. Pieces will be created during board init) (done)
+         * Get possible moves (done)
+         * Remove from possible moves variable cells which has been already obtained by other piece with the same color or add new possible movements in case of pawn (done)
          * Call move function with new position parameters
          * Render frontend when it is done
          */
@@ -33,6 +31,7 @@ public class IJAProject {
         // Get all possible statements of current piece
         List<Movement> allPossibleMovements = new ArrayList<>(boardPiece.calculatePossibleMovements());
 
+        // Calculate piece movements depends on current table situation
         if (boardPiece.getAbbreviation() != 'J') {
             chessGame.applyRules(allPossibleMovements, boardPiece);
         }
