@@ -26,7 +26,7 @@ public class Game {
     public void gameState() {
 
     }
-    
+
     public ChessPiece getBoardPiece(final int x, final int y) {
         /**
          * Return chess piece that is staying on cell with coordinates x and y.
