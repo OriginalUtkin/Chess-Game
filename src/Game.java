@@ -5,10 +5,10 @@ import Figures.Movement;
 import Board.Cell;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.Graphics;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 
 public class Game {
 
@@ -57,22 +57,13 @@ public class Game {
 
                 DrawSquare drawing = new DrawSquare(75/squares.length, 75/squares.length,
                         squares[i][j].getBackground());
-
+                drawing.setBorder(BorderFactory.createLineBorder(Color.black));
+                drawing.pressed(i,j);
                 panel.add(drawing);
             }
         }
+
     }
-
-    MouseListener mouseListener = new MouseAdapter() {
-        public void mousePressed(MouseEvent mouseEvent) {
-            System.out.println("Left button pressed, i, j");
-        }
-
-        public void mouseReleased(MouseEvent mouseEvent) {
-            System.out.println();
-        }
-    };
-
 
     public ChessPiece getBoardCell(int x, int y) {
 
@@ -124,6 +115,8 @@ public class Game {
             boolean isSelected;
             Color background;
 
+            int column, row;
+
             public boolean isSelected() {
                 return isSelected;
             }
@@ -145,17 +138,33 @@ public class Game {
         private class DrawSquare extends JPanel {
             private int x, y;
             private Color color;
-
+            public DrawSquare square;
             DrawSquare(int x, int y, Color color) {
                 this.x = x;
                 this.y = y;
                 this.color = color;
+                this.square = this;
             }
 
+            @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.setColor(color);
                 g.fillRect(x-8, y-8, 75, 75);
+            }
+
+            public void pressed(int x, int y) {
+                   this.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            System.out.println("Coordinates: [" + x + "," + y + "]");
+                            square.setBorder(BorderFactory.createLineBorder(Color.green));
+                        }
+                       @Override
+                       public void mouseReleased(MouseEvent e) {
+                           square.setBorder(BorderFactory.createLineBorder(Color.black));
+                       }
+                   });
             }
         }
     }

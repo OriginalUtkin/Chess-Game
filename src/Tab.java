@@ -47,8 +47,8 @@ public class Tab extends JPanel {
         rightPanel.add(gameInfo);
         rightPanel.add(textField);
 
-        int w = 50;
-        int h = 50;
+        int w = 75;
+        int h = 75;
 
         BufferedImage src = new BufferedImage(w, h,
                 BufferedImage.TYPE_BYTE_INDEXED);
