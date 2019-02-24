@@ -1,7 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
+
 
 public class Tab extends JPanel {
     private JTabbedPane tabPane;
@@ -36,10 +39,44 @@ public class Tab extends JPanel {
         chessBoard.setPreferredSize(new Dimension(600,600));
         rightPanel.setPreferredSize(new Dimension(320,600));
 
+        chessBoard.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Component tt = chessBoard.findComponentAt(e.getX(),e.getY());
+                System.out.println(tt.toString());
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        }
+    );
+
+
         panelBoard.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY,5,true));
 
         JLabel gameInfo = new JLabel("Game Info");
         rightPanel.setBackground(Color.GRAY);
+
 
         /*TextField or sth*/
         JTextField textField = new JTextField(100);
@@ -56,6 +93,13 @@ public class Tab extends JPanel {
         this.tabGame.initializeGUI(chessBoard, g);
         panelBoard.add(chessBoard);
         panelBoard.add(rightPanel);
+
+
         return panelBoard;
     }
+
+
+
+
+
 }

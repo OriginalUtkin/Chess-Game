@@ -58,10 +58,10 @@ public class Game {
 
                 squares[i][j] = square;
 
-                DrawSquare drawing = new DrawSquare(75/squares.length, 75/squares.length,
+                DrawSquare drawing = new DrawSquare(i, j,75/squares.length, 75/squares.length,
                         squares[i][j].getBackground());
                 drawing.setBorder(BorderFactory.createLineBorder(Color.black));
-                drawing.pressed(i,j, panel);
+//                drawing.pressed(i,j, panel);
                 panel.add(drawing);
             }
         }
@@ -139,13 +139,15 @@ public class Game {
         }
 
         private class DrawSquare extends JPanel {
-            private int x, y;
+            private int x, y, row, column;
             private Color color;
             public DrawSquare square;
             BufferedImage myImage;
             public boolean is_pressed = false;
 
-            DrawSquare(int x, int y, Color color) {
+            DrawSquare(int row, int column, int x, int y, Color color) {
+                this.row = row;
+                this.column = column;
                 this.x = x;
                 this.y = y;
                 this.color = color;
@@ -166,22 +168,27 @@ public class Game {
 
             }
 
-            public void pressed(int x, int y, JPanel panel) {
-                   this.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            System.out.println("Coordinates: [" + (7-x) + "," + (7-y) + "]");
-                            square.setBorder(BorderFactory.createLineBorder(Color.green));
-                        }
-                       @Override
-                       public void mouseReleased(MouseEvent e) {
-                           square.setBorder(BorderFactory.createLineBorder(Color.black));
-                           is_pressed = true;
-                           panel.validate();
-                           panel.repaint();
-                       }
-                   });
+            @Override
+            public String toString(){
+                            return ("Coordinates: [" + this.row + "," + this.column + "]");
             }
+
+//            public void pressed(int x, int y, JPanel panel) {
+//                   this.addMouseListener(new MouseAdapter() {
+//                        @Override
+//                        public void mousePressed(MouseEvent e) {
+//                            System.out.println("Coordinates: [" + (7-x) + "," + (7-y) + "]");
+//                            square.setBorder(BorderFactory.createLineBorder(Color.green));
+//                        }
+//                       @Override
+//                       public void mouseReleased(MouseEvent e) {
+//                           square.setBorder(BorderFactory.createLineBorder(Color.black));
+//                           is_pressed = true;
+//                           panel.validate();
+//                           panel.repaint();
+//                       }
+//                   });
+//            }
         }
     }
 
