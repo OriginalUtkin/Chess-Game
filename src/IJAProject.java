@@ -20,7 +20,7 @@ public class IJAProject {
         Game chessGame = new Game();
 
 //        chessGame.setPiece(new Pawn(Color.BLACK), 1, 0);
-        chessGame.setPiece(new Pawn(Color.WHITE), 0, 1);
+//        chessGame.setPiece(new Pawn(Color.WHITE), 0, 1);
         chessGame.setPiece(new Pawn(Color.BLACK), 1, 1);
 
         chessGame.setPiece(new Pawn(Color.WHITE), 0, 0);
