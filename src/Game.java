@@ -5,6 +5,9 @@ import Enums.Direction;
 import Figures.Movement;
 import Board.Cell;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Game {
 
     Board gameBoard;
@@ -38,7 +41,7 @@ public class Game {
         this.gameBoard.gameBoard[x][y].setPiece(piece);
     }
 
-    public boolean isPossible(final Movement movement, final Color pieceColor){
+    public int isPossible(Movement movement, final Color pieceColor){
         /**
          * Check if movement of chess piece is possible.
          *
@@ -62,17 +65,11 @@ public class Game {
          * @return true if chess piece movement is possible, false otherwise
          */
 
-        final Cell dstCell = this.gameBoard.gameBoard[movement.get_x()][movement.get_y()];
 
-        if (movement.getAdditionalCheck()) {
+    }
 
-            if (movement.getDirection() == Direction.DIAGONAL)
-                return !dstCell.isFree() && dstCell.getPiece().getColor() != pieceColor;
-
-            if (movement.getDirection() == Direction.VERTICAL)
-                return dstCell.isFree();
-        }
-
-        return dstCell.isFree() || dstCell.getPiece().getColor() != pieceColor;
+    public boolean isPossibleSpecial(Movement movement, final Color pieceColor){
+        return false;
     }
 }
+

@@ -78,6 +78,13 @@ abstract public class ChessPiece implements Serializable {
 
 
     final public List<Movement> getDiagonalMovements(final int maxDiagonalStep){
+        /**
+         * Return all possible diagonal movements for chess piece.
+         *
+         * @param maxDiagonalStep maximum step of piece on the chess board.
+         *
+         * @return list of all diagonal movements.
+         */
 
         List<Movement> diagonalMovements = new ArrayList<>();
 
@@ -93,7 +100,7 @@ abstract public class ChessPiece implements Serializable {
                         this.currentRow + counter,
                         this.currentColumn + counter,
                         additionalFlag,
-                        Direction.DIAGONAL)
+                        Direction.DIAGONAL_UP_RIGHT)
                 );
 
             if (this.currentRow + counter <= 7 && this.currentColumn - counter >= 0)
@@ -101,7 +108,7 @@ abstract public class ChessPiece implements Serializable {
                         this.currentRow + counter,
                         this.currentColumn - counter,
                         additionalFlag,
-                        Direction.DIAGONAL)
+                        Direction.DIAGONAL_DOWN_RIGHT)
                 );
 
             if (this.currentRow - counter >= 0 && this.currentColumn + counter <= 7)
@@ -109,7 +116,7 @@ abstract public class ChessPiece implements Serializable {
                         this.currentRow - counter,
                         this.currentColumn + counter,
                         additionalFlag,
-                        Direction.DIAGONAL)
+                        Direction.DIAGONAL_UP_LEFT)
                 );
 
             if (this.currentRow - counter >= 0 && this.currentColumn - counter >= 0)
@@ -117,7 +124,7 @@ abstract public class ChessPiece implements Serializable {
                         this.currentRow - counter,
                         this.currentColumn - counter,
                         additionalFlag,
-                        Direction.DIAGONAL)
+                        Direction.DIAGONAL_DOWN_LEFT)
                 );
         }
 
@@ -126,6 +133,13 @@ abstract public class ChessPiece implements Serializable {
 
 
     final public List<Movement> getVerticalMovements(final int maxVerticalStep){
+        /**
+         * Return all possible vertical movements for chess piece.
+         *
+         * @param maxVerticalStep maximum step of piece on the chess board.
+         *
+         * @return list of all vertical movements.
+         */
 
         List<Movement> verticalMovements = new ArrayList<>();
 
@@ -136,28 +150,27 @@ abstract public class ChessPiece implements Serializable {
 
         for (int counter = 1; counter < maxVerticalStep + 1; counter++){
 
-            if (this.currentRow - counter >= 0) {
-                verticalMovements.add(new Movement(
-                        this.currentRow - counter,
-                        this.currentColumn,
-                        additionalFlag,
-                        Direction.VERTICAL)
-                );
+            if (this.abbreviation != 'p' || this.color == Color.BLACK){
 
-                if (this.abbreviation == 'p' && this.color == Color.BLACK)
-                    continue;
+                if (this.currentRow - counter >= 0) {
+                    verticalMovements.add(new Movement(
+                            this.currentRow - counter,
+                            this.currentColumn,
+                            additionalFlag,
+                            Direction.VERTICAL_DOWN)
+                    );
+                }
             }
 
-            if (this.currentRow + counter <= 7) {
-                verticalMovements.add(new Movement(
-                        this.currentRow + counter,
-                        this.currentColumn,
-                        additionalFlag,
-                        Direction.VERTICAL)
-                );
-
-                if (this.abbreviation == 'p' && this.color == Color.WHITE)
-                    continue;
+            if (this.abbreviation != 'p' || this.color == Color.WHITE){
+                if (this.currentRow + counter <= 7) {
+                    verticalMovements.add(new Movement(
+                            this.currentRow + counter,
+                            this.currentColumn,
+                            additionalFlag,
+                            Direction.VERTICAL_UP)
+                    );
+                }
             }
         }
 
@@ -165,17 +178,25 @@ abstract public class ChessPiece implements Serializable {
     }
 
 
-    final public List<Movement> getHorizontalMovements(final int maxHorizantalStep){
+    final public List<Movement> getHorizontalMovements(final int maxHorizontalStep){
+        /**
+         * Return all possible horizontal movements for chess piece.
+         *
+         * @param maxHorizontalStep maximum step of piece on the chess board.
+         *
+         * @return list of all horizontal movements.
+         */
 
         List<Movement> horizontalMovements = new ArrayList<>();
 
-        for (int counter = 1; counter < maxHorizantalStep + 1; counter++){
+        for (int counter = 1; counter < maxHorizontalStep + 1; counter++){
 
             if (this.currentColumn - counter >= 0)
-                horizontalMovements.add(new Movement(this.currentRow
-                        , this.currentColumn - counter,
+                horizontalMovements.add(new Movement(
+                        this.currentRow,
+                        this.currentColumn - counter,
                         false,
-                        Direction.HORIZONTAL)
+                        Direction.HORIZONTAL_LEFT)
                 );
 
             if (this.currentRow + counter <= 7)
@@ -183,7 +204,7 @@ abstract public class ChessPiece implements Serializable {
                         this.currentRow,
                         this.currentColumn + counter,
                         false,
-                        Direction.HORIZONTAL)
+                        Direction.HORIZONTAL_RIGTH)
                 );
         }
 
