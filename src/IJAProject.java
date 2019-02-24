@@ -30,8 +30,24 @@ public class IJAProject {
         ChessPiece boardPiece = chessGame.getBoardPiece(0, 0);
 
         // Get all possible statements of current piece
-        List<Movement> possibleMovements = new ArrayList<>(boardPiece.calculatePossibleMovements()) ;
-        chessGame.isPossible(possibleMovements, boardPiece.getColor());
+        List<Movement> allPossibleMovements = new ArrayList<>(boardPiece.calculatePossibleMovements());
+
+        List<Movement> horizontalLeft = new ArrayList<>();
+        List<Movement> horizontalRight = new ArrayList<>();
+
+        List<Movement> verticalTop = new ArrayList<>();
+        List<Movement> verticalDown = new ArrayList<>();
+
+        List<Movement> diagonalTopRight = new ArrayList<>();
+        List<Movement> diagonalTopLeft = new ArrayList<>();
+        List<Movement> diagonalDownRight = new ArrayList<>();
+        List<Movement> diagonalDownLeft = new ArrayList<>();
+
+        for (Movement movement : allPossibleMovements){
+
+        }
+
+//        chessGame.isPossible(possibleMovements, boardPiece.getColor());
 
 //        // Remove moves from possible moves for currently selected chess piece which couldn't be done
 //        for(int counter = 0; counter < possibleMovements.size(); counter++){
