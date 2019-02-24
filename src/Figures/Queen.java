@@ -19,6 +19,7 @@ public class Queen extends ChessPiece {
 
     @Override
     public List<Movement> calculatePossibleMovements(){
+
         List<Movement> possibleMovements =  new ArrayList<>();
 
         possibleMovements.addAll(super.getDiagonalMovements(7));
