@@ -42,7 +42,8 @@ public class Tab extends JPanel {
         chessBoard.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Component tt = chessBoard.findComponentAt(e.getX(),e.getY());
+                Component tt = (Game.DrawSquare)chessBoard.findComponentAt(e.getX(),e.getY());
+                ((Game.DrawSquare) tt).setBorder(BorderFactory.createLineBorder(Color.green));
                 System.out.println(tt.toString());
 
             }

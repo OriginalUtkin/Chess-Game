@@ -138,7 +138,7 @@ public class Game {
 
         }
 
-        private class DrawSquare extends JPanel {
+        public class DrawSquare extends JPanel {
             private int x, y, row, column;
             private Color color;
             public DrawSquare square;
