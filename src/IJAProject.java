@@ -21,11 +21,11 @@ public class IJAProject {
          */
         Game chessGame = new Game();
 
-        chessGame.setPiece(new Pawn(Color.BLACK), 1, 0);
-        chessGame.setPiece(new Pawn(Color.WHITE), 0, 4);
-        chessGame.setPiece(new Pawn(Color.WHITE), 2, 2);
+//        chessGame.setPiece(new Pawn(Color.BLACK), 1, 0);
+        chessGame.setPiece(new Pawn(Color.WHITE), 0, 1);
+        chessGame.setPiece(new Pawn(Color.BLACK), 1, 1);
 
-        chessGame.setPiece(new Queen(Color.BLACK), 0, 0);
+        chessGame.setPiece(new Pawn(Color.WHITE), 0, 0);
 
         // Simulate mouse button click. Now we have a chess piece from selected cell
         ChessPiece boardPiece = chessGame.getBoardPiece(0, 0);
@@ -34,155 +34,8 @@ public class IJAProject {
         List<Movement> allPossibleMovements = new ArrayList<>(boardPiece.calculatePossibleMovements());
 
         if (boardPiece.getAbbreviation() != 'J') {
-
-            boolean horizontalLeft = false;
-            boolean horizontalRight = false;
-
-            boolean verticalTop = false;
-            boolean verticalDown = false;
-
-            boolean diagonalTopRight = false;
-            boolean diagonalTopLeft = false;
-            boolean diagonalDownRight = false;
-            boolean diagonalDownLeft = false;
-
-            Iterator<Movement> movementIterator = allPossibleMovements.iterator();
-
-            while (movementIterator.hasNext()) {
-
-                Movement currentMovement = movementIterator.next();
-
-                if (currentMovement.getDirection() == Direction.VERTICAL_UP) {
-
-                    if (!verticalTop) {
-
-                        if (!chessGame.isPossible(currentMovement, boardPiece.getColor())) {
-                            verticalTop = true;
-                            movementIterator.remove();
-                        } else {
-                            if (chessGame.beatEnemy(currentMovement, boardPiece.getColor()))
-                                verticalTop = true;
-                        }
-
-                    } else {
-                        if (verticalTop)
-                            movementIterator.remove();
-                    }
-                } else if (currentMovement.getDirection() == Direction.VERTICAL_DOWN) {
-
-                    if (!verticalDown) {
-
-                        if (!chessGame.isPossible(currentMovement, boardPiece.getColor())) {
-                            verticalDown = true;
-                            movementIterator.remove();
-                        }else {
-                            if (chessGame.beatEnemy(currentMovement, boardPiece.getColor()))
-                                verticalDown = true;
-                        }
-
-                    } else {
-                        if (verticalDown)
-                            movementIterator.remove();
-                    }
-                } else if (currentMovement.getDirection() == Direction.HORIZONTAL_RIGTH) {
-
-                    if (!horizontalRight) {
-
-                        if (!chessGame.isPossible(currentMovement, boardPiece.getColor())) {
-                            horizontalRight = true;
-                            movementIterator.remove();
-                        }else {
-                            if (chessGame.beatEnemy(currentMovement, boardPiece.getColor()))
-                                horizontalRight = true;
-                        }
-
-                    } else {
-                        if (horizontalRight)
-                            movementIterator.remove();
-                    }
-                } else if (currentMovement.getDirection() == Direction.HORIZONTAL_LEFT) {
-
-                    if (!horizontalLeft) {
-
-                        if (!chessGame.isPossible(currentMovement, boardPiece.getColor())) {
-                            horizontalLeft = true;
-                            movementIterator.remove();
-                        }else {
-                            if (chessGame.beatEnemy(currentMovement, boardPiece.getColor()))
-                                horizontalLeft = true;
-                        }
-
-                    } else {
-                        if (horizontalLeft)
-                            movementIterator.remove();
-                    }
-                } else if (currentMovement.getDirection() == Direction.DIAGONAL_UP_LEFT) {
-
-                    if (!diagonalTopLeft) {
-
-                        if (!chessGame.isPossible(currentMovement, boardPiece.getColor())) {
-                            diagonalTopLeft = true;
-                            movementIterator.remove();
-                        }else {
-                            if (chessGame.beatEnemy(currentMovement, boardPiece.getColor()))
-                                diagonalTopLeft = true;
-                        }
-
-                    } else {
-                        if (diagonalTopLeft)
-                            movementIterator.remove();
-                    }
-                } else if (currentMovement.getDirection() == Direction.DIAGONAL_DOWN_RIGHT) {
-
-                    if (!diagonalDownRight) {
-
-                        if (!chessGame.isPossible(currentMovement, boardPiece.getColor())) {
-                            diagonalDownRight = true;
-                            movementIterator.remove();
-                        }else {
-                            if (chessGame.beatEnemy(currentMovement, boardPiece.getColor()))
-                                diagonalDownRight = true;
-                        }
-
-                    } else {
-                        if (diagonalDownRight)
-                            movementIterator.remove();
-                    }
-                } else if (currentMovement.getDirection() == Direction.DIAGONAL_DOWN_LEFT) {
-
-                    if (!diagonalDownLeft) {
-
-                        if (!chessGame.isPossible(currentMovement, boardPiece.getColor())) {
-                            diagonalDownLeft = true;
-                            movementIterator.remove();
-                        }else {
-                            if (chessGame.beatEnemy(currentMovement, boardPiece.getColor()))
-                                diagonalDownLeft = true;
-                        }
-
-                    } else {
-                        if (diagonalDownLeft)
-                            movementIterator.remove();
-                    }
-                } else {
-                    if (!diagonalTopRight) {
-
-                        if (!chessGame.isPossible(currentMovement, boardPiece.getColor())) {
-                            diagonalTopRight = true;
-                            movementIterator.remove();
-                        }else {
-                            if (chessGame.beatEnemy(currentMovement, boardPiece.getColor()))
-                                diagonalTopRight = true;
-                        }
-
-                    } else {
-                        if (diagonalTopRight)
-                            movementIterator.remove();
-                    }
-                }
-            }
+            chessGame.applyRules(allPossibleMovements, boardPiece);
         }
-
 
         // Return PossibleMoves to GUI and show them on board. Now we're waiting for new input from player.
 

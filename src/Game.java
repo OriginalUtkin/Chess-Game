@@ -6,6 +6,7 @@ import Figures.Movement;
 import Board.Cell;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Game {
@@ -41,7 +42,7 @@ public class Game {
         this.gameBoard.gameBoard[x][y].setPiece(piece);
     }
 
-    public boolean isPossible(Movement movement, final Color pieceColor){
+    private boolean isPossible(Movement movement, final Color pieceColor){
         /**
          * Check if movement of chess piece is possible.
          *
@@ -79,7 +80,7 @@ public class Game {
         return dstCell.isFree() || dstCell.getPiece().getColor() != pieceColor;
     }
 
-    public boolean beatEnemy(final Movement movement, final Color pieceColor){
+    private boolean beatEnemy(final Movement movement, final Color pieceColor){
         final Cell dstCell = this.gameBoard.gameBoard[movement.get_x()][movement.get_y()];
 
         if (dstCell.isFree())
@@ -90,6 +91,156 @@ public class Game {
         }
 
         return false;
+    }
+
+    public void applyRules(List<Movement> allPossibleMovements, final ChessPiece boardPiece){
+
+        boolean horizontalLeft = false;
+        boolean horizontalRight = false;
+
+        boolean verticalTop = false;
+        boolean verticalDown = false;
+
+        boolean diagonalTopRight = false;
+        boolean diagonalTopLeft = false;
+        boolean diagonalDownRight = false;
+        boolean diagonalDownLeft = false;
+
+        Iterator<Movement> movementIterator = allPossibleMovements.iterator();
+
+        while (movementIterator.hasNext()) {
+
+            Movement currentMovement = movementIterator.next();
+
+            if (currentMovement.getDirection() == Direction.VERTICAL_UP) {
+
+                if (!verticalTop) {
+
+                    if (!this.isPossible(currentMovement, boardPiece.getColor())) {
+                        verticalTop = true;
+                        movementIterator.remove();
+                    } else {
+                        if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            verticalTop = true;
+                    }
+
+                } else {
+                    if (verticalTop)
+                        movementIterator.remove();
+                }
+            } else if (currentMovement.getDirection() == Direction.VERTICAL_DOWN) {
+
+                if (!verticalDown) {
+
+                    if (!this.isPossible(currentMovement, boardPiece.getColor())) {
+                        verticalDown = true;
+                        movementIterator.remove();
+                    }else {
+                        if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            verticalDown = true;
+                    }
+
+                } else {
+                    if (verticalDown)
+                        movementIterator.remove();
+                }
+            } else if (currentMovement.getDirection() == Direction.HORIZONTAL_RIGTH) {
+
+                if (!horizontalRight) {
+
+                    if (!this.isPossible(currentMovement, boardPiece.getColor())) {
+                        horizontalRight = true;
+                        movementIterator.remove();
+                    }else {
+                        if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            horizontalRight = true;
+                    }
+
+                } else {
+                    if (horizontalRight)
+                        movementIterator.remove();
+                }
+            } else if (currentMovement.getDirection() == Direction.HORIZONTAL_LEFT) {
+
+                if (!horizontalLeft) {
+
+                    if (!this.isPossible(currentMovement, boardPiece.getColor())) {
+                        horizontalLeft = true;
+                        movementIterator.remove();
+                    }else {
+                        if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            horizontalLeft = true;
+                    }
+
+                } else {
+                    if (horizontalLeft)
+                        movementIterator.remove();
+                }
+            } else if (currentMovement.getDirection() == Direction.DIAGONAL_UP_LEFT) {
+
+                if (!diagonalTopLeft) {
+
+                    if (!this.isPossible(currentMovement, boardPiece.getColor())) {
+                        diagonalTopLeft = true;
+                        movementIterator.remove();
+                    }else {
+                        if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            diagonalTopLeft = true;
+                    }
+
+                } else {
+                    if (diagonalTopLeft)
+                        movementIterator.remove();
+                }
+            } else if (currentMovement.getDirection() == Direction.DIAGONAL_DOWN_RIGHT) {
+
+                if (!diagonalDownRight) {
+
+                    if (!this.isPossible(currentMovement, boardPiece.getColor())) {
+                        diagonalDownRight = true;
+                        movementIterator.remove();
+                    }else {
+                        if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            diagonalDownRight = true;
+                    }
+
+                } else {
+                    if (diagonalDownRight)
+                        movementIterator.remove();
+                }
+            } else if (currentMovement.getDirection() == Direction.DIAGONAL_DOWN_LEFT) {
+
+                if (!diagonalDownLeft) {
+
+                    if (!this.isPossible(currentMovement, boardPiece.getColor())) {
+                        diagonalDownLeft = true;
+                        movementIterator.remove();
+                    }else {
+                        if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            diagonalDownLeft = true;
+                    }
+
+                } else {
+                    if (diagonalDownLeft)
+                        movementIterator.remove();
+                }
+            } else {
+                if (!diagonalTopRight) {
+
+                    if (!this.isPossible(currentMovement, boardPiece.getColor())) {
+                        diagonalTopRight = true;
+                        movementIterator.remove();
+                    }else {
+                        if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            diagonalTopRight = true;
+                    }
+
+                } else {
+                    if (diagonalTopRight)
+                        movementIterator.remove();
+                }
+            }
+        }
     }
 }
 
