@@ -23,5 +23,4 @@ public class Bishop extends ChessPiece {
 
         return possibleMovements;
     }
-
 }
