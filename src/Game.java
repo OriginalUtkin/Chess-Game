@@ -143,18 +143,17 @@ public class Game {
                 case VERTICAL_UP:
                     if (!verticalTop) {
 
-                    if (!this.isPossibleMovement(currentMovement, boardPiece.getColor())) {
-                        verticalTop = true;
-                        movementIterator.remove();
-                    } else {
-                        if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                        if (!this.isPossibleMovement(currentMovement, boardPiece.getColor())) {
                             verticalTop = true;
+                            movementIterator.remove();
+                        } else {
+                            if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                                verticalTop = true;
+                        }
+                    } else {
+                        if (verticalTop)
+                            movementIterator.remove();
                     }
-
-                } else {
-                    if (verticalTop)
-                        movementIterator.remove();
-                }
                     break;
 
                 case VERTICAL_DOWN:
