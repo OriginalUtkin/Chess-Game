@@ -79,8 +79,17 @@ public class Game {
         return dstCell.isFree() || dstCell.getPiece().getColor() != pieceColor;
     }
 
-//    public boolean isPossibleSpecial(Movement movement, final Color pieceColor){
-//        return false;
-//    }
+    public boolean beatEnemy(final Movement movement, final Color pieceColor){
+        final Cell dstCell = this.gameBoard.gameBoard[movement.get_x()][movement.get_y()];
+
+        if (dstCell.isFree())
+            return false;
+        else{
+            if (dstCell.getPiece().getColor() != pieceColor)
+                return true;
+        }
+
+        return false;
+    }
 }
 
