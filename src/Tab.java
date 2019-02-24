@@ -32,7 +32,6 @@ public class Tab extends JPanel {
         JPanel rightPanel = new JPanel();
         /*Left side - chess board*/
         JPanel chessBoard = new JPanel(new GridLayout(0, 8));
-
         panelBoard.setPreferredSize(new Dimension(950,620));
         chessBoard.setPreferredSize(new Dimension(600,600));
         rightPanel.setPreferredSize(new Dimension(320,600));
