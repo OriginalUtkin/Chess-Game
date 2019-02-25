@@ -11,7 +11,6 @@ import java.util.List;
 
 
 public class Tab extends JPanel {
-    private JTabbedPane tabPane;
     public static int countOfTabs = 0;
     public Cell[][] squares;
     public int tabNUmber;
@@ -19,29 +18,18 @@ public class Tab extends JPanel {
     static public List<Cell[][]> boards = new ArrayList<>();
     static public List<Game> boardGames = new ArrayList<>();
 
-    public Tab() {
-        super(new GridLayout(1, 1));
-        this.tabPane = new JTabbedPane();
+    public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
+        if (Tab.countOfTabs <= 5){
+            JComponent panel = makeBoardPanel();
+            tabbedPane.addTab(tab_name, panel);
+            tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+        }else{
+            JOptionPane.showMessageDialog(frame, "Too many tabs");
+        }
     }
 
     public static int getNumOfTabs() {
         return countOfTabs;
-    }
-
-    public void addNewTab(JFrame frame, String titleOfTab){
-        if (countOfTabs <= 6){
-            JComponent panel1 = makeBoardPanel();
-            this.tabPane.addTab(titleOfTab, panel1);
-            /*
-             * TODO add VK_1, VK_2 counter
-             * */
-            this.tabPane.setMnemonicAt(0, KeyEvent.VK_1);
-            //Add the tabbed pane to this panel.
-
-            frame.add(this.tabPane);
-        }else{
-            JOptionPane.showMessageDialog(frame, "Too many tabs");
-        }
     }
 
     protected JComponent makeBoardPanel() {

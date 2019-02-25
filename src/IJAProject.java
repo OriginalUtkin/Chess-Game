@@ -27,29 +27,30 @@ public class IJAProject {
          */
 
 
+        /*Initialize main frame*/
         JFrame frame= new JFrame("IJA Project");
         frame.setSize(1000,850);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout(FlowLayout.LEFT));
-
         Font font = new Font("Verdana", Font.PLAIN, 14);
 
-        // Tabs
-        Tab tabs = new Tab();
+        /*Initialize JTabbedPane*/
+        JTabbedPane tabPane = new JTabbedPane();
+        Tab tabs = new Tab(tabPane, frame, "Game" + 1); // implicitly one game
 
 
-        /*Menu*/
+
+        /*Menu panel*/
         JMenuBar menuBar = new JMenuBar();
         JMenu menuGame = new JMenu("Game");
         menuGame.setFont(font);
-
         JMenuItem newGame = new JMenuItem("New");
         newGame.setFont(font);
         menuGame.add(newGame);
 
         newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                tabs.addNewTab(frame, "Game"+ (tabs.getNumOfTabs()+1));
+                new Tab(tabPane,frame, "Game"+ (tabs.getNumOfTabs()+1));
             }
         });
 
@@ -73,12 +74,11 @@ public class IJAProject {
         frame.setJMenuBar(menuBar);
         menuBar.add(menuGame);
         menuBar.add(menuView);
-
-        // Makes new Tab
-        // testing
-        tabs.addNewTab(frame, "Game"+ (tabs.getNumOfTabs()+1));
+        frame.add(tabPane);
 
         frame.setVisible(true);
+
+
 
         Game chessGame = new Game();
 
@@ -112,6 +112,10 @@ public class IJAProject {
          * Before calling setPiece get dst cell and call toString (dst)
          */
         System.out.println();
+    }
+
+    public void addComponent(){
+        System.out.println("Add");
     }
 
 }
