@@ -155,7 +155,7 @@ public class Game {
                 this.color = color;
                 this.square = this;
                 try {
-                    myImage = ImageIO.read(getClass().getResource("img/BQ.gif"));
+                    myImage = ImageIO.read(getClass().getResource("/img/BQ.gif"));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
