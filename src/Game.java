@@ -13,6 +13,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Game {
 
@@ -153,7 +155,7 @@ public class Game {
                 this.color = color;
                 this.square = this;
                 try {
-                    myImage = ImageIO.read(new File("src/img/BQ.gif"));
+                    myImage = ImageIO.read(getClass().getResource("img/BQ.gif"));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
