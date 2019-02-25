@@ -33,7 +33,7 @@ public class Game {
          */
         return this.gameBoard.gameBoard[x][y].getPiece();
     }
-    
+
     public void setPiece(ChessPiece piece, int x, int y) {
         // TODO: save previous gameboard for redo / undo operation
         this.gameBoard.gameBoard[x][y].setPiece(piece);
