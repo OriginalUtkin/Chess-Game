@@ -1,7 +1,3 @@
-package gui;
-
-import Abstracts.ChessPiece;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

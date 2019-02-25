@@ -3,7 +3,6 @@ import Abstracts.ChessPiece;
 //import Enums.Color;
 import Figures.King;
 import Figures.Movement;
-import gui.Tab;
 
 import java.awt.*;
 import java.util.ArrayList;
