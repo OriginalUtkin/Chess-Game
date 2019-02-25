@@ -153,7 +153,7 @@ public class Game {
                 this.color = color;
                 this.square = this;
                 try {
-                    myImage = ImageIO.read(new File("IJA/src/img/BQ.gif"));
+                    myImage = ImageIO.read(new File("src/img/BQ.gif"));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

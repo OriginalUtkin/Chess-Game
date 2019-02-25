@@ -48,6 +48,15 @@ public class Tab extends JPanel {
                 if (tt instanceof Game.DrawSquare){
                     ((Game.DrawSquare) tt).setBorder(BorderFactory.createLineBorder(Color.green));
                     System.out.println(tt.toString());
+                    ((Game.DrawSquare) tt).is_pressed = true;
+                    tt.repaint();
+                    //send selected cell coordinates to backend
+                    // get possible movements list if there is piece
+                    // else do nothing
+                    // add current cell to some list of selected cell. (if no possible movements just select cell)
+                    // try to move piece
+                    //if dst cell isn't represented in possible movements array or all possible movements array is empty -> remove cell from selected, change selected cell border color to common border color  and do nothing
+                    // else change statement of backend and redraw src cell (remove piece) and dst cell (draw piece)
                 }
             }
         }
