@@ -1,7 +1,7 @@
-package Figures;
+package backend.Figures;
 
-import Abstracts.ChessPiece;
-import Enums.Color;
+import backend.Abstracts.ChessPiece;
+import backend.Enums.Color;
 
 import java.util.ArrayList;
 import java.util.List;

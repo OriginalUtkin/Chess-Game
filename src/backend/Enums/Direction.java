@@ -1,4 +1,4 @@
-package Enums;
+package backend.Enums;
 
 public enum Direction {
     VERTICAL_UP,

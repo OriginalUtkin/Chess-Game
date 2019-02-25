@@ -1,6 +1,6 @@
-package Board;
-import Abstracts.ChessPiece;
-import Enums.Color;
+package backend.Board;
+import backend.Abstracts.ChessPiece;
+import backend.Enums.Color;
 
 
 /**

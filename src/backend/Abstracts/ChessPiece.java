@@ -1,9 +1,9 @@
-package Abstracts;
+package backend.Abstracts;
 
 
-import Enums.Color;
-import Enums.Direction;
-import Figures.Movement;
+import backend.Enums.Color;
+import backend.Enums.Direction;
+import backend.Figures.Movement;
 
 import java.io.Serializable;
 import java.util.ArrayList;
