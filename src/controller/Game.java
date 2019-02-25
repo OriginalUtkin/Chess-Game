@@ -1,9 +1,11 @@
-import Abstracts.ChessPiece;
-import Board.Board;
-import Enums.Color;
-import Enums.Direction;
-import Figures.Movement;
-import Board.Cell;
+package controller;
+
+import backend.Abstracts.ChessPiece;
+import backend.Board.Board;
+import backend.Enums.Color;
+import backend.Enums.Direction;
+import backend.Figures.Movement;
+import backend.Board.Cell;
 
 import java.util.Iterator;
 import java.util.List;

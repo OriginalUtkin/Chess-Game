@@ -1,6 +1,6 @@
-package Figures;
+package backend.Figures;
 
-import Enums.Direction;
+import backend.Enums.Direction;
 
 /**
  *

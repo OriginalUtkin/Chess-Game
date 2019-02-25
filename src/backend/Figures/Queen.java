@@ -1,7 +1,7 @@
-package Figures;
+package backend.Figures;
 
-import Abstracts.ChessPiece;
-import Enums.Color;
+import backend.Abstracts.ChessPiece;
+import backend.Enums.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,10 @@ import java.util.List;
  * @author xutkin00, xpolis03
  */
 
-public class Rook extends ChessPiece {
+public class Queen extends ChessPiece {
 
-    public Rook(Color color){
-        super(color,'V', 5);
-        this.calculatePossibleMovements();
+    public Queen(Color color){
+        super(color,'D', 9);
     }
 
     @Override
@@ -23,6 +22,7 @@ public class Rook extends ChessPiece {
 
         List<Movement> possibleMovements =  new ArrayList<>();
 
+        possibleMovements.addAll(super.getDiagonalMovements(7));
         possibleMovements.addAll(super.getVerticalMovements(7));
         possibleMovements.addAll(super.getHorizontalMovements(7));
 

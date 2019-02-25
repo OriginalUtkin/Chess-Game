@@ -1,8 +1,8 @@
-package test;
+package backend.test;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
-import Board.Board;
+import backend.Board.Board;
 
 
 /**

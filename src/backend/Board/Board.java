@@ -1,5 +1,5 @@
-package Board;
-import Enums.Color;
+package backend.Board;
+import backend.Enums.Color;
 
 /**
  *

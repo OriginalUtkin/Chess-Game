@@ -1,8 +1,9 @@
-import Abstracts.ChessPiece;
+import backend.Abstracts.ChessPiece;
 
 //import Enums.Color;
-import Figures.King;
-import Figures.Movement;
+import backend.Figures.King;
+import backend.Figures.Movement;
+import controller.Game;
 import gui.Tab;
 
 import java.awt.*;
@@ -95,7 +96,7 @@ public class IJAProject {
         Game chessGame = new Game();
 
         /** TODO seems as fuck. refactor it. Coordinates will be set right from Cell */
-        chessGame.setPiece(new King(Enums.Color.BLACK), 0, 0);
+        chessGame.setPiece(new King(backend.Enums.Color.BLACK), 0, 0);
 
         // Simulate mouse button click. Now we have a chess piece from selected cell
         ChessPiece boardPiece = chessGame.getBoardPiece(0, 0);
