@@ -68,8 +68,7 @@ public class IJAProject {
                 System.exit(0);
             }
         });
-
-
+        
         JMenu menuActions = new JMenu("Actions");
         menuActions.setFont(font);
         JMenuItem unDo = new JMenuItem("Undo");
@@ -93,8 +92,6 @@ public class IJAProject {
 
         frame.setVisible(true);
 
-
-
         Game chessGame = new Game();
 
         /** TODO seems as fuck. refactor it. Coordinates will be set right from Cell */
@@ -106,6 +103,7 @@ public class IJAProject {
         // Get all possible statements of current piece
 
         List<Movement> possibleMovements = new ArrayList<>(boardPiece.calculatePossibleMovements()) ;
+        chessGame.applyRules(possibleMovements, boardPiece);
 //        chessGame.isPossible(possibleMovements, boardPiece.getColor());
 
 //        // Remove moves from possible moves for currently selected chess piece which couldn't be done
