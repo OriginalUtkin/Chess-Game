@@ -152,10 +152,10 @@ abstract public class ChessPiece implements Serializable {
 
             if (this.abbreviation != 'p' || this.color == Color.BLACK){
 
-                if (this.currentRow - counter >= 0) {
+                if (this.currentColumn - counter >= 0) {
                     verticalMovements.add(new Movement(
-                            this.currentRow - counter,
-                            this.currentColumn,
+                            this.currentRow,
+                            this.currentColumn - counter,
                             additionalFlag,
                             Direction.VERTICAL_DOWN)
                     );
@@ -163,10 +163,10 @@ abstract public class ChessPiece implements Serializable {
             }
 
             if (this.abbreviation != 'p' || this.color == Color.WHITE){
-                if (this.currentRow + counter <= 7) {
+                if (this.currentColumn + counter <= 7) {
                     verticalMovements.add(new Movement(
-                            this.currentRow + counter,
-                            this.currentColumn,
+                            this.currentRow,
+                            this.currentColumn + counter,
                             additionalFlag,
                             Direction.VERTICAL_UP)
                     );
@@ -191,20 +191,20 @@ abstract public class ChessPiece implements Serializable {
 
         for (int counter = 1; counter < maxHorizontalStep + 1; counter++){
 
-            if (this.currentColumn - counter >= 0)
+            if (this.currentRow - counter >= 0)
                 horizontalMovements.add(new Movement(
-                        this.currentRow,
-                        this.currentColumn - counter,
+                        this.currentRow - counter,
+                        this.currentColumn,
                         false,
                         Direction.HORIZONTAL_LEFT)
                 );
 
             if (this.currentRow + counter <= 7)
                 horizontalMovements.add(new Movement(
-                        this.currentRow,
-                        this.currentColumn + counter,
+                        this.currentRow + counter,
+                        this.currentColumn,
                         false,
-                        Direction.HORIZONTAL_RIGTH)
+                        Direction.HORIZONTAL_RIGHT)
                 );
         }
 
