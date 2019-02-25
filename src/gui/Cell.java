@@ -20,7 +20,7 @@ public class Cell extends JPanel {
         this.color = color;
         this.square = this;
         try {
-            myImage = ImageIO.read(getClass().getResource("/img/BQ.gif"));
+            myImage = ImageIO.read(getClass().getResource("/gui/img/BQ.gif"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
