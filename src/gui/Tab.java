@@ -1,18 +1,19 @@
+package gui;
+
+import Abstracts.ChessPiece;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 
 
 public class Tab extends JPanel {
     private JTabbedPane tabPane;
-    private Game tabGame;
 
-    Tab() {
+    public Tab() {
         super(new GridLayout(1, 1));
-        this.tabGame = new Game();
         this.tabPane = new JTabbedPane();
     }
     public void addNewTab(JFrame frame, String titleOfTab){
@@ -45,10 +46,10 @@ public class Tab extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 Component tt = chessBoard.findComponentAt(e.getX(),e.getY());
 
-                if (tt instanceof Game.DrawSquare){
-                    ((Game.DrawSquare) tt).setBorder(BorderFactory.createLineBorder(Color.green));
+                if (tt instanceof Cell){
+                    ((Cell) tt).setBorder(BorderFactory.createLineBorder(Color.green));
                     System.out.println(tt.toString());
-                    ((Game.DrawSquare) tt).is_pressed = true;
+                    ((Cell) tt).is_pressed = true;
                     tt.repaint();
                     //send selected cell coordinates to backend
                     // get possible movements list if there is piece
@@ -81,7 +82,7 @@ public class Tab extends JPanel {
                 BufferedImage.TYPE_BYTE_INDEXED);
         Graphics g = src.createGraphics();
 
-        this.tabGame.initializeGUI(chessBoard, g);
+        this.initializeGUI(chessBoard, g);
         panelBoard.add(chessBoard);
         panelBoard.add(rightPanel);
 
@@ -90,7 +91,31 @@ public class Tab extends JPanel {
     }
 
 
+    public void initializeGUI(JPanel panel, Graphics g){
+        Cell[][] squares = new Cell[8][8];
 
+        for (int i = 7; i >= 0; i--) {
+            for (int j = 0; j < squares[i].length; j++) {
+
+                Color cellBackgroundColor;
+
+                if ((j % 2 == 1 && i % 2 == 1) || (j % 2 == 0 && i % 2 == 0)) {
+                    cellBackgroundColor = new Color(211,211,211);
+
+                }else {
+
+                    cellBackgroundColor = new Color(70,130,180);
+                }
+
+                Cell drawing = new Cell(i, j,75/squares.length, 75/squares.length,
+                        cellBackgroundColor);
+
+                drawing.setBorder(BorderFactory.createLineBorder(Color.black));
+                panel.add(drawing);
+            }
+        }
+
+    }
 
 
 }
