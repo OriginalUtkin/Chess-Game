@@ -49,25 +49,23 @@ public class Game {
     public void initializeGUI(JPanel panel, Graphics g){
         DrawSquare[][] squares = new DrawSquare[8][8];
 
-        for (int i = 0; i < squares.length; i++) {
+        for (int i = 7; i >= 0; i--) {
             for (int j = 0; j < squares[i].length; j++) {
-                Color backgroundColor = null;
 
+                Color cellBackgroundColor;
 
                 if ((j % 2 == 1 && i % 2 == 1) || (j % 2 == 0 && i % 2 == 0)) {
-                    backgroundColor = new Color(211,211,211);
+                    cellBackgroundColor = new Color(211,211,211);
 
                 }else {
 
-                    backgroundColor = new Color(70,130,180);
+                    cellBackgroundColor = new Color(70,130,180);
                 }
 
-//                squares[i][j] = square;
-
                 DrawSquare drawing = new DrawSquare(i, j,75/squares.length, 75/squares.length,
-                        backgroundColor);
+                        cellBackgroundColor);
+
                 drawing.setBorder(BorderFactory.createLineBorder(Color.black));
-//                drawing.pressed(i,j, panel);
                 panel.add(drawing);
             }
         }
@@ -118,31 +116,6 @@ public class Game {
     public boolean isPossibleSpecial(Movement movement, final Color pieceColor) {
         return false;
     }
-
-        private class Square {
-
-            boolean isSelected;
-            Color background;
-
-            int column, row;
-
-            public boolean isSelected() {
-                return isSelected;
-            }
-
-            public void setSelected(final boolean isSelected) {
-                this.isSelected = isSelected;
-            }
-
-            public Color getBackground() {
-                return background;
-            }
-
-            public void setBackground(final Color background) {
-                this.background = background;
-            }
-
-        }
 
         public class DrawSquare extends JPanel {
             private int x, y, row, column;
