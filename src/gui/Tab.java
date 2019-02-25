@@ -11,22 +11,32 @@ import java.awt.image.BufferedImage;
 
 public class Tab extends JPanel {
     private JTabbedPane tabPane;
+    public static int countOfTabs;
 
     public Tab() {
         super(new GridLayout(1, 1));
         this.tabPane = new JTabbedPane();
     }
+    public static int getNumOfTabs() {
+        return countOfTabs;
+    }
+
     public void addNewTab(JFrame frame, String titleOfTab){
+        countOfTabs++;
+        if (countOfTabs <= 6){
+            JComponent panel1 = makeBoardPanel();
+            this.tabPane.addTab(titleOfTab, panel1);
+            /*
+             * TODO add VK_1, VK_2 counter
+             * */
+            this.tabPane.setMnemonicAt(0, KeyEvent.VK_1);
+            //Add the tabbed pane to this panel.
 
-        JComponent panel1 = makeBoardPanel();
-        this.tabPane.addTab(titleOfTab, panel1);
-        /*
-        * TODO add VK_1, VK_2 counter
-        * */
-        this.tabPane.setMnemonicAt(0, KeyEvent.VK_1);
-        //Add the tabbed pane to this panel.
+            frame.add(this.tabPane);
+        }else{
+            JOptionPane.showMessageDialog(frame, "Too many tabs");
+        }
 
-        frame.add(this.tabPane);
     }
 
     protected JComponent makeBoardPanel() {
