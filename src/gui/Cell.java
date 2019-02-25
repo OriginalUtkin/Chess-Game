@@ -11,17 +11,20 @@ public class Cell extends JPanel {
     public Cell square;
     BufferedImage myImage;
     public boolean is_pressed = false;
+    public int tabNum;
 
-    Cell(int row, int column, int x, int y, Color color) {
+    Cell(int row, int column, int x, int y, Color color, int tabNum) {
         this.row = row;
         this.column = column;
         this.x = x;
         this.y = y;
         this.color = color;
         this.square = this;
+        this.tabNum = tabNum;
+
         try {
             myImage = ImageIO.read(getClass().getResource("/gui/img/BQ.gif"));
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             ex.printStackTrace();
         }
     }

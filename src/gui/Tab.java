@@ -1,28 +1,35 @@
 package gui;
 
-import gui.Cell;
+import controller.Game;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Tab extends JPanel {
     private JTabbedPane tabPane;
-    public static int countOfTabs;
+    public static int countOfTabs = 0;
+    public Cell[][] squares;
+    public int tabNUmber;
+
+    static public List<Cell[][]> boards = new ArrayList<>();
+    static public List<Game> boardGames = new ArrayList<>();
 
     public Tab() {
         super(new GridLayout(1, 1));
         this.tabPane = new JTabbedPane();
     }
+
     public static int getNumOfTabs() {
         return countOfTabs;
     }
 
     public void addNewTab(JFrame frame, String titleOfTab){
-        countOfTabs++;
+
         if (countOfTabs <= 6){
             JComponent panel1 = makeBoardPanel();
             this.tabPane.addTab(titleOfTab, panel1);
@@ -36,7 +43,6 @@ public class Tab extends JPanel {
         }else{
             JOptionPane.showMessageDialog(frame, "Too many tabs");
         }
-
     }
 
     protected JComponent makeBoardPanel() {
@@ -49,30 +55,6 @@ public class Tab extends JPanel {
         panelBoard.setPreferredSize(new Dimension(950,620));
         chessBoard.setPreferredSize(new Dimension(600,600));
         rightPanel.setPreferredSize(new Dimension(320,600));
-
-        chessBoard.addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Component tt = chessBoard.findComponentAt(e.getX(),e.getY());
-
-                if (tt instanceof Cell){
-                    ((Cell) tt).setBorder(BorderFactory.createLineBorder(Color.green));
-                    System.out.println(tt.toString());
-                    ((Cell) tt).is_pressed = true;
-                    tt.repaint();
-                    //send selected cell coordinates to backend
-                    // get possible movements list if there is piece
-                    // else do nothing
-                    // add current cell to some list of selected cell. (if no possible movements just select cell)
-                    // try to move piece
-                    //if dst cell isn't represented in possible movements array or all possible movements array is empty -> remove cell from selected, change selected cell border color to common border color  and do nothing
-                    // else change statement of backend and redraw src cell (remove piece) and dst cell (draw piece)
-                }
-            }
-        }
-    );
-
 
         panelBoard.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY,5,true));
 
@@ -88,15 +70,37 @@ public class Tab extends JPanel {
         int w = 75;
         int h = 75;
 
-        BufferedImage src = new BufferedImage(w, h,
-                BufferedImage.TYPE_BYTE_INDEXED);
+        BufferedImage src = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED);
         Graphics g = src.createGraphics();
 
         this.initializeGUI(chessBoard, g);
         panelBoard.add(chessBoard);
         panelBoard.add(rightPanel);
 
+        chessBoard.addMouseListener(new MouseAdapter() {
 
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Component tt = chessBoard.findComponentAt(e.getX(),e.getY());
+
+                if (tt instanceof Cell){
+                    ((Cell) tt).setBorder(BorderFactory.createLineBorder(Color.green));
+                    System.out.println(tt.toString());
+                    ((Cell) tt).is_pressed = true;
+                    tt.repaint();
+                    Tab.boards.get(((Cell) tt).tabNum)[0][0].setBorder(BorderFactory.createLineBorder(Color.yellow));
+                    Tab.boards.get(((Cell) tt).tabNum)[0][0].repaint();
+                    //send selected cell coordinates to backend
+                    // get possible movements list if there is piece
+                    // else do nothing
+                    // add current cell to some list of selected cell. (if no possible movements just select cell)
+                    // try to move piece
+                    //if dst cell isn't represented in possible movements array or all possible movements array is empty -> remove cell from selected, change selected cell border color to common border color  and do nothing
+                    // else change statement of backend and redraw src cell (remove piece) and dst cell (draw piece)
+                }
+            }
+        });
+        Tab.countOfTabs += 1;
         return panelBoard;
     }
 
@@ -118,11 +122,14 @@ public class Tab extends JPanel {
                 }
 
                 Cell drawing = new Cell(i, j,75/squares.length, 75/squares.length,
-                        cellBackgroundColor);
+                        cellBackgroundColor, Tab.getNumOfTabs());
 
+                squares[i][j] = drawing;
                 drawing.setBorder(BorderFactory.createLineBorder(Color.black));
                 panel.add(drawing);
             }
         }
+
+        Tab.boards.add(squares);
     }
 }
