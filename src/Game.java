@@ -47,21 +47,25 @@ public class Game {
 
 
     public void initializeGUI(JPanel panel, Graphics g){
-        Square[][] squares = new Square[8][8];
+        DrawSquare[][] squares = new DrawSquare[8][8];
+
         for (int i = 0; i < squares.length; i++) {
             for (int j = 0; j < squares[i].length; j++) {
+                Color backgroundColor = null;
 
-                Square square = new Square();
+
                 if ((j % 2 == 1 && i % 2 == 1) || (j % 2 == 0 && i % 2 == 0)) {
-                    square.setBackground(new Color(211,211,211));
-                } else {
-                    square.setBackground(new Color(70,130,180));
+                    backgroundColor = new Color(211,211,211);
+
+                }else {
+
+                    backgroundColor = new Color(70,130,180);
                 }
 
-                squares[i][j] = square;
+//                squares[i][j] = square;
 
                 DrawSquare drawing = new DrawSquare(i, j,75/squares.length, 75/squares.length,
-                        squares[i][j].getBackground());
+                        backgroundColor);
                 drawing.setBorder(BorderFactory.createLineBorder(Color.black));
 //                drawing.pressed(i,j, panel);
                 panel.add(drawing);
