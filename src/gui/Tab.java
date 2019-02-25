@@ -114,8 +114,5 @@ public class Tab extends JPanel {
                 panel.add(drawing);
             }
         }
-
     }
-
-
 }

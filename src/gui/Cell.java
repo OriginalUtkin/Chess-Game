@@ -39,21 +39,4 @@ public class Cell extends JPanel {
     public String toString(){
         return ("Coordinates: [" + this.row + "," + this.column + "]");
     }
-
-//            public void pressed(int x, int y, JPanel panel) {
-//                   this.addMouseListener(new MouseAdapter() {
-//                        @Override
-//                        public void mousePressed(MouseEvent e) {
-//                            System.out.println("Coordinates: [" + (7-x) + "," + (7-y) + "]");
-//                            square.setBorder(BorderFactory.createLineBorder(Color.green));
-//                        }
-//                       @Override
-//                       public void mouseReleased(MouseEvent e) {
-//                           square.setBorder(BorderFactory.createLineBorder(Color.black));
-//                           is_pressed = true;
-//                           panel.validate();
-//                           panel.repaint();
-//                       }
-//                   });
-//            }
 }
