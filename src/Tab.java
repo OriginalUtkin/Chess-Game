@@ -40,34 +40,15 @@ public class Tab extends JPanel {
         rightPanel.setPreferredSize(new Dimension(320,600));
 
         chessBoard.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
-                Component tt = (Game.DrawSquare)chessBoard.findComponentAt(e.getX(),e.getY());
-                ((Game.DrawSquare) tt).setBorder(BorderFactory.createLineBorder(Color.green));
-                System.out.println(tt.toString());
+                Component tt = chessBoard.findComponentAt(e.getX(),e.getY());
 
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
+                if (tt instanceof Game.DrawSquare){
+                    ((Game.DrawSquare) tt).setBorder(BorderFactory.createLineBorder(Color.green));
+                    System.out.println(tt.toString());
+                }
             }
         }
     );
