@@ -3,22 +3,11 @@ import Board.Board;
 import Enums.Direction;
 import Figures.Movement;
 import Board.Cell;
+import Enums.Color;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.Graphics;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Game {
 
-    private JPanel board;
     Board gameBoard;
 
 //    List<Board> gameStatements;
@@ -44,10 +33,7 @@ public class Game {
          */
         return this.gameBoard.gameBoard[x][y].getPiece();
     }
-
-
-
-
+    
     public void setPiece(ChessPiece piece, int x, int y) {
         // TODO: save previous gameboard for redo / undo operation
         this.gameBoard.gameBoard[x][y].setPiece(piece);
@@ -79,12 +65,6 @@ public class Game {
 
         return 0;
     }
-
-    public boolean isPossibleSpecial(Movement movement, final Color pieceColor) {
-        return false;
-    }
-
-
-    }
+}
 
 
