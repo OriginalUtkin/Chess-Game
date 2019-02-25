@@ -16,9 +16,7 @@ import java.awt.event.ActionListener;
 import java.lang.String;
 
 public class IJAProject {
-
     public static void main(String args[]) {
-
         /**
          * PSEUDO CODE:
          * Create chess piece (just for debugging. Pieces will be created during board init) (done)
