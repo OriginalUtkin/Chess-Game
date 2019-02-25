@@ -29,7 +29,6 @@ public class Tab extends JPanel {
     }
 
     public void addNewTab(JFrame frame, String titleOfTab){
-
         if (countOfTabs <= 6){
             JComponent panel1 = makeBoardPanel();
             this.tabPane.addTab(titleOfTab, panel1);

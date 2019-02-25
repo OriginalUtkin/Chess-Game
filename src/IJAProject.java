@@ -49,13 +49,13 @@ public class IJAProject {
 
         newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                tabs.addNewTab(frame, "Game 2");
+                tabs.addNewTab(frame, "Game"+ (tabs.getNumOfTabs()+1));
             }
         });
 
-        JMenuItem refreshGame = new JMenuItem("Restart");
-        menuGame.add(refreshGame);
-        refreshGame.setFont(font);
+        JMenuItem loadGame = new JMenuItem("Load");
+        menuGame.add(loadGame);
+        loadGame.setFont(font);
 
         JMenuItem exitGame = new JMenuItem("Exit");
         exitGame.setFont(font);
@@ -66,27 +66,17 @@ public class IJAProject {
                 System.exit(0);
             }
         });
-        
-        JMenu menuActions = new JMenu("Actions");
-        menuActions.setFont(font);
-        JMenuItem unDo = new JMenuItem("Undo");
-        unDo.setFont(font);
-        menuActions.add(unDo);
-        JMenuItem reDo = new JMenuItem("Redo");
-        reDo.setFont(font);
-        menuActions.add(reDo);
 
         JMenu menuView = new JMenu("View");
         menuView.setFont(font);
 
         frame.setJMenuBar(menuBar);
         menuBar.add(menuGame);
-        menuBar.add(menuActions);
         menuBar.add(menuView);
 
         // Makes new Tab
         // testing
-        tabs.addNewTab(frame, "Game 1");
+        tabs.addNewTab(frame, "Game"+ (tabs.getNumOfTabs()+1));
 
         frame.setVisible(true);
 
