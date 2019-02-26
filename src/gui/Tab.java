@@ -13,14 +13,14 @@ import java.util.List;
 
 public class Tab extends JPanel {
     public static int countOfTabs = 0;
-    public Cell[][] squares;
-    public int tabNUmber;
+    public String tabName;
 
     static public List<Cell[][]> boards = new ArrayList<>();
     static public List<Game> boardGames = new ArrayList<>();
 
     public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
         if (Tab.countOfTabs <= 5){
+            this.tabName = tab_name;
             JComponent panel = makeBoardPanel();
             tabbedPane.addTab(tab_name, panel);
             tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
@@ -74,9 +74,9 @@ public class Tab extends JPanel {
 
 
         /*Buttons*/
-        new RightPanelButton("Redo", rightPanel, "img/redo.png");
-        new RightPanelButton("Undo", rightPanel, "img/undo.png");
-        new RightPanelButton("Save", rightPanel, "img/save.png");
+        RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName);
+        new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName);
+        new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName);
 
         /*Initialize chessBoard for this Tab*/
         int w = 75; int h = 75;
