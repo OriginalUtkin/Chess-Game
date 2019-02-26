@@ -29,13 +29,14 @@ public class IJAProject {
 
         /*Initialize main frame*/
         JFrame frame= new JFrame("IJA Project");
-        frame.setSize(1000,850);
+        frame.setSize(1100,850);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout(FlowLayout.LEFT));
-        Font font = new Font("Verdana", Font.PLAIN, 14);
+        Font font = new Font("Verdana", Font.PLAIN, 15);
 
         /*Initialize JTabbedPane*/
         JTabbedPane tabPane = new JTabbedPane();
+        tabPane.setFont( new Font( "Dialog", Font.BOLD|Font.ITALIC, 20 ) );
         Tab tabs = new Tab(tabPane, frame, "Game" + 1); // implicitly one game
 
 

@@ -3,6 +3,7 @@ package gui;
 import controller.Game;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -35,32 +36,54 @@ public class Tab extends JPanel {
     protected JComponent makeBoardPanel() {
         /*Main panel*/
         JPanel panelBoard = new JPanel(new FlowLayout());
-        /*Right side*/
-        JPanel rightPanel = new JPanel();
-        /*Left side - chess board*/
-        JPanel chessBoard = new JPanel(new GridLayout(0, 8));
         panelBoard.setPreferredSize(new Dimension(950,620));
-        chessBoard.setPreferredSize(new Dimension(600,600));
-        rightPanel.setPreferredSize(new Dimension(320,600));
-
+        panelBoard.setBackground(Color.DARK_GRAY);
         panelBoard.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY,5,true));
 
-        JLabel gameInfo = new JLabel("Game Info");
-        rightPanel.setBackground(Color.GRAY);
+        /*Right side*/
+        JPanel rightPanel = new JPanel();
+        rightPanel.setPreferredSize(new Dimension(330,600));
+        rightPanel.setBackground(Color.DARK_GRAY);
+
+        /*Left side - chess board*/
+        JPanel chessBoard = new JPanel(new GridLayout(0, 8));
+        chessBoard.setPreferredSize(new Dimension(600,600));
+
+        /*Logo image*/
+        ImageIcon logoIcon = new ImageIcon(this.getClass().getResource("img/logo.png"));
+        JLabel label = new JLabel(logoIcon);
+        rightPanel.add(label);
+
+        /*Restart Button*/
+        JButton restartGame = new JButton("Restart Game");
+        restartGame.setBackground(new Color(204,204,0));
+        restartGame.setFont(new Font("Verdana", Font.PLAIN, 14));
+        rightPanel.add(restartGame);
+
+        /*TextField with Movements*/
+        JTextField movements = new JTextField(28);
+        movements.setBackground(new Color(32,32,32));
+        movements.setPreferredSize(new Dimension(330,300));
+        rightPanel.add(movements);
+
+        /*Indent*/
+        JPanel emptyPanel = new JPanel();
+        emptyPanel.setPreferredSize(new Dimension(300,25));
+        emptyPanel.setBackground(Color.DARK_GRAY);
+        rightPanel.add(emptyPanel);
 
 
-        /*TextField or sth*/
-        JTextField textField = new JTextField(100);
-        rightPanel.add(gameInfo);
-        rightPanel.add(textField);
+        /*Buttons*/
+        new RightPanelButton("Redo", rightPanel, "img/redo.png");
+        new RightPanelButton("Undo", rightPanel, "img/undo.png");
+        new RightPanelButton("Save", rightPanel, "img/save.png");
 
-        int w = 75;
-        int h = 75;
-
+        /*Initialize chessBoard for this Tab*/
+        int w = 75; int h = 75;
         BufferedImage src = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED);
         Graphics g = src.createGraphics();
-
         this.initializeGUI(chessBoard, g);
+
         panelBoard.add(chessBoard);
         panelBoard.add(rightPanel);
 
@@ -101,11 +124,11 @@ public class Tab extends JPanel {
                 Color cellBackgroundColor;
 
                 if ((j % 2 == 1 && i % 2 == 1) || (j % 2 == 0 && i % 2 == 0)) {
-                    cellBackgroundColor = new Color(211,211,211);
+                    cellBackgroundColor = new Color(205,170,125);
 
                 }else {
 
-                    cellBackgroundColor = new Color(70,130,180);
+                    cellBackgroundColor = new Color(85,60,42);
                 }
 
                 Cell drawing = new Cell(i, j,75/squares.length, 75/squares.length,

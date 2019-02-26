@@ -23,7 +23,7 @@ public class Cell extends JPanel {
         this.tabNum = tabNum;
 
         try {
-            myImage = ImageIO.read(getClass().getResource("/gui/img/BQ.gif"));
+            myImage = ImageIO.read(getClass().getResource("/gui/img/WB.png"));
         }catch (Exception ex) {
             ex.printStackTrace();
         }
