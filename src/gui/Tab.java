@@ -58,6 +58,13 @@ public class Tab extends JPanel {
         JButton restartGame = new JButton("Restart Game");
         restartGame.setBackground(new Color(204,204,0));
         restartGame.setFont(new Font("Verdana", Font.PLAIN, 14));
+        restartGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Restart");
+                Tab.restartGAME(chessBoard);
+            }
+        });
         rightPanel.add(restartGame);
 
         /*TextField with Movements*/
@@ -79,10 +86,7 @@ public class Tab extends JPanel {
         new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName);
 
         /*Initialize chessBoard for this Tab*/
-        int w = 75; int h = 75;
-        BufferedImage src = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED);
-        Graphics g = src.createGraphics();
-        this.initializeGUI(chessBoard, g);
+        this.initializeGUI(chessBoard);
 
         panelBoard.add(chessBoard);
         panelBoard.add(rightPanel);
@@ -115,7 +119,7 @@ public class Tab extends JPanel {
     }
 
 
-    public void initializeGUI(JPanel panel, Graphics g){
+    public static void initializeGUI(JPanel panel){
         Cell[][] squares = new Cell[8][8];
 
         for (int i = 7; i >= 0; i--) {
@@ -141,5 +145,12 @@ public class Tab extends JPanel {
         }
 
         Tab.boards.add(squares);
+    }
+
+    public static void restartGAME(JPanel panel){
+        panel.removeAll();
+        Tab.initializeGUI(panel);
+        panel.revalidate();
+        panel.repaint();
     }
 }
