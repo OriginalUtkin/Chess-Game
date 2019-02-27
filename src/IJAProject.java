@@ -37,7 +37,7 @@ public class IJAProject {
         /*Initialize JTabbedPane*/
         JTabbedPane tabPane = new JTabbedPane();
         tabPane.setFont( new Font( "Dialog", Font.BOLD|Font.ITALIC, 20 ) );
-        Tab tabs = new Tab(tabPane, frame, "Game" + 1); // implicitly one game
+//        Tab tabs = new Tab(tabPane, frame, "Game" + 1); // implicitly one game
 
 
 
@@ -51,7 +51,7 @@ public class IJAProject {
 
         newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new Tab(tabPane,frame, "Game"+ (tabs.getNumOfTabs()+1));
+                new Tab(tabPane,frame, "Game"+ (Tab.getNumOfTabs()+1));
             }
         });
 
