@@ -136,10 +136,12 @@ public class Tab extends JPanel {
                 }
 
                 ChessPiece currentPiece = this.game.getBoardPiece(i,j);
-                System.out.println(currentPiece.getAbbreviation() + " " + i + " " + j);
+//                System.out.println(currentPiece.getAbbreviation() + " " + i + " " + j);
+
+                String abbreviation = (currentPiece != null)?currentPiece.getAbbreviation() : "";
 
                 Cell drawing = new Cell(i, j,75/this.squares.length, 75/this.squares.length,
-                        cellBackgroundColor, Tab.getNumOfTabs(), currentPiece.getAbbreviation());
+                        cellBackgroundColor, Tab.getNumOfTabs(), abbreviation);
 
                 this.squares[i][j] = drawing;
                 drawing.setBorder(BorderFactory.createLineBorder(Color.black));
