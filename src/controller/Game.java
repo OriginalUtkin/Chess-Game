@@ -40,9 +40,12 @@ public class Game {
 
     public void setDestinationCell(gui.Cell dstCell){
         this.destinationCell = dstCell;
+        this.destinationCell.setBorder(BorderFactory.createLineBorder(java.awt.Color.green));
     }
 
-
+    public void changeTurn(){
+        // TODO :Add turn stuff
+    }
 
     public List<Movement> getPossibleMovements(){
         List<Movement> possibleMovements = this.selectedPiece.calculatePossibleMovements();
@@ -64,6 +67,10 @@ public class Game {
 
     public boolean isCellSelected(){
         return this.selectedPiece != null && this.selectedCell != null;
+    }
+
+    public boolean destinationSelected(){
+        return this.destinationCell != null;
     }
 
     public void gameState(){

@@ -104,6 +104,35 @@ public class Tab extends JPanel {
                 Component selectedCell = chessBoard.findComponentAt(e.getX(),e.getY());
 
                 if (selectedCell instanceof Cell){
+
+                    if (game.isCellSelected() && !game.destinationSelected()){
+                        /*
+                         * If source cell has already been selected, need to choose destination cell.
+                         *
+                         * If destination cell in possibleMovements list:
+                         * BACKEND Approach:
+                         * 1) Change game board. Remove cell from source cell to destination cell
+                         * 2) Set selected variables in game controller to null
+                         *
+                         * GUI approach:
+                         * 1) Redraw  cells that were changed
+                         *
+                         * Else (destination cell not involved in Possible movements chess piece):
+                         *
+                         * GUI
+                         * */
+                        System.out.println("Destination cell is " + selectedCell.toString());
+
+                        List<Movement> possibleMovements = game.getPossibleMovements();
+                        game.setDestinationCell(((Cell) selectedCell));
+
+                        if (possibleMovements.size() == 0 || game.isPossibleDestination(((Cell) selectedCell).getRow(),((Cell) selectedCell).getColumn())){
+                            game.dropSelected();
+                        }else{
+                            // Move piece to destination and redraw GUI
+                        }
+                    }
+
                     if (!game.isCellSelected() && game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn()) != null){
                         /*
                          * Just a one cell is selected on the game board. That means that we wanna calculate all
@@ -127,35 +156,8 @@ public class Tab extends JPanel {
                         //TODO <KATYA>: Change color for possible movements cells on GUI
                         List<Movement> possibleMovements = game.getPossibleMovements();
 
-                        System.out.println(selectedCell.toString());
+                        System.out.println("Selected cell is " + selectedCell.toString());
                         System.out.println(selectedPiece);
-                    }
-
-                    if (game.isCellSelected()){
-                        /*
-                        * If source cell has already been selected, need to choose destination cell.
-                        *
-                        * If destination cell in possibleMovements list:
-                        * BACKEND Approach:
-                        * 1) Change game board. Remove cell from source cell to destination cell
-                        * 2) Set selected variables in game controller to null
-                        *
-                        * GUI approach:
-                        * 1) Redraw  cells that were changed
-                        *
-                        * Else (destination cell not involved in Possible movements chess piece):
-                        *
-                        * GUI
-                        * */
-
-                        List<Movement> possibleMovements = game.getPossibleMovements();
-
-                        if (possibleMovements.size() == 0 || game.isPossibleDestination(((Cell) selectedCell).getRow(),((Cell) selectedCell).getColumn())){
-                            game.dropSelected();
-                        }
-
-
-
                     }
 
 
