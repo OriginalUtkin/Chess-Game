@@ -81,18 +81,18 @@ public class IJAProject {
 
 
 
-        Game chessGame = new Game();
+        Game chessGame = new Game(true);
 
-        /** TODO seems as fuck. refactor it. Coordinates will be set right from Cell */
-        chessGame.setPiece(new King(backend.Enums.Color.BLACK), 0, 0);
-
-        // Simulate mouse button click. Now we have a chess piece from selected cell
-        ChessPiece boardPiece = chessGame.getBoardPiece(0, 0);
+//        /** TODO seems as fuck. refactor it. Coordinates will be set right from Cell */
+//        chessGame.setPiece(new King(backend.Enums.Color.BLACK), 0, 0);
+//
+//        // Simulate mouse button click. Now we have a chess piece from selected cell
+//        ChessPiece boardPiece = chessGame.getBoardPiece(0, 0);
 
         // Get all possible statements of current piece
 
-        List<Movement> possibleMovements = new ArrayList<>(boardPiece.calculatePossibleMovements()) ;
-        chessGame.applyRules(possibleMovements, boardPiece);
+//        List<Movement> possibleMovements = new ArrayList<>(boardPiece.calculatePossibleMovements()) ;
+//        chessGame.applyRules(possibleMovements, boardPiece);
 //        chessGame.isPossible(possibleMovements, boardPiece.getColor());
 
 //        // Remove moves from possible moves for currently selected chess piece which couldn't be done

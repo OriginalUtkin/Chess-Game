@@ -16,8 +16,8 @@ public class Game {
 
 //    List<Board> gameStatements;
 
-    public Game(){
-        this.gameBoard = new Board();
+    public Game(boolean initFlag){
+        this.gameBoard = new Board(initFlag);
 //        this.gameStatements = new ArrayList<Board>();
 
     }

@@ -1,5 +1,6 @@
 package backend.Board;
 import backend.Enums.Color;
+import backend.Figures.*;
 
 /**
  *
@@ -9,9 +10,11 @@ import backend.Enums.Color;
 public class Board {
     public Cell[][] gameBoard;
 
-    public Board(){
+    public Board(boolean initCells){
         this.gameBoard = new Cell[8][8];
         this.initBoardCells();
+        if (initCells)
+            this.initFigures();
     }
 
     private void initBoardCells(){
@@ -37,6 +40,41 @@ public class Board {
 
     private void initFigures(){
 
-    }
+        for (int row = 0; row < 8; row++){
 
+            if (row > 1 && row < 6)
+                continue;
+
+            Color currentColor = (row < 2) ? Color.WHITE : Color.BLACK;
+
+            for (int column = 0; column < 8; column++){
+                if (row == 1 || row == 6){
+                    this.gameBoard[row][column].setPiece(new Pawn(currentColor));
+                    continue;
+                }
+
+                if (column == 0 || column == 7){
+                    this.gameBoard[row][column].setPiece(new Rook(currentColor));
+                    continue;
+                }
+
+                if (column == 1 || column == 6){
+                    this.gameBoard[row][column].setPiece(new Knight(currentColor));
+                    continue;
+                }
+
+                if (column == 2 || column == 5){
+                    this.gameBoard[row][column].setPiece(new Bishop(currentColor));
+                    continue;
+                }
+
+                if (column == 3){
+                    this.gameBoard[row][column].setPiece(new Queen(currentColor));
+                    continue;
+                }
+
+                this.gameBoard[row][column].setPiece(new King(currentColor));
+            }
+        }
+    }
 }

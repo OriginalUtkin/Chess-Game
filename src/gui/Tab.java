@@ -54,6 +54,10 @@ public class Tab extends JPanel {
         JLabel label = new JLabel(logoIcon);
         rightPanel.add(label);
 
+        /* Initialize game controller. This should be done before initialise mouse listeners */
+//        Game game = new Game();
+
+
         /*Restart Button*/
         JButton restartGame = new JButton("Restart Game");
         restartGame.setBackground(new Color(204,204,0));
@@ -78,7 +82,6 @@ public class Tab extends JPanel {
         emptyPanel.setPreferredSize(new Dimension(300,25));
         emptyPanel.setBackground(Color.DARK_GRAY);
         rightPanel.add(emptyPanel);
-
 
         /*Buttons*/
         RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName);
@@ -114,6 +117,7 @@ public class Tab extends JPanel {
                 }
             }
         });
+
         Tab.countOfTabs += 1;
         return panelBoard;
     }
