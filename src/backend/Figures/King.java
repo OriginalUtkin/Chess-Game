@@ -16,7 +16,6 @@ public class King extends ChessPiece {
 
     public King(Color color){
         super(color,'K', 10);
-        this.calculatePossibleMovements();
     }
 
     @Override

@@ -45,7 +45,7 @@ public class Board {
             if (row > 1 && row < 6)
                 continue;
 
-            Color currentColor = (row < 2) ? Color.WHITE : Color.BLACK;
+            Color currentColor = (row < 3) ? Color.WHITE : Color.BLACK;
 
             for (int column = 0; column < 8; column++){
                 if (row == 1 || row == 6){

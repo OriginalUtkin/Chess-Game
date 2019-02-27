@@ -15,7 +15,6 @@ public class Rook extends ChessPiece {
 
     public Rook(Color color){
         super(color,'V', 5);
-        this.calculatePossibleMovements();
     }
 
     @Override
