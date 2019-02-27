@@ -122,12 +122,19 @@ public class Tab extends JPanel {
                         selectedCell.repaint();
 
                         ChessPiece selectedPiece = game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn());
-                        game.setSelectedPiece(selectedPiece);
-                        List<Movement> possibleMovements = game.getSelectedPieceMovements();
+                        game.setSelected((Cell)selectedCell, selectedPiece);
 
                         System.out.println(selectedCell.toString());
                         System.out.println(selectedPiece);
                     }
+
+//                    if (game.isCellSelected()){
+//                        /*
+//                        * If source cell has already been selected, need to choose destination cell
+//                        * */
+//                        List<Movement> possibleMovements = game.getSelectedPieceMovements();
+//
+//                    }
 
 
 //                    Tab.boards.get(((Cell) tt).tabNum)[0][0].setBorder(BorderFactory.createLineBorder(Color.yellow));

@@ -15,6 +15,7 @@ public class Game {
 
     private Board gameBoard;
     private ChessPiece selectedPiece;
+    private gui.Cell selectedCell;
 
 
 //    List<Board> gameStatements;
@@ -22,25 +23,25 @@ public class Game {
     public Game(boolean initFlag){
         this.gameBoard = new Board(initFlag);
         this.selectedPiece = null;
+        this.selectedCell = null;
 
 //        this.gameStatements = new ArrayList<Board>();
 
     }
 
-    public void setSelectedPiece(ChessPiece selectedPiece){
+    public void setSelected(gui.Cell selectedCell, ChessPiece selectedPiece){
+        this.selectedCell = selectedCell;
         this.selectedPiece = selectedPiece;
     }
 
-    public List<Movement> getSelectedPieceMovements(){
-        List<Movement> possibleMovements = this.selectedPiece.calculatePossibleMovements();
-        this.applyRules(possibleMovements, this.selectedPiece.getColor());
-
-        return possibleMovements;
+    public void dropSelected(){
+        this.selectedCell = null;
+        this.selectedPiece = null;
     }
 
 
     public boolean isCellSelected(){
-        return this.selectedPiece != null;
+        return this.selectedPiece != null && this.selectedCell != null;
     }
     public void gameState(){
 
