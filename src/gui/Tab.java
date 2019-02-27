@@ -8,9 +8,11 @@ import java.awt.event.*;
 
 public class Tab extends JPanel {
     public static int countOfTabs = 0;
-    public String tabName;
-    public static Cell[][] squares;
-    public static Game game;
+
+    private String tabName;
+    private static Cell[][] squares;
+    private static Game game;
+
 
 
     public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
@@ -47,7 +49,7 @@ public class Tab extends JPanel {
         chessBoard.setPreferredSize(new Dimension(600,600));
 
         /*Initialize chessBoard for this Tab*/
-        this.initializeGUI(chessBoard);
+        this.initializeBoardCells(chessBoard);
 
         /*Logo image*/
         ImageIcon logoIcon = new ImageIcon(this.getClass().getResource("img/logo.png"));
@@ -121,7 +123,7 @@ public class Tab extends JPanel {
     }
 
 
-    public void initializeGUI(JPanel panel){
+    private void initializeBoardCells(JPanel panel){
 
         for (int i = 7; i >= 0; i--) {
             for (int j = 0; j < this.squares[i].length; j++) {
@@ -136,12 +138,11 @@ public class Tab extends JPanel {
                 }
 
                 ChessPiece currentPiece = this.game.getBoardPiece(i,j);
-//                System.out.println(currentPiece.getAbbreviation() + " " + i + " " + j);
 
                 String abbreviation = (currentPiece != null)?currentPiece.getAbbreviation() : "";
 
                 Cell drawing = new Cell(i, j,75/this.squares.length, 75/this.squares.length,
-                        cellBackgroundColor, Tab.getNumOfTabs(), abbreviation);
+                        cellBackgroundColor, abbreviation);
 
                 this.squares[i][j] = drawing;
                 drawing.setBorder(BorderFactory.createLineBorder(Color.black));

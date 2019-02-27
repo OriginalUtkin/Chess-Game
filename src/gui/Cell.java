@@ -11,17 +11,15 @@ public class Cell extends JPanel {
     public Cell square;
     BufferedImage myImage;
     public boolean is_pressed = false;
-    public int tabNum;
     String abbreviation ;
 
-    Cell(int row, int column, int x, int y, Color color, int tabNum, String abbreviation) {
+    Cell(int row, int column, int x, int y, Color color, String abbreviation) {
         this.row = row;
         this.column = column;
         this.x = x;
         this.y = y;
         this.color = color;
         this.square = this;
-        this.tabNum = tabNum;
 
         this.abbreviation = abbreviation;
         try {
