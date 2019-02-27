@@ -12,6 +12,7 @@ public class Cell extends JPanel {
     BufferedImage myImage;
     public boolean is_pressed = false;
     public int tabNum;
+    String abbreviation ;
 
     Cell(int row, int column, int x, int y, Color color, int tabNum) {
         this.row = row;
@@ -23,10 +24,8 @@ public class Cell extends JPanel {
         this.tabNum = tabNum;
 
         try {
-            myImage = ImageIO.read(getClass().getResource("/gui/img/WB.png"));
-        }catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            myImage = ImageIO.read(getClass().getResource("/gui/img/"+this.abbreviation+".png"));
+        }catch (Exception ex) {/* cell is empty */}
     }
 
     @Override
