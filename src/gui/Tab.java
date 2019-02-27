@@ -10,10 +10,8 @@ public class Tab extends JPanel {
     public static int countOfTabs = 0;
 
     private String tabName;
-    private static Cell[][] squares;
-    private static Game game;
-
-
+    private Cell[][] squares;
+    private Game game;
 
     public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
         if (Tab.countOfTabs <= 5){
