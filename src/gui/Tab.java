@@ -24,7 +24,6 @@ public class Tab extends JPanel {
             this.tabName = tab_name;
             this.squares =  new Cell[8][8];
             this.game = new Game(true);
-            this.selectedCell = new ArrayList<>();
 
             // initialise graphical part of tab
             JComponent panel = makeBoardPanel();
@@ -58,6 +57,7 @@ public class Tab extends JPanel {
 
         /*Initialize chessBoard for this Tab*/
         this.initializeBoardCells(chessBoard);
+        this.selectedCell = new ArrayList<>();
 
         /*Logo image*/
         ImageIcon logoIcon = new ImageIcon(this.getClass().getResource("img/logo.png"));
@@ -106,6 +106,7 @@ public class Tab extends JPanel {
                 Component tt = chessBoard.findComponentAt(e.getX(),e.getY());
 
                 if (tt instanceof Cell){
+
                     ((Cell) tt).setBorder(BorderFactory.createLineBorder(Color.green));
                     System.out.println(tt.toString());
                     tt.repaint();
