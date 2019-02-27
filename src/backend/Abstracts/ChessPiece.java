@@ -34,9 +34,7 @@ abstract public class ChessPiece implements Serializable {
 
 
     @Override
-    public String toString() {
-        return Character.toString(this.abbreviation);
-    }
+    public String toString() { return Character.toString(this.abbreviation); }
 
 
     final public void setRow(int x){
@@ -49,7 +47,7 @@ abstract public class ChessPiece implements Serializable {
     }
 
 
-    final public String getAbbreviation(){return this.abbreviation + this.color.toString();}
+    final public String getAbbreviation(){return this.color.toString() + this.abbreviation;}
 
 
     public void movePiece(int new_x, int new_y){

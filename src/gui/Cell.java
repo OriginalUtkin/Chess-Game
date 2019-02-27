@@ -24,10 +24,8 @@ public class Cell extends JPanel {
         this.tabNum = tabNum;
 
         this.abbreviation = abbreviation;
-
-
         try {
-            myImage = ImageIO.read(getClass().getResource("/gui/img/"+"W"+this.abbreviation+".png"));
+            myImage = ImageIO.read(getClass().getResource("/gui/img/"+this.abbreviation+".png"));
         }catch (Exception ex) {/* cell is empty */}
     }
 
@@ -36,8 +34,9 @@ public class Cell extends JPanel {
         super.paintComponent(g);
         g.setColor(color);
         g.fillRect(x-8, y-8, 75, 75);
-//        if (is_pressed){
-        g.drawImage(myImage, x+10, y+10, this);
+        if (this.abbreviation != ""){
+            g.drawImage(myImage, x+10, y+10, this);
+        }
 
     }
 
