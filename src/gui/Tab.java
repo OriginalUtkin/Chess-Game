@@ -2,26 +2,22 @@ package gui;
 
 import backend.Abstracts.ChessPiece;
 import controller.Game;
-
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class Tab extends JPanel {
     public static int countOfTabs = 0;
     public String tabName;
+    public static Cell[][] squares;
+    public static Game game;
 
-    static public List<Cell[][]> boards = new ArrayList<>();
-    static public List<Game> boardGames = new ArrayList<>();
 
     public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
         if (Tab.countOfTabs <= 5){
             this.tabName = tab_name;
+            this.squares =  new Cell[8][8];
+            this.game = new Game(true);
             JComponent panel = makeBoardPanel();
             tabbedPane.addTab(tab_name, panel);
             tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
@@ -50,26 +46,26 @@ public class Tab extends JPanel {
         JPanel chessBoard = new JPanel(new GridLayout(0, 8));
         chessBoard.setPreferredSize(new Dimension(600,600));
 
+        /*Initialize chessBoard for this Tab*/
+        this.initializeGUI(chessBoard);
+
         /*Logo image*/
         ImageIcon logoIcon = new ImageIcon(this.getClass().getResource("img/logo.png"));
         JLabel label = new JLabel(logoIcon);
         rightPanel.add(label);
-
-        /* Initialize game controller. This should be done before initialise mouse listeners */
-        Game game = new Game(true);
 
 
         /*Restart Button*/
         JButton restartGame = new JButton("Restart Game");
         restartGame.setBackground(new Color(204,204,0));
         restartGame.setFont(new Font("Verdana", Font.PLAIN, 14));
-        restartGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Restart");
-                Tab.restartGAME(chessBoard);
-            }
-        });
+//        restartGame.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println("Restart");
+//                Tab.restartGAME(chessBoard);
+//            }
+//        });
         rightPanel.add(restartGame);
 
         /*TextField with Movements*/
@@ -89,8 +85,6 @@ public class Tab extends JPanel {
         new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName);
         new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName);
 
-        /*Initialize chessBoard for this Tab*/
-        this.initializeGUI(chessBoard);
 
         panelBoard.add(chessBoard);
         panelBoard.add(rightPanel);
@@ -127,11 +121,10 @@ public class Tab extends JPanel {
     }
 
 
-    public static void initializeGUI(JPanel panel){
-        Cell[][] squares = new Cell[8][8];
+    public void initializeGUI(JPanel panel){
 
         for (int i = 7; i >= 0; i--) {
-            for (int j = 0; j < squares[i].length; j++) {
+            for (int j = 0; j < this.squares[i].length; j++) {
 
                 Color cellBackgroundColor;
 
@@ -139,26 +132,26 @@ public class Tab extends JPanel {
                     cellBackgroundColor = new Color(205,170,125);
 
                 }else {
-
                     cellBackgroundColor = new Color(85,60,42);
                 }
 
-                Cell drawing = new Cell(i, j,75/squares.length, 75/squares.length,
-                        cellBackgroundColor, Tab.getNumOfTabs());
+                ChessPiece currentPiece = this.game.getBoardPiece(i,j);
+                System.out.println(currentPiece.getAbbreviation() + " " + i + " " + j);
 
-                squares[i][j] = drawing;
+                Cell drawing = new Cell(i, j,75/this.squares.length, 75/this.squares.length,
+                        cellBackgroundColor, Tab.getNumOfTabs(), currentPiece.getAbbreviation());
+
+                this.squares[i][j] = drawing;
                 drawing.setBorder(BorderFactory.createLineBorder(Color.black));
                 panel.add(drawing);
             }
         }
-
-        Tab.boards.add(squares);
     }
 
-    public static void restartGAME(JPanel panel){
-        panel.removeAll();
-        Tab.initializeGUI(panel);
-        panel.revalidate();
-        panel.repaint();
-    }
+//    public void restartGAME(JPanel panel){
+//        panel.removeAll();
+//        this.initializeGUI(panel);
+//        panel.revalidate();
+//        panel.repaint();
+//    }
 }
