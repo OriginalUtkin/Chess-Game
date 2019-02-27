@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Game {
 
-    Board gameBoard;
+    private Board gameBoard;
 
 //    List<Board> gameStatements;
 
