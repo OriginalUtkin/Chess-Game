@@ -79,10 +79,6 @@ public class IJAProject {
 
         frame.setVisible(true);
 
-
-
-        Game chessGame = new Game(true);
-
 //        /** TODO seems as fuck. refactor it. Coordinates will be set right from Cell */
 //        chessGame.setPiece(new King(backend.Enums.Color.BLACK), 0, 0);
 //

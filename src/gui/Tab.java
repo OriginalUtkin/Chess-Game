@@ -1,5 +1,6 @@
 package gui;
 
+import backend.Abstracts.ChessPiece;
 import controller.Game;
 
 import javax.swing.*;
@@ -55,7 +56,7 @@ public class Tab extends JPanel {
         rightPanel.add(label);
 
         /* Initialize game controller. This should be done before initialise mouse listeners */
-//        Game game = new Game();
+        Game game = new Game(true);
 
 
         /*Restart Button*/
@@ -105,8 +106,11 @@ public class Tab extends JPanel {
                     System.out.println(tt.toString());
                     ((Cell) tt).is_pressed = true;
                     tt.repaint();
-                    Tab.boards.get(((Cell) tt).tabNum)[0][0].setBorder(BorderFactory.createLineBorder(Color.yellow));
-                    Tab.boards.get(((Cell) tt).tabNum)[0][0].repaint();
+                    ChessPiece cellPiece = game.getBoardPiece(((Cell) tt).getRow(), ((Cell) tt).getColumn());
+                    System.out.println(cellPiece);
+
+//                    Tab.boards.get(((Cell) tt).tabNum)[0][0].setBorder(BorderFactory.createLineBorder(Color.yellow));
+//                    Tab.boards.get(((Cell) tt).tabNum)[0][0].repaint();
                     //send selected cell coordinates to backend
                     // get possible movements list if there is piece
                     // else do nothing
