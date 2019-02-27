@@ -7,6 +7,7 @@ import backend.Enums.Direction;
 import backend.Figures.Movement;
 import backend.Board.Cell;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,15 +17,18 @@ public class Game {
     private Board gameBoard;
     private ChessPiece selectedPiece;
     private gui.Cell selectedCell;
+    private gui.Cell destinationCell;
 
 
 //    List<Board> gameStatements;
 
     public Game(boolean initFlag){
         this.gameBoard = new Board(initFlag);
-        this.selectedPiece = null;
-        this.selectedCell = null;
 
+        this.selectedPiece = null;
+
+        this.selectedCell = null;
+        this.destinationCell = null;
 //        this.gameStatements = new ArrayList<Board>();
 
     }
@@ -34,15 +38,34 @@ public class Game {
         this.selectedPiece = selectedPiece;
     }
 
+    public void setDestinationCell(gui.Cell dstCell){
+        this.destinationCell = dstCell;
+    }
+
+
+
+    public List<Movement> getPossibleMovements(){
+        List<Movement> possibleMovements = this.selectedPiece.calculatePossibleMovements();
+        this.applyRules(possibleMovements, this.selectedPiece.getColor());
+
+        return possibleMovements;
+    }
+
     public void dropSelected(){
-        this.selectedCell = null;
+        this.selectedCell.setBorder(BorderFactory.createLineBorder(java.awt.Color.black));
+        this.selectedCell.repaint();
+
         this.selectedPiece = null;
+
+        this.selectedCell = null;
+        this.destinationCell = null;
     }
 
 
     public boolean isCellSelected(){
         return this.selectedPiece != null && this.selectedCell != null;
     }
+
     public void gameState(){
 
     }
@@ -127,7 +150,7 @@ public class Game {
     }
 
     // TODO: this method could be refactored somehow :/
-    public void applyRules(List<Movement> allPossibleMovements, final Color pieceColor){
+    private void applyRules(List<Movement> allPossibleMovements, final Color pieceColor){
         /**
          * !!!---------------------WARNING----------------------!!!
          * This method is changing allPossibleMovements list parameter
@@ -299,6 +322,17 @@ public class Game {
                     break;
             }
         }
+    }
+
+    public boolean isPossibleDestination(int srcX, int srcY){
+
+
+        for (Movement movement : this.getPossibleMovements()){
+            if (movement.get_x() == srcX && movement.get_y() == srcY)
+                return true;
+        }
+
+        return false;
     }
 }
 
