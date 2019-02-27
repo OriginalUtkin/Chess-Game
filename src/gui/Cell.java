@@ -6,11 +6,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Cell extends JPanel {
-    private int x, y, row, column;
+
+    // Cells coordinates on graphical game board
+    private int x;
+    private int y;
+
+    // Cells coordinated on backend
+    private int row;
+    private int column;
+
     private Color color;
-    public Cell square;
-    BufferedImage myImage;
-    public boolean is_pressed = false;
+    private BufferedImage pieceImage;
+
     String abbreviation ;
 
     Cell(int row, int column, int x, int y, Color color, String abbreviation) {
@@ -19,11 +26,11 @@ public class Cell extends JPanel {
         this.x = x;
         this.y = y;
         this.color = color;
-        this.square = this;
 
         this.abbreviation = abbreviation;
+
         try {
-            myImage = ImageIO.read(getClass().getResource("/gui/img/"+this.abbreviation+".png"));
+            pieceImage = ImageIO.read(getClass().getResource("/gui/img/"+this.abbreviation+".png"));
         }catch (Exception ex) {/* cell is empty */}
     }
 
@@ -32,8 +39,9 @@ public class Cell extends JPanel {
         super.paintComponent(g);
         g.setColor(color);
         g.fillRect(x-8, y-8, 75, 75);
+
         if (this.abbreviation != ""){
-            g.drawImage(myImage, x+10, y+10, this);
+            g.drawImage(pieceImage, x+10, y+10, this);
         }
 
     }

@@ -2,6 +2,9 @@ package gui;
 
 import backend.Abstracts.ChessPiece;
 import controller.Game;
+
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,15 +15,22 @@ public class Tab extends JPanel {
     private String tabName;
     private Cell[][] squares;
     private Game game;
+    private List<Cell> selectedCell;
 
     public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
         if (Tab.countOfTabs <= 5){
+
+            // initialise Tab variables
             this.tabName = tab_name;
             this.squares =  new Cell[8][8];
             this.game = new Game(true);
+            this.selectedCell = new ArrayList<>();
+
+            // initialise graphical part of tab
             JComponent panel = makeBoardPanel();
             tabbedPane.addTab(tab_name, panel);
             tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+
         }else{
             JOptionPane.showMessageDialog(frame, "Too many tabs");
         }
@@ -98,7 +108,6 @@ public class Tab extends JPanel {
                 if (tt instanceof Cell){
                     ((Cell) tt).setBorder(BorderFactory.createLineBorder(Color.green));
                     System.out.println(tt.toString());
-                    ((Cell) tt).is_pressed = true;
                     tt.repaint();
                     ChessPiece cellPiece = game.getBoardPiece(((Cell) tt).getRow(), ((Cell) tt).getColumn());
                     System.out.println(cellPiece);
