@@ -1,6 +1,7 @@
 package gui;
 
 import backend.Abstracts.ChessPiece;
+import backend.Figures.Movement;
 import controller.Game;
 
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ public class Tab extends JPanel {
     private String tabName;
     private Cell[][] squares;
     private Game game;
-    private List<Cell> selectedCell;
 
     public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
         if (Tab.countOfTabs <= 5){
@@ -57,7 +57,6 @@ public class Tab extends JPanel {
 
         /*Initialize chessBoard for this Tab*/
         this.initializeBoardCells(chessBoard);
-        this.selectedCell = new ArrayList<>();
 
         /*Logo image*/
         ImageIcon logoIcon = new ImageIcon(this.getClass().getResource("img/logo.png"));
@@ -98,20 +97,38 @@ public class Tab extends JPanel {
 
         panelBoard.add(chessBoard);
         panelBoard.add(rightPanel);
-
         chessBoard.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                Component tt = chessBoard.findComponentAt(e.getX(),e.getY());
+                Component selectedCell = chessBoard.findComponentAt(e.getX(),e.getY());
 
-                if (tt instanceof Cell){
+                if (selectedCell instanceof Cell){
+                    if (!game.isCellSelected() && game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn()) != null){
+                        /*
+                         * Just a one cell is selected on the game board. That means that we wanna calculate all
+                         * possible movements for chess piece in that cell and show them on the game board table.
+                         *
+                         * GUI interaction:
+                         * 1) Change border color to other color
+                         * 2) Change color of cells in possibleMovements list
+                         *
+                         * Backend interaction:
+                         * 1) Get all possible movements
+                         * 2) Apply chess rules to all this rules
+                         */
 
-                    ((Cell) tt).setBorder(BorderFactory.createLineBorder(Color.green));
-                    System.out.println(tt.toString());
-                    tt.repaint();
-                    ChessPiece cellPiece = game.getBoardPiece(((Cell) tt).getRow(), ((Cell) tt).getColumn());
-                    System.out.println(cellPiece);
+                        ((Cell) selectedCell).setBorder(BorderFactory.createLineBorder(Color.green));
+                        selectedCell.repaint();
+
+                        ChessPiece selectedPiece = game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn());
+                        game.setSelectedPiece(selectedPiece);
+                        List<Movement> possibleMovements = game.getSelectedPieceMovements();
+
+                        System.out.println(selectedCell.toString());
+                        System.out.println(selectedPiece);
+                    }
+
 
 //                    Tab.boards.get(((Cell) tt).tabNum)[0][0].setBorder(BorderFactory.createLineBorder(Color.yellow));
 //                    Tab.boards.get(((Cell) tt).tabNum)[0][0].repaint();

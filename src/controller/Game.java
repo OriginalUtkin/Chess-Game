@@ -7,21 +7,41 @@ import backend.Enums.Direction;
 import backend.Figures.Movement;
 import backend.Board.Cell;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class Game {
 
     private Board gameBoard;
+    private ChessPiece selectedPiece;
+
 
 //    List<Board> gameStatements;
 
     public Game(boolean initFlag){
         this.gameBoard = new Board(initFlag);
+        this.selectedPiece = null;
+
 //        this.gameStatements = new ArrayList<Board>();
 
     }
 
+    public void setSelectedPiece(ChessPiece selectedPiece){
+        this.selectedPiece = selectedPiece;
+    }
+
+    public List<Movement> getSelectedPieceMovements(){
+        List<Movement> possibleMovements = this.selectedPiece.calculatePossibleMovements();
+        this.applyRules(possibleMovements, this.selectedPiece.getColor());
+
+        return possibleMovements;
+    }
+
+
+    public boolean isCellSelected(){
+        return this.selectedPiece != null;
+    }
     public void gameState(){
 
     }
@@ -106,7 +126,7 @@ public class Game {
     }
 
     // TODO: this method could be refactored somehow :/
-    public void applyRules(List<Movement> allPossibleMovements, final ChessPiece boardPiece){
+    public void applyRules(List<Movement> allPossibleMovements, final Color pieceColor){
         /**
          * !!!---------------------WARNING----------------------!!!
          * This method is changing allPossibleMovements list parameter
@@ -145,11 +165,11 @@ public class Game {
                 case VERTICAL_UP:
                     if (!verticalTop) {
 
-                        if (!this.isPossibleMovement(currentMovement, boardPiece.getColor())) {
+                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                             verticalTop = true;
                             movementIterator.remove();
                         } else {
-                            if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            if (this.beatEnemy(currentMovement, pieceColor))
                                 verticalTop = true;
                         }
                     } else {
@@ -161,11 +181,11 @@ public class Game {
                 case VERTICAL_DOWN:
                     if (!verticalDown) {
 
-                        if (!this.isPossibleMovement(currentMovement, boardPiece.getColor())) {
+                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                             verticalDown = true;
                             movementIterator.remove();
                         }else {
-                            if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            if (this.beatEnemy(currentMovement, pieceColor))
                                 verticalDown = true;
                         }
 
@@ -178,11 +198,11 @@ public class Game {
                 case HORIZONTAL_RIGHT:
                     if (!horizontalRight) {
 
-                        if (!this.isPossibleMovement(currentMovement, boardPiece.getColor())) {
+                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                             horizontalRight = true;
                             movementIterator.remove();
                         }else {
-                            if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            if (this.beatEnemy(currentMovement, pieceColor))
                                 horizontalRight = true;
                         }
 
@@ -195,11 +215,11 @@ public class Game {
                 case HORIZONTAL_LEFT:
                     if (!horizontalLeft) {
 
-                        if (!this.isPossibleMovement(currentMovement, boardPiece.getColor())) {
+                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                             horizontalLeft = true;
                             movementIterator.remove();
                         }else {
-                            if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            if (this.beatEnemy(currentMovement, pieceColor))
                                 horizontalLeft = true;
                         }
 
@@ -212,11 +232,11 @@ public class Game {
                 case DIAGONAL_UP_LEFT:
                     if (!diagonalTopLeft) {
 
-                        if (!this.isPossibleMovement(currentMovement, boardPiece.getColor())) {
+                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                             diagonalTopLeft = true;
                             movementIterator.remove();
                         }else {
-                            if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            if (this.beatEnemy(currentMovement, pieceColor))
                                 diagonalTopLeft = true;
                         }
 
@@ -229,11 +249,11 @@ public class Game {
                 case DIAGONAL_DOWN_RIGHT:
                     if (!diagonalDownRight) {
 
-                        if (!this.isPossibleMovement(currentMovement, boardPiece.getColor())) {
+                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                             diagonalDownRight = true;
                             movementIterator.remove();
                         }else {
-                            if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            if (this.beatEnemy(currentMovement, pieceColor))
                                 diagonalDownRight = true;
                         }
 
@@ -246,11 +266,11 @@ public class Game {
                 case DIAGONAL_DOWN_LEFT:
                     if (!diagonalDownLeft) {
 
-                        if (!this.isPossibleMovement(currentMovement, boardPiece.getColor())) {
+                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                             diagonalDownLeft = true;
                             movementIterator.remove();
                         }else {
-                            if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            if (this.beatEnemy(currentMovement, pieceColor))
                                 diagonalDownLeft = true;
                         }
 
@@ -263,11 +283,11 @@ public class Game {
                 case DIAGONAL_UP_RIGHT:
                     if (!diagonalTopRight) {
 
-                        if (!this.isPossibleMovement(currentMovement, boardPiece.getColor())) {
+                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                             diagonalTopRight = true;
                             movementIterator.remove();
                         }else {
-                            if (this.beatEnemy(currentMovement, boardPiece.getColor()))
+                            if (this.beatEnemy(currentMovement, pieceColor))
                                 diagonalTopRight = true;
                         }
 
