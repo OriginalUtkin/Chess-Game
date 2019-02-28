@@ -48,8 +48,16 @@ public class Game {
     }
 
     public List<Movement> getPossibleMovements(){
-        List<Movement> possibleMovements = this.selectedPiece.calculatePossibleMovements();
-        this.applyRules(possibleMovements, this.selectedPiece.getColor());
+
+        List<Movement> possibleMovements;
+
+        if (this.selectedPiece != null) {
+           possibleMovements  = this.selectedPiece.calculatePossibleMovements();
+            this.applyRules(possibleMovements, this.selectedPiece.getColor());
+        }
+        else{
+            possibleMovements = new ArrayList<>();
+        }
 
         return possibleMovements;
     }

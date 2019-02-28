@@ -1,7 +1,9 @@
 package gui;
 
 import backend.Abstracts.ChessPiece;
+import backend.Figures.King;
 import backend.Figures.Movement;
+import backend.Figures.Queen;
 import controller.Game;
 
 import java.util.ArrayList;
@@ -23,7 +25,9 @@ public class Tab extends JPanel {
             // initialise Tab variables
             this.tabName = tab_name;
             this.squares =  new Cell[8][8];
-            this.game = new Game(true);
+            this.game = new Game(false);
+            game.setPiece(new King(backend.Enums.Color.BLACK), 2,3);
+            game.setPiece(new Queen(backend.Enums.Color.BLACK), 2,2 );
 
             // initialise graphical part of tab
             JComponent panel = makeBoardPanel();
@@ -122,14 +126,15 @@ public class Tab extends JPanel {
                          * GUI
                          * */
                         System.out.println("Destination cell is " + selectedCell.toString());
-
-                        List<Movement> possibleMovements = game.getPossibleMovements();
                         game.setDestinationCell(((Cell) selectedCell));
+                        List<Movement> possibleMovements = game.getPossibleMovements();
 
-                        if (possibleMovements.size() == 0 || game.isPossibleDestination(((Cell) selectedCell).getRow(),((Cell) selectedCell).getColumn())){
+                        if (possibleMovements.size() == 0 || !game.isPossibleDestination(((Cell) selectedCell).getRow(),((Cell) selectedCell).getColumn())){
                             game.dropSelected();
+                            game.setDestinationCell(null);
                         }else{
                             // Move piece to destination and redraw GUI
+
                         }
                     }
 
