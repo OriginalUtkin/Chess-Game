@@ -43,6 +43,11 @@ public class Game {
         this.destinationCell.setBorder(BorderFactory.createLineBorder(java.awt.Color.green));
     }
 
+    public void dropDestinationCell(){
+        this.destinationCell.setBorder(BorderFactory.createLineBorder(java.awt.Color.black));
+        this.destinationCell = null;
+    }
+
     public void changeTurn(){
         // TODO :Add turn stuff
     }
@@ -69,7 +74,6 @@ public class Game {
         this.selectedPiece = null;
 
         this.selectedCell = null;
-        this.destinationCell = null;
     }
 
 

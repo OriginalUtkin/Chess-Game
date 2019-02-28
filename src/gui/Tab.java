@@ -131,8 +131,7 @@ public class Tab extends JPanel {
 
                         if (possibleMovements.size() == 0 || !game.isPossibleDestination(((Cell) selectedCell).getRow(),((Cell) selectedCell).getColumn())){
                             game.dropSelected();
-                            game.setDestinationCell(null);
-                        }else{
+                            game.dropDestinationCell();
                             // Move piece to destination and redraw GUI
 
                         }
