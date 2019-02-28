@@ -29,6 +29,16 @@ public class Cell extends JPanel {
 
         this.abbreviation = abbreviation;
 
+        this.setPieceImage();
+
+    }
+
+    public void setAbbreviation(String abbreviation){
+        this.abbreviation = abbreviation;
+        this.setPieceImage();
+    }
+
+    private void setPieceImage() {
         try {
             pieceImage = ImageIO.read(getClass().getResource("/gui/img/"+this.abbreviation+".png"));
         }catch (Exception ex) {/* cell is empty */}
@@ -43,7 +53,6 @@ public class Cell extends JPanel {
         if (this.abbreviation != ""){
             g.drawImage(pieceImage, x+10, y+10, this);
         }
-
     }
 
     public int getRow(){

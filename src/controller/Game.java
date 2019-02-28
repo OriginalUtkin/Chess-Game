@@ -72,7 +72,6 @@ public class Game {
         this.selectedCell.repaint();
 
         this.selectedPiece = null;
-
         this.selectedCell = null;
     }
 
@@ -342,6 +341,10 @@ public class Game {
             }
         }
     }
+
+//    public void movePiece(){
+//        this.selectedCell.a
+//    }
 
     public boolean isPossibleDestination(int srcX, int srcY){
 

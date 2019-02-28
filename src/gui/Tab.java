@@ -105,7 +105,7 @@ public class Tab extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                Component selectedCell = chessBoard.findComponentAt(e.getX(),e.getY());
+                Component selectedCell = chessBoard.findComponentAt(e.getX(), e.getY());
 
                 if (selectedCell instanceof Cell){
 
@@ -132,7 +132,10 @@ public class Tab extends JPanel {
                         if (possibleMovements.size() == 0 || !game.isPossibleDestination(((Cell) selectedCell).getRow(),((Cell) selectedCell).getColumn())){
                             game.dropSelected();
                             game.dropDestinationCell();
+                            //TODO: <<KATYA>> Set possible movements cells color to common color
+                        }else{
                             // Move piece to destination and redraw GUI
+
 
                         }
                     }
