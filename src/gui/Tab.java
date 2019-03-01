@@ -138,9 +138,9 @@ public class Tab extends JPanel {
                             // Move piece to destination and redraw GUI
                             System.out.println("Possible movement");
                             game.movePiece();
-
-
                         }
+
+                        return;
                     }
 
                     if (!game.isCellSelected() && game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn()) != null){
@@ -168,6 +168,8 @@ public class Tab extends JPanel {
 
                         System.out.println("Selected cell is " + selectedCell.toString());
                         System.out.println(selectedPiece);
+
+                        return;
                     }
 
 
