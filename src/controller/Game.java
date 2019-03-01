@@ -136,7 +136,7 @@ public class Game {
          *
          * @return ChessPiece object if chess piece is staying on selected cell; null otherwise
          */
-        
+
         return this.gameBoard.gameBoard[row][column].getPiece();
     }
 
@@ -419,5 +419,6 @@ public class Game {
         this.dropSelected();
         this.dropDestinationCell();
     }
+
 }
 

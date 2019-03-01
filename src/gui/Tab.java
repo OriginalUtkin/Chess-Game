@@ -67,19 +67,6 @@ public class Tab extends JPanel {
         rightPanel.add(label);
 
 
-        /*Restart Button*/
-        JButton restartGame = new JButton("Restart Game");
-        restartGame.setBackground(new Color(204,204,0));
-        restartGame.setFont(new Font("Verdana", Font.PLAIN, 14));
-//        restartGame.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("Restart");
-//                Tab.restartGAME(chessBoard);
-//            }
-//        });
-        rightPanel.add(restartGame);
-
         /*TextField with Movements*/
         JTextField movements = new JTextField(28);
         movements.setBackground(new Color(32,32,32));
@@ -124,7 +111,6 @@ public class Tab extends JPanel {
                          *  1) Drop all variables in game controller which were set
                          *
                          * */
-                        System.out.println("Destination cell is " + selectedCell.toString());
                         game.setDestinationCell(((Cell) selectedCell));
                         List<Movement> possibleMovements = game.getPossibleMovements();
 
@@ -174,6 +160,25 @@ public class Tab extends JPanel {
             }
         });
 
+
+        /*Restart Button*/
+        JButton restartGame = new JButton("Restart Game");
+        restartGame.setBackground(new Color(204,204,0));
+        restartGame.setFont(new Font("Verdana", Font.PLAIN, 14));
+        restartGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: test version. Doesn't work properly; add new method to controller 
+                System.out.println("Restart");
+                chessBoard.removeAll();
+                initializeBoardCells(chessBoard);
+                chessBoard.revalidate();
+                game = new Game(true);
+                chessBoard.repaint();
+            }
+        });
+        rightPanel.add(restartGame);
+
         Tab.countOfTabs += 1;
         return panelBoard;
     }
@@ -205,6 +210,7 @@ public class Tab extends JPanel {
             }
         }
     }
+
 
 //    public void restartGAME(JPanel panel){
 //        panel.removeAll();
