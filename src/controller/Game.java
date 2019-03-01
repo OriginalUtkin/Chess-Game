@@ -187,7 +187,7 @@ public class Game {
             if ((pieceColor == Color.BLACK) && (movement.getDirection() == Direction.DIAGONAL_DOWN_LEFT || movement.getDirection() == Direction.DIAGONAL_DOWN_RIGHT))
                 return !dstCell.isFree() && dstCell.getPiece().getColor() != pieceColor;
 
-            if (movement.getDirection() == Direction.VERTICAL_UP)
+            if (movement.getDirection() == Direction.VERTICAL_UP || movement.getDirection() == Direction.VERTICAL_DOWN)
                 return dstCell.isFree();
 
             return false;
