@@ -27,7 +27,7 @@ public class Tab extends JPanel {
             this.squares =  new Cell[8][8];
             this.game = new Game(false);
             game.setPiece(new King(backend.Enums.Color.BLACK), 2,3);
-            game.setPiece(new Queen(backend.Enums.Color.BLACK), 2,2 );
+            game.setPiece(new Queen(backend.Enums.Color.BLACK), 1,3);
 
             // initialise graphical part of tab
             JComponent panel = makeBoardPanel();
@@ -133,8 +133,11 @@ public class Tab extends JPanel {
                             game.dropSelected();
                             game.dropDestinationCell();
                             //TODO: <<KATYA>> Set possible movements cells color to common color
+                            System.out.println("This movement isn't possible");
                         }else{
                             // Move piece to destination and redraw GUI
+                            System.out.println("Possible movement");
+                            game.movePiece();
 
 
                         }
@@ -184,7 +187,6 @@ public class Tab extends JPanel {
         Tab.countOfTabs += 1;
         return panelBoard;
     }
-
 
     private void initializeBoardCells(JPanel panel){
 

@@ -36,6 +36,7 @@ public class Cell extends JPanel {
     public void setAbbreviation(String abbreviation){
         this.abbreviation = abbreviation;
         this.setPieceImage();
+        this.repaint();
     }
 
     private void setPieceImage() {
@@ -65,6 +66,10 @@ public class Cell extends JPanel {
 
     @Override
     public String toString(){
-        return ("Coordinates: [" + this.row + "," + this.column + "]");
+        return ("Coordinates: [" + this.row + "," + this.column + "]" + " " + this.abbreviation);
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
     }
 }

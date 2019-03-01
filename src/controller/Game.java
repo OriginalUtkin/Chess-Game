@@ -100,9 +100,9 @@ public class Game {
         return this.gameBoard.gameBoard[x][y].getPiece();
     }
 
-    public void setPiece(ChessPiece piece, int x, int y){
+    public void setPiece(ChessPiece piece, int row, int column){
         // TODO: save previous gameboard for redo / undo operation
-        this.gameBoard.gameBoard[x][y].setPiece(piece);
+        this.gameBoard.gameBoard[row][column].setPiece(piece);
     }
 
     private boolean isPossibleMovement(Movement movement, final Color pieceColor){
@@ -355,6 +355,18 @@ public class Game {
         }
 
         return false;
+    }
+
+    public void movePiece(){
+        // TODO : change void -> Turn, object which contains info about turn. and push made turn to some list in game object
+        this.destinationCell.setAbbreviation(this.selectedCell.getAbbreviation());
+        this.selectedCell.setAbbreviation("");
+
+        this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());
+        this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
+
+        this.dropSelected();
+        this.dropDestinationCell();
     }
 }
 
