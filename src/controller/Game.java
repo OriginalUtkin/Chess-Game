@@ -8,7 +8,6 @@ import backend.Figures.Movement;
 import backend.Board.Cell;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,17 +37,44 @@ public class Game {
     }
 
     public void setSelected(gui.Cell selectedCell, ChessPiece selectedPiece){
+        /**
+         * Set selectedCell and selectedPiece variables to particular values (Set selection of src cell).
+         *
+         * @param selectedCell is a cell from gui which was selected
+         * @param selectedPiece chess piece which is staying on selected cell
+         */
+
         this.selectedCell = selectedCell;
         this.selectedPiece = selectedPiece;
     }
 
+    public void dropSelected(){
+        /**
+         * Set selectedCell and selectedPiece variables to null (Drop selection). Is used after turn is done or turn
+         * isn't even possible.
+         */
+
+        this.selectedCell.setBorder(BorderFactory.createLineBorder(java.awt.Color.black));
+        this.selectedCell.repaint();
+
+        this.selectedPiece = null;
+        this.selectedCell = null;
+    }
+
     public void setDestinationCell(gui.Cell dstCell){
+        /**
+         * Set destinationCell variable to (gui) Cell object from GUI (Set selection of dst cell).
+         */
+
         this.destinationCell = dstCell;
-        this.destinationCell.setBorder(BorderFactory.createLineBorder(java.awt.Color.green));
     }
 
     public void dropDestinationCell(){
-        this.destinationCell.setBorder(BorderFactory.createLineBorder(java.awt.Color.black));
+        /**
+         * Set destinationCell variable tu null (Drop selection). Is used after turn is done or turn
+         * isn't even possible.
+         */
+
         this.destinationCell = null;
     }
 
@@ -60,29 +86,40 @@ public class Game {
     }
 
     public List<Movement> getPossibleMovements(){
+        /**
+         * Calculate all possible movements for selected cell. Calculation method depends on object (polimorphic method).
+         *
+         * @see applyRules
+         * @see calculatePossibleMovements calculation movements method for particular chess piece
+         *
+         * @return list of all possible movements. One movement is represented by Movement object
+         */
 
         List<Movement> possibleMovements;
 
-       possibleMovements  = this.selectedPiece.calculatePossibleMovements();
-       this.applyRules(possibleMovements, this.selectedPiece.getColor());
-       
+        possibleMovements  = this.selectedPiece.calculatePossibleMovements();
+        this.applyRules(possibleMovements, this.selectedPiece.getColor());
+
         return possibleMovements;
     }
 
-    public void dropSelected(){
-        this.selectedCell.setBorder(BorderFactory.createLineBorder(java.awt.Color.black));
-        this.selectedCell.repaint();
-
-        this.selectedPiece = null;
-        this.selectedCell = null;
-    }
-
-
     public boolean isCellSelected(){
+        /**
+         * Check if any cell is selected
+         *
+         * @return true if cell is selected, false otherwise
+         */
+
         return this.selectedPiece != null && this.selectedCell != null;
     }
 
     public boolean destinationSelected(){
+        /**
+         * Check if any destination cell is selected
+         *
+         * @return true if cell is selected, false otherwise
+         */
+
         return this.destinationCell != null;
     }
 
@@ -90,20 +127,28 @@ public class Game {
 
     }
 
-    public ChessPiece getBoardPiece(final int x, final int y){
+    public ChessPiece getBoardPiece(final int row, final int column){
         /**
          * Return chess piece that is staying on cell with coordinates x and y.
          *
-         * @param int x - row coordinate; array index 0 - 7
-         * @param int y - column coordinate; array index 0 - 7
+         * @param row - row coordinate; array index 0 - 7
+         * @param column - column coordinate; array index 0 - 7
          *
          * @return ChessPiece object if chess piece is staying on selected cell; null otherwise
          */
-        return this.gameBoard.gameBoard[x][y].getPiece();
+        
+        return this.gameBoard.gameBoard[row][column].getPiece();
     }
 
     public void setPiece(ChessPiece piece, int row, int column){
-        // TODO: save previous gameboard for redo / undo operation
+        /**
+         * set chess piece object to particular position
+         *
+         * @param piece which will be set to the board
+         * @param row where piece will be set
+         * @param column where piece will be set
+         */
+
         this.gameBoard.gameBoard[row][column].setPiece(piece);
     }
 
