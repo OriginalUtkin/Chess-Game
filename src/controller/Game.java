@@ -255,6 +255,7 @@ public class Game {
         while (movementIterator.hasNext()) {
             Movement currentMovement = movementIterator.next();
 
+            // Rules for all type of pieces except Knight
             if (currentMovement.getDirection() != null){
                 switch (currentMovement.getDirection()){
 
@@ -393,6 +394,9 @@ public class Game {
                         }
                         break;
                 }
+            }else{
+                if (!this.isPossibleMovement(currentMovement, pieceColor))
+                    movementIterator.remove();
             }
         }
     }
