@@ -18,6 +18,7 @@ public class Game {
     private ChessPiece selectedPiece;
     private gui.Cell selectedCell;
     private gui.Cell destinationCell;
+    private Color currentTurn;
 
 
 //    List<Board> gameStatements;
@@ -29,6 +30,9 @@ public class Game {
 
         this.selectedCell = null;
         this.destinationCell = null;
+
+        this.currentTurn = Color.WHITE;
+
 //        this.gameStatements = new ArrayList<Board>();
 
     }
@@ -49,21 +53,19 @@ public class Game {
     }
 
     public void changeTurn(){
-        // TODO :Add turn stuff
+        if (this.currentTurn == Color.WHITE)
+            this.currentTurn = Color.BLACK;
+        else
+            this.currentTurn = Color.WHITE;
     }
 
     public List<Movement> getPossibleMovements(){
 
         List<Movement> possibleMovements;
 
-        if (this.selectedPiece != null) {
-           possibleMovements  = this.selectedPiece.calculatePossibleMovements();
-            this.applyRules(possibleMovements, this.selectedPiece.getColor());
-        }
-        else{
-            possibleMovements = new ArrayList<>();
-        }
-
+       possibleMovements  = this.selectedPiece.calculatePossibleMovements();
+       this.applyRules(possibleMovements, this.selectedPiece.getColor());
+       
         return possibleMovements;
     }
 
@@ -342,11 +344,19 @@ public class Game {
         }
     }
 
-    public boolean isPossibleDestination(int srcX, int srcY){
-
+    public boolean isPossibleDestination(int dstRow, int dstColumn){
+        /**
+         * Calculate possible movements for currently selected chess piece and check if destination cell
+         * is possible movement for selected piece
+         *
+         * @param srcX destination row coordinate
+         * @param srcY destination column coordinate
+         *
+         * @return true in case if destination cell is a possible movement and piece could be moved. False otherwise
+         */
 
         for (Movement movement : this.getPossibleMovements()){
-            if (movement.get_x() == srcX && movement.get_y() == srcY)
+            if (movement.get_x() == dstRow && movement.get_y() == dstColumn)
                 return true;
         }
 

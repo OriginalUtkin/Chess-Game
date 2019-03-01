@@ -112,17 +112,17 @@ public class Tab extends JPanel {
                         /*
                          * If source cell has already been selected, need to choose destination cell.
                          *
-                         * If destination cell in possibleMovements list:
+                         * If destination cell coordinates in possibleMovements list:
                          * BACKEND Approach:
-                         * 1) Change game board. Remove cell from source cell to destination cell
+                         * 1) Change game board. Move piece from source cell to destination cell
                          * 2) Set selected variables in game controller to null
                          *
                          * GUI approach:
                          * 1) Redraw  cells that were changed
                          *
                          * Else (destination cell not involved in Possible movements chess piece):
+                         *  1) Drop all variables in game controller which were set
                          *
-                         * GUI
                          * */
                         System.out.println("Destination cell is " + selectedCell.toString());
                         game.setDestinationCell(((Cell) selectedCell));
@@ -153,7 +153,7 @@ public class Tab extends JPanel {
                          *
                          * Backend interaction:
                          * 1) Get all possible movements
-                         * 2) Apply chess rules to all this rules
+                         * 2) Apply chess rules to all calculated movements
                          */
 
                         ((Cell) selectedCell).setBorder(BorderFactory.createLineBorder(Color.green));
