@@ -168,12 +168,12 @@ public class Tab extends JPanel {
         restartGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: test version. Doesn't work properly; add new method to controller 
+                // TODO: test version. Doesn't work properly; add new method to controller
                 System.out.println("Restart");
+                game = new Game(true);
                 chessBoard.removeAll();
                 initializeBoardCells(chessBoard);
                 chessBoard.revalidate();
-                game = new Game(true);
                 chessBoard.repaint();
             }
         });
