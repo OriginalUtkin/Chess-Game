@@ -6,7 +6,11 @@ import backend.Figures.Movement;
 import backend.Figures.Queen;
 import controller.Game;
 
+import java.io.File;
 import java.util.List;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -115,6 +119,15 @@ public class Tab extends JPanel {
                             System.out.println("This movement isn't possible");
                         }else{
                             // Move piece to destination and redraw GUI
+                            try {
+                                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/gui/sound/sound.wav").getAbsoluteFile());
+                                Clip clip = AudioSystem.getClip();
+                                clip.open(audioInputStream);
+                                clip.start();
+                            } catch(Exception ex) {
+                                System.out.println("Error with playing sound.");
+                                ex.printStackTrace();
+                            }
                             System.out.println("Possible movement");
                             game.movePiece();
                         }
