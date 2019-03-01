@@ -180,11 +180,17 @@ public class Game {
 
         if (movement.getAdditionalCheck()) {
 
-            if (movement.getDirection() == Direction.DIAGONAL_UP_LEFT || movement.getDirection() == Direction.DIAGONAL_UP_RIGHT)
+            if ((pieceColor == Color.WHITE) && (movement.getDirection() == Direction.DIAGONAL_UP_LEFT || movement.getDirection() == Direction.DIAGONAL_UP_RIGHT))
+                return !dstCell.isFree() && dstCell.getPiece().getColor() != pieceColor;
+
+
+            if ((pieceColor == Color.BLACK) && (movement.getDirection() == Direction.DIAGONAL_DOWN_LEFT || movement.getDirection() == Direction.DIAGONAL_DOWN_RIGHT))
                 return !dstCell.isFree() && dstCell.getPiece().getColor() != pieceColor;
 
             if (movement.getDirection() == Direction.VERTICAL_UP)
                 return dstCell.isFree();
+
+            return false;
         }
 
         return dstCell.isFree() || dstCell.getPiece().getColor() != pieceColor;
