@@ -106,7 +106,7 @@ public class Tab extends JPanel {
                         if (possibleMovements.size() == 0 || !game.isPossibleDestination(((Cell) selectedCell).getRow(),((Cell) selectedCell).getColumn())){
                             game.dropSelected();
                             game.dropDestinationCell();
-                            //TODO: <<KATYA>> Set possible movements cells color to common color
+                            setCellsColor(possibleMovements, Color.black);
                             System.out.println("This movement isn't possible");
                         }else{
                             // Move piece to destination and redraw GUI
@@ -146,8 +146,7 @@ public class Tab extends JPanel {
 
                         ChessPiece selectedPiece = game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn());
                         game.setSelected((Cell)selectedCell, selectedPiece);
-
-                        //TODO <KATYA>: Change color for possible movements cells on GUI
+                        
                         List<Movement> possibleMovements = game.getPossibleMovements();
                         setCellsColor(possibleMovements, Color.green);
 
