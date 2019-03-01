@@ -67,11 +67,7 @@ public class Tab extends JPanel {
         rightPanel.add(label);
 
 
-        /*TextField with Movements*/
-        JTextField movements = new JTextField(28);
-        movements.setBackground(new Color(32,32,32));
-        movements.setPreferredSize(new Dimension(330,300));
-        rightPanel.add(movements);
+
 
         /*Indent*/
         JPanel emptyPanel = new JPanel();
@@ -172,6 +168,12 @@ public class Tab extends JPanel {
             }
         });
         rightPanel.add(restartGame);
+
+        /*TextField with Movements*/
+        JTextField movements = new JTextField(28);
+        movements.setBackground(new Color(32,32,32));
+        movements.setPreferredSize(new Dimension(330,300));
+        rightPanel.add(movements);
 
         /*Buttons*/
         RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName);
