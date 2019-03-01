@@ -29,7 +29,7 @@ public class Tab extends JPanel {
             this.game = new Game(false);
 
 //            game.setPiece(new King(backend.Enums.Color.WHITE), 2,3);
-            game.setPiece(new Pawn(backend.Enums.Color.BLACK), 3,3);
+            game.setPiece(new Pawn(backend.Enums.Color.BLACK), 6,3);
 
 //            game.setPiece(new Queen(backend.Enums.Color.BLACK), 1,3);
 

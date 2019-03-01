@@ -20,6 +20,7 @@ public class Game {
     private gui.Cell destinationCell;
     private Color currentTurn;
     private List<Turn> gameTurns;
+    private int turnNumber;
 
 
 //    List<Board> gameStatements;
@@ -32,6 +33,7 @@ public class Game {
         this.selectedCell = null;
         this.destinationCell = null;
 
+        this.turnNumber = 1;
         this.gameTurns = new ArrayList<>();
 
         this.currentTurn = Color.WHITE;
@@ -433,6 +435,8 @@ public class Game {
 
         this.dropSelected();
         this.dropDestinationCell();
+
+        this.turnNumber += 1;
     }
 
 }
