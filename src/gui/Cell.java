@@ -26,9 +26,7 @@ public class Cell extends JPanel {
         this.x = x;
         this.y = y;
         this.color = color;
-
         this.abbreviation = abbreviation;
-
         this.setPieceImage();
 
     }
