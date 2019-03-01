@@ -106,7 +106,7 @@ public class Tab extends JPanel {
                         if (possibleMovements.size() == 0 || !game.isPossibleDestination(((Cell) selectedCell).getRow(),((Cell) selectedCell).getColumn())){
                             game.dropSelected();
                             game.dropDestinationCell();
-                            setCellsColor(possibleMovements, Color.black);
+                            setCellsColor(possibleMovements, Color.black, 1);
                             System.out.println("This movement isn't possible");
                         }else{
                             // Move piece to destination and redraw GUI
@@ -119,7 +119,7 @@ public class Tab extends JPanel {
                                 System.out.println("Error with playing sound.");
                                 ex.printStackTrace();
                             }
-                            setCellsColor(possibleMovements, Color.black);
+                            setCellsColor(possibleMovements, Color.black,1);
                             System.out.println("Possible movement");
                             game.movePiece();
                         }
@@ -148,7 +148,7 @@ public class Tab extends JPanel {
                         game.setSelected((Cell)selectedCell, selectedPiece);
                         
                         List<Movement> possibleMovements = game.getPossibleMovements();
-                        setCellsColor(possibleMovements, Color.green);
+                        setCellsColor(possibleMovements, Color.green, 2);
 
                         System.out.println("Selected cell is " + selectedCell.toString());
                         System.out.println(selectedPiece);
@@ -193,12 +193,11 @@ public class Tab extends JPanel {
         return panelBoard;
     }
 
-    private void setCellsColor(List<Movement> possibleMovements, Color color){
+    private void setCellsColor(List<Movement> possibleMovements, Color color, int thickness){
         for (int i = 0; i < possibleMovements.size(); i++){
             Movement destMovement = possibleMovements.get(i);
-            System.out.println("Row " + destMovement.getRow() + " Column " + destMovement.getColumn());
             Cell pomCell = squares[destMovement.getRow()][destMovement.getColumn()];
-            pomCell.setBorder(BorderFactory.createLineBorder(color));
+            pomCell.setBorder(BorderFactory.createLineBorder(color,thickness));
         }
     }
 
