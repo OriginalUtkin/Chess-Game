@@ -86,7 +86,6 @@ public class Tab extends JPanel {
         panelBoard.add(chessBoard);
         panelBoard.add(rightPanel);
         chessBoard.addMouseListener(new MouseAdapter() {
-
             @Override
             public void mouseClicked(MouseEvent e) {
                 Component selectedCell = chessBoard.findComponentAt(e.getX(), e.getY());
@@ -128,6 +127,7 @@ public class Tab extends JPanel {
                                 System.out.println("Error with playing sound.");
                                 ex.printStackTrace();
                             }
+                            setCellsColor(possibleMovements, Color.black);
                             System.out.println("Possible movement");
                             game.movePiece();
                         }
@@ -149,7 +149,7 @@ public class Tab extends JPanel {
                          * 2) Apply chess rules to all calculated movements
                          */
 
-                        ((Cell) selectedCell).setBorder(BorderFactory.createLineBorder(Color.green));
+                        ((Cell) selectedCell).setBorder(BorderFactory.createLineBorder(Color.red));
                         selectedCell.repaint();
 
                         ChessPiece selectedPiece = game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn());
@@ -157,6 +157,7 @@ public class Tab extends JPanel {
 
                         //TODO <KATYA>: Change color for possible movements cells on GUI
                         List<Movement> possibleMovements = game.getPossibleMovements();
+                        setCellsColor(possibleMovements, Color.green);
 
                         System.out.println("Selected cell is " + selectedCell.toString());
                         System.out.println(selectedPiece);
@@ -195,6 +196,15 @@ public class Tab extends JPanel {
         return panelBoard;
     }
 
+    private void setCellsColor(List<Movement> possibleMovements, Color color){
+        for (int i = 0; i < possibleMovements.size(); i++){
+            Movement destMovement = possibleMovements.get(i);
+            System.out.println("Row " + destMovement.getRow() + " Column " + destMovement.getColumn());
+            Cell pomCell = squares[destMovement.getRow()][destMovement.getColumn()];
+            pomCell.setBorder(BorderFactory.createLineBorder(color));
+        }
+    }
+
     private void initializeBoardCells(JPanel panel){
 
         for (int i = 7; i >= 0; i--) {
@@ -222,12 +232,4 @@ public class Tab extends JPanel {
             }
         }
     }
-
-
-//    public void restartGAME(JPanel panel){
-//        panel.removeAll();
-//        this.initializeGUI(panel);
-//        panel.revalidate();
-//        panel.repaint();
-//    }
 }
