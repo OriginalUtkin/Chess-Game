@@ -8,6 +8,7 @@ import backend.Figures.Movement;
 import backend.Board.Cell;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class Game {
     private gui.Cell selectedCell;
     private gui.Cell destinationCell;
     private Color currentTurn;
+    private List<Turn> gameTurns;
 
 
 //    List<Board> gameStatements;
@@ -29,6 +31,8 @@ public class Game {
 
         this.selectedCell = null;
         this.destinationCell = null;
+
+        this.gameTurns = new ArrayList<>();
 
         this.currentTurn = Color.WHITE;
 
@@ -123,10 +127,6 @@ public class Game {
         return this.destinationCell != null;
     }
 
-    public void gameState(){
-
-    }
-
     public ChessPiece getBoardPiece(final int row, final int column){
         /**
          * Return chess piece that is staying on cell with coordinates x and y.
@@ -176,7 +176,7 @@ public class Game {
          * @return true if chess piece movement is possible, false otherwise
          */
 
-        final Cell dstCell = this.gameBoard.gameBoard[movement.get_x()][movement.get_y()];
+        final Cell dstCell = this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()];
 
         if (movement.getAdditionalCheck()) {
 
@@ -200,7 +200,7 @@ public class Game {
          * @return true is enemy piece was beaten, else otherwise
          */
 
-        final Cell dstCell = this.gameBoard.gameBoard[movement.get_x()][movement.get_y()];
+        final Cell dstCell = this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()];
 
         if (dstCell.isFree())
             return false;
@@ -401,7 +401,7 @@ public class Game {
          */
 
         for (Movement movement : this.getPossibleMovements()){
-            if (movement.get_x() == dstRow && movement.get_y() == dstColumn)
+            if (movement.getRow() == dstRow && movement.getColumn() == dstColumn)
                 return true;
         }
 

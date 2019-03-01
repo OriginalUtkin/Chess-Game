@@ -1,17 +1,20 @@
 package controller;
 
 import backend.Abstracts.ChessPiece;
+import backend.Enums.Color;
 
 public class Turn {
 
-    private int sourceRow;
-    private int sourceColumn;
+    final private int sourceRow;
+    final private int sourceColumn;
 
-    private int destinationRow;
-    private int destinationColumn;
+    final private int destinationRow;
+    final private int destinationColumn;
 
-    private ChessPiece movedPiece;
-    private ChessPiece beatenPeace;
+    final private ChessPiece movedPiece;
+    final private ChessPiece beatenPeace;
+
+    final private Color playerColor;
 
     public Turn(
             int sourceRow,
@@ -27,6 +30,8 @@ public class Turn {
         this.destinationColumn = destinationColumn;
         this.movedPiece = movedPiece;
         this.beatenPeace = beatenPeace;
+
+        this.playerColor = movedPiece.getColor();
     }
 
     public ChessPiece getBeatenPeace() {
@@ -51,6 +56,10 @@ public class Turn {
 
     public int getSourceRow() {
         return sourceRow;
+    }
+
+    public Color getPlayerColor(){
+        return this.playerColor;
     }
 
     @Override

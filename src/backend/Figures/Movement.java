@@ -8,8 +8,8 @@ import backend.Enums.Direction;
  */
 
 public class Movement {
-    final private int x;
-    final private int y;
+    final private int destinationRow;
+    final private int destinationColumn;
     final private boolean additionalFlag;
     final private Direction direction;
 
@@ -21,8 +21,8 @@ public class Movement {
          * @param y_position dst column value
          * @param additionalFlag value of additional flag
          */
-        this.x = x_position;
-        this.y = y_position;
+        this.destinationRow = x_position;
+        this.destinationColumn = y_position;
 
         this.additionalFlag = additionalFlag;
         this.direction = direction;
@@ -36,10 +36,10 @@ public class Movement {
         return this.additionalFlag;
     }
 
-    public int get_x(){
-        return this.x;
+    public int getRow(){
+        return this.destinationRow;
     }
-    public int get_y(){
-        return this.y;
+    public int getColumn(){
+        return this.destinationColumn;
     }
 }
