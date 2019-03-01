@@ -20,8 +20,10 @@ abstract public class ChessPiece implements Serializable {
 
     final protected char abbreviation;
 
+
     final protected int value;
 
+    protected boolean startedPosition;
     protected int currentRow;
     protected int currentColumn;
 
@@ -30,6 +32,16 @@ abstract public class ChessPiece implements Serializable {
         this.color = color;
         this.abbreviation = abbreviation;
         this.value = value;
+        this.startedPosition = true;
+    }
+
+    public void changeStartedPosition(){
+        this.startedPosition = !this.startedPosition;
+    }
+
+
+    final public boolean getStartedPosition(){
+        return this.startedPosition;
     }
 
 
@@ -45,7 +57,6 @@ abstract public class ChessPiece implements Serializable {
     final public void setColumn(int y){
         this.currentColumn = y;
     }
-
 
     final public String getAbbreviation(){return this.color.toString() + this.abbreviation;}
 

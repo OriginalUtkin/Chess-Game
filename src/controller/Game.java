@@ -422,6 +422,9 @@ public class Game {
 
     public void movePiece(){
         // TODO : change void -> Turn, object which contains info about turn. and push made turn to some list in game object
+        if (this.selectedPiece.getStartedPosition())
+            this.selectedPiece.changeStartedPosition();
+        
         this.destinationCell.setAbbreviation(this.selectedCell.getAbbreviation());
         this.selectedCell.setAbbreviation("");
 
