@@ -2,6 +2,7 @@ package gui;
 
 import backend.Abstracts.ChessPiece;
 import backend.Figures.King;
+import backend.Figures.Knight;
 import backend.Figures.Movement;
 import backend.Figures.Queen;
 import controller.Game;
@@ -29,7 +30,7 @@ public class Tab extends JPanel {
             this.tabName = tab_name;
             this.squares =  new Cell[8][8];
             this.game = new Game(false);
-            game.setPiece(new King(backend.Enums.Color.BLACK), 2,3);
+            game.setPiece(new Knight(backend.Enums.Color.BLACK), 2,3);
             game.setPiece(new Queen(backend.Enums.Color.BLACK), 1,3);
 
             // initialise graphical part of tab
@@ -224,12 +225,4 @@ public class Tab extends JPanel {
             }
         }
     }
-
-
-//    public void restartGAME(JPanel panel){
-//        panel.removeAll();
-//        this.initializeGUI(panel);
-//        panel.revalidate();
-//        panel.repaint();
-//    }
 }

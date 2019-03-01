@@ -249,142 +249,146 @@ public class Game {
         while (movementIterator.hasNext()) {
             Movement currentMovement = movementIterator.next();
 
-            switch (currentMovement.getDirection()){
+            if (currentMovement.getDirection() != null){
+                switch (currentMovement.getDirection()){
 
-                case VERTICAL_UP:
-                    if (!verticalTop) {
 
-                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
-                            verticalTop = true;
-                            movementIterator.remove();
-                        } else {
-                            if (this.beatEnemy(currentMovement, pieceColor))
+
+                    case VERTICAL_UP:
+                        if (!verticalTop) {
+
+                            if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                                 verticalTop = true;
+                                movementIterator.remove();
+                            } else {
+                                if (this.beatEnemy(currentMovement, pieceColor))
+                                    verticalTop = true;
+                            }
+                        } else {
+                            if (verticalTop)
+                                movementIterator.remove();
                         }
-                    } else {
-                        if (verticalTop)
-                            movementIterator.remove();
-                    }
-                    break;
+                        break;
 
-                case VERTICAL_DOWN:
-                    if (!verticalDown) {
+                    case VERTICAL_DOWN:
+                        if (!verticalDown) {
 
-                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
-                            verticalDown = true;
-                            movementIterator.remove();
-                        }else {
-                            if (this.beatEnemy(currentMovement, pieceColor))
+                            if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                                 verticalDown = true;
+                                movementIterator.remove();
+                            }else {
+                                if (this.beatEnemy(currentMovement, pieceColor))
+                                    verticalDown = true;
+                            }
+
+                        } else {
+                            if (verticalDown)
+                                movementIterator.remove();
                         }
+                        break;
 
-                    } else {
-                        if (verticalDown)
-                            movementIterator.remove();
-                    }
-                    break;
+                    case HORIZONTAL_RIGHT:
+                        if (!horizontalRight) {
 
-                case HORIZONTAL_RIGHT:
-                    if (!horizontalRight) {
-
-                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
-                            horizontalRight = true;
-                            movementIterator.remove();
-                        }else {
-                            if (this.beatEnemy(currentMovement, pieceColor))
+                            if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                                 horizontalRight = true;
+                                movementIterator.remove();
+                            }else {
+                                if (this.beatEnemy(currentMovement, pieceColor))
+                                    horizontalRight = true;
+                            }
+
+                        } else {
+                            if (horizontalRight)
+                                movementIterator.remove();
                         }
+                        break;
 
-                    } else {
-                        if (horizontalRight)
-                            movementIterator.remove();
-                    }
-                    break;
+                    case HORIZONTAL_LEFT:
+                        if (!horizontalLeft) {
 
-                case HORIZONTAL_LEFT:
-                    if (!horizontalLeft) {
-
-                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
-                            horizontalLeft = true;
-                            movementIterator.remove();
-                        }else {
-                            if (this.beatEnemy(currentMovement, pieceColor))
+                            if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                                 horizontalLeft = true;
+                                movementIterator.remove();
+                            }else {
+                                if (this.beatEnemy(currentMovement, pieceColor))
+                                    horizontalLeft = true;
+                            }
+
+                        } else {
+                            if (horizontalLeft)
+                                movementIterator.remove();
                         }
+                        break;
 
-                    } else {
-                        if (horizontalLeft)
-                            movementIterator.remove();
-                    }
-                    break;
+                    case DIAGONAL_UP_LEFT:
+                        if (!diagonalTopLeft) {
 
-                case DIAGONAL_UP_LEFT:
-                    if (!diagonalTopLeft) {
-
-                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
-                            diagonalTopLeft = true;
-                            movementIterator.remove();
-                        }else {
-                            if (this.beatEnemy(currentMovement, pieceColor))
+                            if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                                 diagonalTopLeft = true;
+                                movementIterator.remove();
+                            }else {
+                                if (this.beatEnemy(currentMovement, pieceColor))
+                                    diagonalTopLeft = true;
+                            }
+
+                        } else {
+                            if (diagonalTopLeft)
+                                movementIterator.remove();
                         }
+                        break;
 
-                    } else {
-                        if (diagonalTopLeft)
-                            movementIterator.remove();
-                    }
-                    break;
+                    case DIAGONAL_DOWN_RIGHT:
+                        if (!diagonalDownRight) {
 
-                case DIAGONAL_DOWN_RIGHT:
-                    if (!diagonalDownRight) {
-
-                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
-                            diagonalDownRight = true;
-                            movementIterator.remove();
-                        }else {
-                            if (this.beatEnemy(currentMovement, pieceColor))
+                            if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                                 diagonalDownRight = true;
+                                movementIterator.remove();
+                            }else {
+                                if (this.beatEnemy(currentMovement, pieceColor))
+                                    diagonalDownRight = true;
+                            }
+
+                        } else {
+                            if (diagonalDownRight)
+                                movementIterator.remove();
                         }
+                        break;
 
-                    } else {
-                        if (diagonalDownRight)
-                            movementIterator.remove();
-                    }
-                    break;
+                    case DIAGONAL_DOWN_LEFT:
+                        if (!diagonalDownLeft) {
 
-                case DIAGONAL_DOWN_LEFT:
-                    if (!diagonalDownLeft) {
-
-                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
-                            diagonalDownLeft = true;
-                            movementIterator.remove();
-                        }else {
-                            if (this.beatEnemy(currentMovement, pieceColor))
+                            if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                                 diagonalDownLeft = true;
+                                movementIterator.remove();
+                            }else {
+                                if (this.beatEnemy(currentMovement, pieceColor))
+                                    diagonalDownLeft = true;
+                            }
+
+                        } else {
+                            if (diagonalDownLeft)
+                                movementIterator.remove();
                         }
+                        break;
 
-                    } else {
-                        if (diagonalDownLeft)
-                            movementIterator.remove();
-                    }
-                    break;
+                    case DIAGONAL_UP_RIGHT:
+                        if (!diagonalTopRight) {
 
-                case DIAGONAL_UP_RIGHT:
-                    if (!diagonalTopRight) {
-
-                        if (!this.isPossibleMovement(currentMovement, pieceColor)) {
-                            diagonalTopRight = true;
-                            movementIterator.remove();
-                        }else {
-                            if (this.beatEnemy(currentMovement, pieceColor))
+                            if (!this.isPossibleMovement(currentMovement, pieceColor)) {
                                 diagonalTopRight = true;
-                        }
+                                movementIterator.remove();
+                            }else {
+                                if (this.beatEnemy(currentMovement, pieceColor))
+                                    diagonalTopRight = true;
+                            }
 
-                    } else {
-                        if (diagonalTopRight)
-                            movementIterator.remove();
-                    }
-                    break;
+                        } else {
+                            if (diagonalTopRight)
+                                movementIterator.remove();
+                        }
+                        break;
+                }
             }
         }
     }
