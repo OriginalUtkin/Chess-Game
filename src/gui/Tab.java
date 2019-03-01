@@ -79,12 +79,6 @@ public class Tab extends JPanel {
         emptyPanel.setBackground(Color.DARK_GRAY);
         rightPanel.add(emptyPanel);
 
-        /*Buttons*/
-        RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName);
-        new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName);
-        new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName);
-
-
         panelBoard.add(chessBoard);
         panelBoard.add(rightPanel);
         chessBoard.addMouseListener(new MouseAdapter() {
@@ -178,6 +172,11 @@ public class Tab extends JPanel {
             }
         });
         rightPanel.add(restartGame);
+
+        /*Buttons*/
+        RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName);
+        new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName);
+        new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName);
 
         Tab.countOfTabs += 1;
         return panelBoard;
