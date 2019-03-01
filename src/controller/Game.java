@@ -252,8 +252,6 @@ public class Game {
             if (currentMovement.getDirection() != null){
                 switch (currentMovement.getDirection()){
 
-
-
                     case VERTICAL_UP:
                         if (!verticalTop) {
 

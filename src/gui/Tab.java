@@ -1,10 +1,7 @@
 package gui;
 
 import backend.Abstracts.ChessPiece;
-import backend.Figures.King;
-import backend.Figures.Knight;
-import backend.Figures.Movement;
-import backend.Figures.Queen;
+import backend.Figures.*;
 import controller.Game;
 
 import java.io.File;
@@ -17,7 +14,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Tab extends JPanel {
-    public static int countOfTabs = 0;
+    private static int countOfTabs = 0;
 
     private String tabName;
     private Cell[][] squares;
@@ -30,8 +27,9 @@ public class Tab extends JPanel {
             this.tabName = tab_name;
             this.squares =  new Cell[8][8];
             this.game = new Game(false);
-            game.setPiece(new Knight(backend.Enums.Color.BLACK), 2,3);
-            game.setPiece(new Queen(backend.Enums.Color.BLACK), 1,3);
+
+            game.setPiece(new Pawn(backend.Enums.Color.BLACK), 2,3);
+//            game.setPiece(new Queen(backend.Enums.Color.BLACK), 1,3);
 
             // initialise graphical part of tab
             JComponent panel = makeBoardPanel();
@@ -47,7 +45,7 @@ public class Tab extends JPanel {
         return countOfTabs;
     }
 
-    protected JComponent makeBoardPanel() {
+    private JComponent makeBoardPanel() {
         /*Main panel*/
         JPanel panelBoard = new JPanel(new FlowLayout());
         panelBoard.setPreferredSize(new Dimension(950,620));
@@ -70,9 +68,6 @@ public class Tab extends JPanel {
         ImageIcon logoIcon = new ImageIcon(this.getClass().getResource("img/logo.png"));
         JLabel label = new JLabel(logoIcon);
         rightPanel.add(label);
-
-
-
 
         /*Indent*/
         JPanel emptyPanel = new JPanel();
