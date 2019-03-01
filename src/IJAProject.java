@@ -34,11 +34,11 @@ public class IJAProject {
         frame.setLayout(new FlowLayout(FlowLayout.LEFT));
         Font font = new Font("Verdana", Font.PLAIN, 15);
 
+
         /*Initialize JTabbedPane*/
         JTabbedPane tabPane = new JTabbedPane();
         tabPane.setFont( new Font( "Dialog", Font.BOLD|Font.ITALIC, 20 ) );
         Tab tabs = new Tab(tabPane, frame, "Game1"); // implicitly one game
-
 
 
         /*Menu panel*/
@@ -79,30 +79,6 @@ public class IJAProject {
 
         frame.setVisible(true);
 
-//        /** TODO seems as fuck. refactor it. Coordinates will be set right from Cell */
-//        chessGame.setPiece(new King(backend.Enums.Color.BLACK), 0, 0);
-//
-//        // Simulate mouse button click. Now we have a chess piece from selected cell
-//        ChessPiece boardPiece = chessGame.getBoardPiece(0, 0);
-
-        // Get all possible statements of current piece
-
-//        List<Movement> possibleMovements = new ArrayList<>(boardPiece.calculatePossibleMovements()) ;
-//        chessGame.applyRules(possibleMovements, boardPiece);
-//        chessGame.isPossible(possibleMovements, boardPiece.getColor());
-
-//        // Remove moves from possible moves for currently selected chess piece which couldn't be done
-//        for(int counter = 0; counter < possibleMovements.size(); counter++){
-//
-//            if (!chessGame.isPossible(possibleMovements.get(counter), boardPiece.getColor()))
-//                possibleMovements.remove(counter);
-//        }
-
-        // Return PossibleMoves to GUI and show them on board. Now we're waiting for new input from player.
-
-        // if player choose a cell which isn't represented in PossibleMovements List as dst cell -> clear selected cell and give him option to choose another cell
-        // else change x and y coordinates for chess piece , set pointer to piece in src cell to null dst pointer to chessPiece. Current player Turn is done -> return Turn string
-
         /**
          * Move string:
          * if returned piece not Pawn -> To string
@@ -110,9 +86,4 @@ public class IJAProject {
          */
         System.out.println();
     }
-
-    public void addComponent(){
-        System.out.println("Add");
-    }
-
 }

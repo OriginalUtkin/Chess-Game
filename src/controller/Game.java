@@ -342,10 +342,6 @@ public class Game {
         }
     }
 
-//    public void movePiece(){
-//        this.selectedCell.a
-//    }
-
     public boolean isPossibleDestination(int srcX, int srcY){
 
 

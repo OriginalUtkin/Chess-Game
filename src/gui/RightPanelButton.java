@@ -20,8 +20,8 @@ public class RightPanelButton extends JButton {
         try {
             Image img = ImageIO.read(getClass().getResource(pathname));
             btn.setIcon(new ImageIcon(img));
-        } catch (Exception ex) {
-            System.out.println(ex);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         rightPanel.add(btn);
     }

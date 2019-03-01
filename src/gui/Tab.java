@@ -6,7 +6,6 @@ import backend.Figures.Movement;
 import backend.Figures.Queen;
 import controller.Game;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import java.awt.*;
@@ -171,17 +170,6 @@ public class Tab extends JPanel {
 
                         return;
                     }
-
-
-//                    Tab.boards.get(((Cell) tt).tabNum)[0][0].setBorder(BorderFactory.createLineBorder(Color.yellow));
-//                    Tab.boards.get(((Cell) tt).tabNum)[0][0].repaint();
-                    //send selected cell coordinates to backend
-                    // get possible movements list if there is piece
-                    // else do nothing
-                    // add current cell to some list of selected cell. (if no possible movements just select cell)
-                    // try to move piece
-                    //if dst cell isn't represented in possible movements array or all possible movements array is empty -> remove cell from selected, change selected cell border color to common border color  and do nothing
-                    // else change statement of backend and redraw src cell (remove piece) and dst cell (draw piece)
                 }
             }
         });
