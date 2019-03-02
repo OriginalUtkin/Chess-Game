@@ -19,11 +19,8 @@ public class Game {
     private gui.Cell selectedCell;
     private gui.Cell destinationCell;
     private Color currentTurn;
-    private List<Turn> gameTurns;
     private int turnNumber;
 
-
-//    List<Board> gameStatements;
 
     public Game(boolean initFlag) {
         this.gameBoard = new Board(initFlag);
@@ -34,11 +31,8 @@ public class Game {
         this.destinationCell = null;
 
         this.turnNumber = 1;
-        this.gameTurns = new ArrayList<>();
 
         this.currentTurn = Color.WHITE;
-
-//        this.gameStatements = new ArrayList<Board>();
 
     }
 
@@ -492,11 +486,13 @@ public class Game {
         List<Movement> selectedPossibleMovements = this.getPossibleMovements();
         ChessPiece kingPiece = null;
 
-        int kingRow = 0;
-        int kingColumn = 0;
+        int currentKingRow = 0;
+        int currentKingColumn = 0;
 
         final int currentSelectedRow = this.destinationCell.getRow();
         final int currentSelectedColumn = this.destinationCell.getColumn();
+        Direction checkDirection = null;
+
 
         // looking for king piece
         for (Movement movement : selectedPossibleMovements) {
@@ -510,17 +506,16 @@ public class Game {
             if (pieceOnBoard.getColor() != this.selectedPiece.getColor() && pieceOnBoard.toString().equals("K")) {
                 kingPiece = pieceOnBoard;
 
-                kingRow = movement.getRow();
-                kingColumn = movement.getColumn();
+                currentKingRow = movement.getRow();
+                currentKingColumn = movement.getColumn();
 
                 break;
             }
         }
 
-
-        // Check if King could beat the chess piece which mate him
         if (kingPiece != null) {
 
+            // Check if King could beat the chess piece which mate him / move to other cell and save your life
             if (kingPiece.calculatePossibleMovements().size() != 0) {
                 List<Movement> possibleKingMovements = kingPiece.calculatePossibleMovements();
 
@@ -541,20 +536,46 @@ public class Game {
                         this.gameBoard.gameBoard[currentSelectedRow][currentSelectedColumn].setPiece(kingPiece);
 
                         // King can't be beaten after beat chess piece which try to mate him
-                        if(!this.isBeatenByEnemy(currentSelectedRow, currentSelectedRow, kingPiece.getColor())){
-                            this.gameBoard.gameBoard[kingRow][kingColumn].setPiece(kingPiece);
+                        if(!this.isBeatenByEnemy(currentSelectedRow, currentSelectedColumn, kingPiece.getColor())){
+                            System.out.println("[DEBUG][MATE][Success] King could kill dangerous piece");
+
+                            this.gameBoard.gameBoard[currentKingRow][currentKingColumn].setPiece(kingPiece);
                             this.gameBoard.gameBoard[currentSelectedRow][currentSelectedColumn].setPiece(this.selectedPiece);
 
                             return false;
                         }else{ // Just move king piece to his previous position and reset selected piece
-                            this.gameBoard.gameBoard[kingRow][kingColumn].setPiece(kingPiece);
+                            System.out.println("[DEBUG][MATE][Fail] King couldn't kill dangerous piece");
+
+                            this.gameBoard.gameBoard[currentKingRow][currentKingColumn].setPiece(kingPiece);
                             this.gameBoard.gameBoard[currentSelectedRow][currentSelectedColumn].setPiece(this.selectedPiece);
                         }
                     }
 
                 }
-            }
 
+                // Try to move King piece from current position cell to other and check if it is safe position
+                for (Movement movement: possibleKingMovements){
+                    ChessPiece pieceOnBoard = this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()].getPiece();
+
+                    // temporary move king to this position and check if this position is safe
+                    this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()].setPiece(kingPiece);
+
+                    if(!this.isBeatenByEnemy(movement.getRow(), movement.getColumn(), kingPiece.getColor())){
+                        System.out.println("[DEBUG][MATE][Success] King could move to other safe place from current one");
+
+                        this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()].setPiece(pieceOnBoard);
+                        this.gameBoard.gameBoard[currentKingRow][currentKingColumn].setPiece(kingPiece);
+
+                        return false;
+
+                    }else{
+                        System.out.println("[DEBUG][MATE][Fail] King couldn't move to safe place");
+
+                        this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()].setPiece(pieceOnBoard);
+                        this.gameBoard.gameBoard[currentKingRow][currentKingColumn].setPiece(kingPiece);
+                    }
+                }
+            }
         }
 
         return true;
@@ -562,6 +583,14 @@ public class Game {
     }
 
     private boolean isBeatenByEnemy(final int row, final int column, final Color pieceColor){
+        /**
+         * Check if piece will be beaten by other piece with opposite color after move to new cell with coordinates
+         * row and cell.
+         *
+         * @param row new row position of piece
+         * @param column new column position of piece
+         * @param pieceColor color of piece which will be moved to new position
+         */
 
         for (int currRow = 0 ; currRow < 8; currRow++){
             for (int currColumn = 0 ; currColumn < 8; currColumn++){
