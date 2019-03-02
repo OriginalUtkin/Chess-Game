@@ -221,7 +221,7 @@ public class Tab extends JPanel {
 
                 ChessPiece currentPiece = this.game.getBoardPiece(i,j);
 
-                String abbreviation = (currentPiece != null)?currentPiece.getAbbreviation() : "";
+                String abbreviation = (currentPiece != null)?currentPiece.getFullPieceString() : "";
 
                 Cell drawing = new Cell(i, j,75/this.squares.length, 75/this.squares.length,
                         cellBackgroundColor, abbreviation);
