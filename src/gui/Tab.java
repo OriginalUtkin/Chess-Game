@@ -28,9 +28,9 @@ public class Tab extends JPanel {
             this.squares =  new Cell[8][8];
             this.game = new Game(false);
 
-//            game.setPiece(new King(backend.Enums.Color.WHITE), 2,3);
-            game.setPiece(new Pawn(backend.Enums.Color.BLACK), 6,3);
-//            game.setPiece(new Pawn(backend.Enums.Color.WHITE), 5,3);
+            game.setPiece(new King(backend.Enums.Color.BLACK), 6,2);
+            game.setPiece(new Pawn(backend.Enums.Color.WHITE), 5,3);
+            game.setPiece(new King(backend.Enums.Color.BLACK), 6,4);
 
 
 //            game.setPiece(new Queen(backend.Enums.Color.BLACK), 1,3);
