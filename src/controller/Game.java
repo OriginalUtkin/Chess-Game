@@ -469,11 +469,31 @@ public class Game {
 
     }
 
-    public void setFlagForTheShirtNotation(char identifier){
+    private void setFlagForTheShortNotation(char identifier){
         this.identifier = identifier;
     }
 
     private String representBriefNotation(){
+
+        for (int i = 7; i >= 0; i--){
+            for (int j = 0; j < this.gameBoard.gameBoard[i].length; j++) {
+
+                ChessPiece currentPiece = getBoardPiece(i,j);
+                if ((this.selectedCell.getRow() == i && ( selectedCell.getColumn() != j ))){
+                    if (currentPiece!=null && selectedPiece.toString().equals(currentPiece.toString())){
+                        //System.out.println("Set symbol identifier");
+                        setFlagForTheShortNotation('s');
+                    }
+                }
+                else if((this.selectedCell.getColumn() == j && (this.selectedCell.getRow() != i))){
+                    if ( currentPiece!=null && selectedPiece.toString().equals(currentPiece.toString())){
+                        //System.out.println("Set number identifier");
+                        setFlagForTheShortNotation('n');
+                    }
+                }
+            }
+        }
+
         String mate = "";
         String turnNotation = "";
         String abbreviation = this.selectedPiece.toString();

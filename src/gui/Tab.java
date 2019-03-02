@@ -167,26 +167,6 @@ public class Tab extends JPanel {
 
                         System.out.println("Selected cell is " + selectedCell.toString());
                         System.out.println(selectedPiece);
-                        for (int i = 7; i >= 0; i--){
-                            for (int j = 0; j < squares[i].length; j++) {
-
-                                ChessPiece currentPiece = game.getBoardPiece(i,j);
-                                Cell pom_cell = squares[i][j];
-                                if (((Cell) selectedCell).getRow() == pom_cell.getRow() && ((Cell) selectedCell).getColumn() != pom_cell.getColumn() ){
-                                    if (currentPiece!=null && selectedPiece.toString().equals(currentPiece.toString())){
-                                        //System.out.println("Set symbol identifier");
-                                        game.setFlagForTheShirtNotation('s');
-                                    }
-                                }
-                                else if(((Cell) selectedCell).getColumn() == pom_cell.getColumn() && ((Cell) selectedCell).getRow() != pom_cell.getRow()){
-                                    if ( currentPiece!=null && selectedPiece.toString().equals(currentPiece.toString())){
-                                        //System.out.println("Set number identifier");
-                                        game.setFlagForTheShirtNotation('n');
-                                    }
-                                }
-                            }
-                        }
-
 
                         return;
                     }

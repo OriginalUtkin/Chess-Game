@@ -39,6 +39,7 @@ public class Cell {
         return this.piece;
     }
 
+
     public void setPiece(ChessPiece piece){
         /**
          * Set chess piece on cell. If piece is represented by ChessPiece object recalculate piece coordinates.
