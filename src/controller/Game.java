@@ -84,7 +84,7 @@ public class Game {
         this.destinationCell = null;
     }
 
-    public void changeTurn(){
+    private void changeTurn(){
         if (this.currentTurn == Color.WHITE)
             this.currentTurn = Color.BLACK;
         else
@@ -433,33 +433,33 @@ public class Game {
         this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());
 
         this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
-
+        System.out.println(this.getFullNotation());
         this.dropSelected();
         this.dropDestinationCell();
 
-        this.turnNumber += 1;
+        this.changeTurn();
+
+        if (this.currentTurn == Color.WHITE)
+            this.turnNumber += 1;
     }
 
     private String getFullNotation(){
-        char abbreviation = this.selectedPiece.getAbbreviation();
+        String abbreviation = this.selectedPiece.toString();
 
-        if (abbreviation == 'p')
-            abbreviation = '\0';
+        if (abbreviation.equals("p"))
+            abbreviation = "";
 
-        int roundNum = this.currentRound();
 
-        String turnNotation = abbreviation  +
+
+        String turnNotation = Integer.valueOf(this.turnNumber).toString() + ". " +abbreviation  +
                 this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
-                this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
-                Integer.valueOf(roundNum).toString();
+                this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString()
+                ;
 
         return turnNotation;
 
     }
 
-    private int currentRound(){
-        return this.turnNumber % 2 == 0 ? this.turnNumber : this.turnNumber - 1;
-    }
 
     private boolean isMate(){
         return false;
