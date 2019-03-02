@@ -439,5 +439,12 @@ public class Game {
         this.turnNumber += 1;
     }
 
+    private String getFullNOtation(){
+        return this.selectedPiece.getAbbreviation() + " " + this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
+                this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString();
+                
+    }
+
+
 }
 

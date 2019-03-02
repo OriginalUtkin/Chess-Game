@@ -58,7 +58,7 @@ abstract public class ChessPiece implements Serializable {
         this.currentColumn = y;
     }
 
-    final public String getAbbreviation(){return this.color.toString() + this.abbreviation;}
+    final public char getAbbreviation(){return this.abbreviation;}
 
 
     public void movePiece(int new_x, int new_y){

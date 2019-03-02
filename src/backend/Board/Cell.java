@@ -80,6 +80,6 @@ public class Cell {
          *
          * @return string in format cell_letter + cell_number
          */
-        return letter+String.valueOf(this.number);
+        return letter + String.valueOf(this.number);
     }
 }
