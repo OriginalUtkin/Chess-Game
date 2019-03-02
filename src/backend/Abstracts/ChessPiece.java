@@ -60,20 +60,6 @@ abstract public class ChessPiece implements Serializable {
 
     final public String getFullPieceString(){return this.color.toString() + this.abbreviation;}
 
-    public void movePiece(int new_x, int new_y){
-        /**
-         * Move piece from current position to new. Change current piece coordinates
-         *
-         * @param int new_x new row coordinate
-         * @param int new_y new column coordinate
-         *
-         * @return void
-         */
-
-        this.currentRow = new_x;
-        this.currentColumn = new_y;
-    }
-
 
     final public Color getColor(){
         /**

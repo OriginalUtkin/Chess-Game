@@ -445,15 +445,21 @@ public class Game {
 
     private String getFullNotation(){
         String abbreviation = this.selectedPiece.toString();
+        String mate = "";
 
         if (abbreviation.equals("p"))
             abbreviation = "";
+
+        if (this.isMate()){
+            mate = "+";
+        }
 
 
 
         String turnNotation = Integer.valueOf(this.turnNumber).toString() + ". " +abbreviation  +
                 this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
-                this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString()
+                this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
+                mate
                 ;
 
         return turnNotation;
@@ -462,6 +468,20 @@ public class Game {
 
 
     private boolean isMate(){
+        List<Movement> possibleMovements = this.getPossibleMovements();
+
+        for(Movement movement: possibleMovements){
+
+            // King with opposite color in possible movement for piece which was moved
+            ChessPiece pieceOnBoard = this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()].getPiece();
+
+            if (pieceOnBoard == null)
+                continue;
+
+            if (pieceOnBoard.getColor() != this.selectedPiece.getColor() && pieceOnBoard.toString().equals("K")){
+                return true;
+            }
+        }
         return false;
     }
 
