@@ -431,6 +431,7 @@ public class Game {
         this.selectedCell.setAbbreviation("");
 
         this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());
+
         this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
 
         this.dropSelected();
@@ -439,10 +440,29 @@ public class Game {
         this.turnNumber += 1;
     }
 
-    private String getFullNOtation(){
-        return this.selectedPiece.getAbbreviation() + " " + this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
-                this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString();
-                
+    private String getFullNotation(){
+        char abbreviation = this.selectedPiece.getAbbreviation();
+
+        if (abbreviation == 'p')
+            abbreviation = '\0';
+
+        int roundNum = this.currentRound();
+
+        String turnNotation = abbreviation  +
+                this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
+                this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
+                Integer.valueOf(roundNum).toString();
+
+        return turnNotation;
+
+    }
+
+    private int currentRound(){
+        return this.turnNumber % 2 == 0 ? this.turnNumber : this.turnNumber - 1;
+    }
+
+    private boolean isMate(){
+        return false;
     }
 
 
