@@ -21,6 +21,9 @@ public class Game {
     private Color currentTurn;
     private List<Turn> gameTurns;
     private int turnNumber;
+    private char identifier;
+
+    public String movemenets = "";
 
 
 //    List<Board> gameStatements;
@@ -434,6 +437,8 @@ public class Game {
 
         this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
         System.out.println(this.getFullNotation());
+        movemenets = this.getFullNotation();
+        System.out.println(this.representBriefNotation());
         this.dropSelected();
         this.dropDestinationCell();
 
@@ -443,7 +448,7 @@ public class Game {
             this.turnNumber += 1;
     }
 
-    private String getFullNotation(){
+    public String getFullNotation(){
         String abbreviation = this.selectedPiece.toString();
         String mate = "";
 
@@ -454,8 +459,6 @@ public class Game {
             mate = "+";
         }
 
-
-
         String turnNotation = Integer.valueOf(this.turnNumber).toString() + ". " +abbreviation  +
                 this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
                 this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
@@ -464,6 +467,37 @@ public class Game {
 
         return turnNotation;
 
+    }
+
+    public void setFlagForTheShirtNotation(char identifier){
+        this.identifier = identifier;
+    }
+
+    private String representBriefNotation(){
+        String mate = "";
+        String turnNotation = "";
+        String abbreviation = this.selectedPiece.toString();
+
+        if (abbreviation.equals("p"))
+            abbreviation = "";
+
+        if (this.isMate()){
+            mate = "+";
+        }
+
+        if (identifier == 's'){
+            turnNotation = "[short] " + Integer.valueOf(this.turnNumber).toString() + ". " +abbreviation  +
+                    this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].returnLetter() +
+                    this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
+                    mate;
+        }else{
+            turnNotation = "[short] " + Integer.valueOf(this.turnNumber).toString() + ". " +abbreviation  +
+                    this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].returnNumber() +
+                    this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
+                    mate;
+        }
+
+        return turnNotation;
     }
 
 

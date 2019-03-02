@@ -82,4 +82,11 @@ public class Cell {
          */
         return letter + String.valueOf(this.number);
     }
+
+    public char returnLetter(){
+        return letter;
+    }
+    public String returnNumber(){
+        return String.valueOf(this.number);
+    }
 }

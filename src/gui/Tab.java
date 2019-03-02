@@ -28,9 +28,9 @@ public class Tab extends JPanel {
             this.squares =  new Cell[8][8];
             this.game = new Game(false);
 
-            game.setPiece(new King(backend.Enums.Color.BLACK), 6,2);
+            game.setPiece(new King(backend.Enums.Color.BLACK), 5,2);
             game.setPiece(new Pawn(backend.Enums.Color.WHITE), 5,3);
-            game.setPiece(new King(backend.Enums.Color.BLACK), 6,4);
+            game.setPiece(new King(backend.Enums.Color.BLACK), 6,2);
 
 
 //            game.setPiece(new Queen(backend.Enums.Color.BLACK), 1,3);
@@ -81,6 +81,15 @@ public class Tab extends JPanel {
 
         panelBoard.add(chessBoard);
         panelBoard.add(rightPanel);
+
+        /*TextField with Movements*/
+        JTextArea movements = new JTextArea();
+        movements.setForeground(Color.WHITE);
+        movements.setFont(new Font("Serif", Font.PLAIN, 18));
+        movements.setBackground(new Color(32,32,32));
+        movements.setPreferredSize(new Dimension(330,300));
+        rightPanel.add(movements);
+
         chessBoard.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -126,6 +135,8 @@ public class Tab extends JPanel {
                             setCellsColor(possibleMovements, Color.black,1);
                             System.out.println("Possible movement");
                             game.movePiece();
+                            movements.append(game.movemenets + "\n");
+                            movements.repaint();
                         }
 
                         return;
@@ -156,6 +167,26 @@ public class Tab extends JPanel {
 
                         System.out.println("Selected cell is " + selectedCell.toString());
                         System.out.println(selectedPiece);
+                        for (int i = 7; i >= 0; i--){
+                            for (int j = 0; j < squares[i].length; j++) {
+
+                                ChessPiece currentPiece = game.getBoardPiece(i,j);
+                                Cell pom_cell = squares[i][j];
+                                if (((Cell) selectedCell).getRow() == pom_cell.getRow() && ((Cell) selectedCell).getColumn() != pom_cell.getColumn() ){
+                                    if (currentPiece!=null && selectedPiece.toString().equals(currentPiece.toString())){
+                                        //System.out.println("Set symbol identifier");
+                                        game.setFlagForTheShirtNotation('s');
+                                    }
+                                }
+                                else if(((Cell) selectedCell).getColumn() == pom_cell.getColumn() && ((Cell) selectedCell).getRow() != pom_cell.getRow()){
+                                    if ( currentPiece!=null && selectedPiece.toString().equals(currentPiece.toString())){
+                                        //System.out.println("Set number identifier");
+                                        game.setFlagForTheShirtNotation('n');
+                                    }
+                                }
+                            }
+                        }
+
 
                         return;
                     }
@@ -175,18 +206,16 @@ public class Tab extends JPanel {
                 System.out.println("Restart");
                 game = new Game(true);
                 chessBoard.removeAll();
+                movements.setText("");
                 initializeBoardCells(chessBoard);
+                movements.repaint();
+                movements.revalidate();
                 chessBoard.revalidate();
                 chessBoard.repaint();
             }
         });
         rightPanel.add(restartGame);
 
-        /*TextField with Movements*/
-        JTextField movements = new JTextField(28);
-        movements.setBackground(new Color(32,32,32));
-        movements.setPreferredSize(new Dimension(330,300));
-        rightPanel.add(movements);
 
         /*Buttons*/
         RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName);
