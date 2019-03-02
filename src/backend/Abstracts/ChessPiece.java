@@ -102,7 +102,7 @@ abstract public class ChessPiece implements Serializable {
                         this.currentRow + counter,
                         this.currentColumn - counter,
                         additionalFlag,
-                        Direction.DIAGONAL_DOWN_RIGHT)
+                        Direction.DIAGONAL_UP_LEFT)
                 );
 
             if (this.currentRow - counter >= 0 && this.currentColumn + counter <= 7)
@@ -110,7 +110,7 @@ abstract public class ChessPiece implements Serializable {
                         this.currentRow - counter,
                         this.currentColumn + counter,
                         additionalFlag,
-                        Direction.DIAGONAL_UP_LEFT)
+                        Direction.DIAGONAL_DOWN_RIGHT)
                 );
 
             if (this.currentRow - counter >= 0 && this.currentColumn - counter >= 0)
