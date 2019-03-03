@@ -481,14 +481,12 @@ public class Game {
                 ChessPiece currentPiece = getBoardPiece(i,j);
                 if ((this.selectedCell.getRow() == i && ( selectedCell.getColumn() != j ))){
                     if (currentPiece!=null && selectedPiece.toString().equals(currentPiece.toString())){
-                        //System.out.println("Set symbol identifier");
-                        setFlagForTheShortNotation('s');
+                       setFlagForTheShortNotation('s');
                     }
                 }
                 else if((this.selectedCell.getColumn() == j && (this.selectedCell.getRow() != i))){
                     if ( currentPiece!=null && selectedPiece.toString().equals(currentPiece.toString())){
-                        //System.out.println("Set number identifier");
-                        setFlagForTheShortNotation('n');
+                       setFlagForTheShortNotation('n');
                     }
                 }
             }
