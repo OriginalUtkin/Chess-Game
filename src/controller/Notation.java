@@ -83,7 +83,7 @@ public class Notation{
                                 Integer row = this.transformCoordinate(m.group());
                                 m = this.matchPattern(source, "[1-7]{1}");
                                 if (m.find()){ String column = m.group();
-                                    System.out.println("Set piece to the game(which is private) in a new loaded Tab");
+                                    loadedTab.setPieceToTheGame(new King(backend.Enums.Color.BLACK),row,Integer.parseInt(column));
                                 }
 
                             }

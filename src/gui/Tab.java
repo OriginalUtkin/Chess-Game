@@ -48,6 +48,10 @@ public class Tab extends JPanel {
         }
     }
 
+    public void setPieceToTheGame(ChessPiece piece, int row, int column){
+        game.setPiece(piece, row,column);
+    }
+
     public static int getNumOfTabs() {
         return countOfTabs;
     }
