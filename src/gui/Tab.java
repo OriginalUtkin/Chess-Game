@@ -212,7 +212,9 @@ public class Tab extends JPanel {
                 fileChooser.setDialogTitle("Save current game");
 
                 if (fileChooser.showSaveDialog(chooserFrame) == JFileChooser.APPROVE_OPTION) {
-                    fileChooser.getSelectedFile();
+                    File fileName = fileChooser.getSelectedFile();
+                    System.out.println(fileName.toString());
+                    //TODO: save game turns to selected file
                 }
             }
         });

@@ -18,7 +18,7 @@ public class RightPanelButton extends JButton {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        
+
         btn.addActionListener(buttonListener);
 
         rightPanel.add(btn);
