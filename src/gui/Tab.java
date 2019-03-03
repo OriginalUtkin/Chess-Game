@@ -3,7 +3,7 @@ package gui;
 import backend.Abstracts.ChessPiece;
 import backend.Figures.*;
 import controller.Game;
-
+import java.io.*;
 import java.io.File;
 import java.util.List;
 import javax.sound.sampled.AudioInputStream;
@@ -124,7 +124,9 @@ public class Tab extends JPanel {
                             }
                             setCellsColor(possibleMovements, Color.black,1);
                             System.out.println("Possible movement");
-                            game.movePiece();
+
+                            // TODO : set this value to right panel with all turns
+                            String turnNotation = game.movePiece();
                         }
 
                         return;
@@ -205,7 +207,7 @@ public class Tab extends JPanel {
         RightPanelButton save = new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("DSHFBSDFBSDJF");
+                System.out.println("[DEBUG][SAVE] Saving game");
                 JFrame chooserFrame = new JFrame();
 //
                 JFileChooser fileChooser = new JFileChooser();
@@ -215,6 +217,20 @@ public class Tab extends JPanel {
                     File fileName = fileChooser.getSelectedFile();
                     System.out.println(fileName.toString());
                     //TODO: save game turns to selected file
+                    try{
+                        FileWriter notationWriter = new FileWriter(fileName.toString());
+
+                        for(String singleNotation: game.getTurnNotations()){
+                            notationWriter.write(singleNotation);
+                        }
+
+                        notationWriter.flush();
+                        notationWriter.close();
+
+                    }catch (IOException exception){
+                        // TODO: Show error message for user and do nothing
+                    }
+
                 }
             }
         });

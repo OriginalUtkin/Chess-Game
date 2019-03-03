@@ -14,14 +14,23 @@ import java.util.List;
 
 public class Game {
 
+    // Game backend
     private Board gameBoard;
+
+    // Game board interaction specification
     private ChessPiece selectedPiece;
     private gui.Cell selectedCell;
     private gui.Cell destinationCell;
+
+    //TODO: initialise obj for right tab selection
+    //Game right tab interaction specification
+
+    // Game turn specification
     private Color currentTurn;
     private int turnNumber;
     private List<String> turnNotations;
 
+    // Game temporary variables
     private String whiteTurnNotation;
 
 
@@ -29,7 +38,6 @@ public class Game {
         this.gameBoard = new Board(initFlag);
 
         this.selectedPiece = null;
-
         this.selectedCell = null;
         this.destinationCell = null;
 
@@ -217,6 +225,15 @@ public class Game {
         }
 
         return false;
+    }
+
+    public List<String> getTurnNotations(){
+        /**
+         * Return all notations which were created during the game.
+         *
+         * @return List with all notations which is already formated
+         */
+        return this.turnNotations;
     }
 
     // TODO: this method could be refactored somehow :/
@@ -419,7 +436,7 @@ public class Game {
         return false;
     }
 
-    public void movePiece() {
+    public String movePiece() {
         // TODO : change void -> Turn, object which contains info about turn. and push made turn to some list in game object
         if (this.selectedPiece.getStartedPosition())
             this.selectedPiece.changeStartedPosition();
@@ -441,11 +458,13 @@ public class Game {
 
         }else{
             this.turnNotations.add(Integer.valueOf(this.turnNumber).toString() + ". " + whiteTurnNotation + " " +
-                    turnNotation);
+                    turnNotation + '\n');
             this.turnNumber += 1;
         }
 
         this.changeTurn();
+
+        return turnNotation;
     }
 
     private String getFullNotation() {
@@ -472,8 +491,8 @@ public class Game {
         return  abbreviation +
                 this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
                 this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
-                check +
-                '\n';
+                check
+                ;
     }
 
 
