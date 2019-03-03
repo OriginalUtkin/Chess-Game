@@ -20,6 +20,9 @@ public class Game {
     private gui.Cell destinationCell;
     private Color currentTurn;
     private int turnNumber;
+    private List<String> turnNotations;
+
+    private String whiteTurnNotation;
 
 
     public Game(boolean initFlag) {
@@ -30,8 +33,8 @@ public class Game {
         this.selectedCell = null;
         this.destinationCell = null;
 
+        this.turnNotations = new ArrayList<>();
         this.turnNumber = 1;
-
         this.currentTurn = Color.WHITE;
 
     }
@@ -428,14 +431,23 @@ public class Game {
 
 
         this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
-        System.out.println(this.getFullNotation());
+        String turnNotation = this.getFullNotation();
+
         this.dropSelected();
         this.dropDestinationCell();
 
+        if (this.currentTurn == Color.WHITE){
+            this.whiteTurnNotation = turnNotation;
+
+        }else{
+            this.turnNotations.add(Integer.valueOf(this.turnNumber).toString() + ". " + whiteTurnNotation + " " +
+                    turnNotation);
+            this.turnNumber += 1;
+        }
+
         this.changeTurn();
 
-        if (this.currentTurn == Color.WHITE)
-            this.turnNumber += 1;
+        System.out.println("");
     }
 
     private String getFullNotation() {
@@ -454,13 +466,13 @@ public class Game {
         }
 
 
-        String turnNotation = Integer.valueOf(this.turnNumber).toString() + ". " + abbreviation +
+        String turnNotation =  abbreviation +
                 this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
                 this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
                 check;
 
-        return turnNotation;
 
+        return turnNotation;
     }
 
 
