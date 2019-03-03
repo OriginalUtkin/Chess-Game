@@ -1,15 +1,7 @@
-
-import backend.Abstracts.ChessPiece;
-
-//import Enums.Color;
-import backend.Figures.King;
-import backend.Figures.Movement;
-import controller.Game;
 import gui.Tab;
+import controller.Notation;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,6 +50,13 @@ public class IJAProject {
         JMenuItem loadGame = new JMenuItem("Load");
         menuGame.add(loadGame);
         loadGame.setFont(font);
+
+        loadGame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                Notation notationName = new Notation(tabPane, frame);
+                notationName.parseNotation();
+            }
+        });
 
         JMenuItem exitGame = new JMenuItem("Exit");
         exitGame.setFont(font);
