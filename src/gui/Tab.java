@@ -224,6 +224,9 @@ public class Tab extends JPanel {
                             notationWriter.write(singleNotation);
                         }
 
+                        if(game.getLastWhiteNotation() != null){
+                            notationWriter.write(game.getLastWhiteNotation());
+                        }
                         notationWriter.flush();
                         notationWriter.close();
 

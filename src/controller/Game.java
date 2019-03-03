@@ -463,6 +463,7 @@ public class Game {
         }
 
         this.changeTurn();
+        this.whiteTurnNotation = null;
 
         return turnNotation;
     }
@@ -517,6 +518,18 @@ public class Game {
             }
         }
         return false;
+    }
+
+    public String getLastWhiteNotation(){
+        /**
+         * Return last notation of the white player turn. Used in case when game is saved before black player turn.
+         *
+         * @return notation string for last white player turn in format [turn_num]. [turn_notation]
+         */
+
+        return this.whiteTurnNotation != null ?
+                Integer.valueOf(this.turnNumber).toString() + ". " +this.whiteTurnNotation :
+                null;
     }
 
     private boolean isMate() {
