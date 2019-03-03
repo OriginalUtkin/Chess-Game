@@ -469,14 +469,11 @@ public class Game {
                 check = "#";
         }
 
-
-        String turnNotation =  abbreviation +
+        return  abbreviation +
                 this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
                 this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
-                check;
-
-
-        return turnNotation;
+                check +
+                '\n';
     }
 
 
