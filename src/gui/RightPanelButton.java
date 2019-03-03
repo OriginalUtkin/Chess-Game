@@ -11,6 +11,14 @@ public class RightPanelButton extends JButton {
         JButton btn = new JButton(buttonName);
         btn.setBackground(new Color(204,204,0));
         btn.setFont(new Font("Verdana", Font.PLAIN, 14));
+
+        try {
+            Image img = ImageIO.read(getClass().getResource(pathname));
+            btn.setIcon(new ImageIcon(img));
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        
         btn.addActionListener(buttonListener);
 
         rightPanel.add(btn);

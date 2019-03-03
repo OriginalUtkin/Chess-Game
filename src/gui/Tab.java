@@ -194,7 +194,7 @@ public class Tab extends JPanel {
 
             }
         });
-        
+
         RightPanelButton undo =  new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
