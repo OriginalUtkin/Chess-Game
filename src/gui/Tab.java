@@ -209,14 +209,14 @@ public class Tab extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("[DEBUG][SAVE] Saving game");
                 JFrame chooserFrame = new JFrame();
-//
+
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setDialogTitle("Save current game");
 
                 if (fileChooser.showSaveDialog(chooserFrame) == JFileChooser.APPROVE_OPTION) {
                     File fileName = fileChooser.getSelectedFile();
                     System.out.println(fileName.toString());
-                    //TODO: save game turns to selected file
+
                     try{
                         FileWriter notationWriter = new FileWriter(fileName.toString());
 
