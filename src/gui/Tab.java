@@ -188,9 +188,34 @@ public class Tab extends JPanel {
         rightPanel.add(movements);
 
         /*Buttons*/
-        RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName);
-        new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName);
-        new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName);
+        RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        
+        RightPanelButton undo =  new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        RightPanelButton save = new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("DSHFBSDFBSDJF");
+                JFrame chooserFrame = new JFrame();
+//
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Save current game");
+
+                if (fileChooser.showSaveDialog(chooserFrame) == JFileChooser.APPROVE_OPTION) {
+                    fileChooser.getSelectedFile();
+                }
+            }
+        });
 
         Tab.countOfTabs += 1;
         return panelBoard;

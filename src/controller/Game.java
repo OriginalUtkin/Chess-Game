@@ -449,6 +449,12 @@ public class Game {
     }
 
     private String getFullNotation() {
+        /**
+         * Create full turn notation.
+         *
+         * @return string which represent full turn notation
+         */
+
         String abbreviation = this.selectedPiece.toString();
         String check = "";
 
@@ -475,6 +481,11 @@ public class Game {
 
 
     private boolean isCheck() {
+        /**
+         * Check if under moving chess piece king is under the check
+         *
+         * @return true if king under the check after moving chess piece, false otherwise
+         */
         List<Movement> possibleMovements = this.getPossibleMovements();
 
         for (Movement movement : possibleMovements) {
@@ -501,7 +512,6 @@ public class Game {
 
         final int currentSelectedRow = this.destinationCell.getRow();
         final int currentSelectedColumn = this.destinationCell.getColumn();
-        Direction checkDirection = null;
 
 
         // looking for king piece
