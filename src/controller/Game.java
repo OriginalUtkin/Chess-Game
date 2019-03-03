@@ -446,8 +446,6 @@ public class Game {
         }
 
         this.changeTurn();
-
-        System.out.println("");
     }
 
     private String getFullNotation() {
