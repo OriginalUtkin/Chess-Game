@@ -31,7 +31,6 @@ public class Game {
     private List<String> turnNotations;
 
     private char identifier;
-    public String movements = "";
 
     // Game temporary variables
     private String whiteTurnNotation;
@@ -492,12 +491,8 @@ public class Game {
          * @return string which represent full turn notation
          */
 
-        String abbreviation = this.selectedPiece.toString();
         String check = "";
         String dstPart;
-
-        if (abbreviation.equals("p"))
-            abbreviation = "";
 
         if (this.isCheck()) {
 
@@ -508,22 +503,24 @@ public class Game {
         }
 
         if (this.beatEnemy()){
-            String pieceAbbreviation = "";
 
-            if (!this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().toString().equals("p"))
-                pieceAbbreviation =  this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().toString();
-
-            dstPart = "x" + pieceAbbreviation +
-            this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].toString();
+            dstPart = "x" +
+                    this.notationAbbreviate(this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().toString()) +
+                    this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].toString();
 
         }else
             dstPart = this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString();
 
-        return  abbreviation +
+        return  this.notationAbbreviate(this.selectedPiece.toString()) +
                 this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
                 dstPart + check;
     }
 
+    private String notationAbbreviate(final String abbreviate){
+
+        return abbreviate.equals("p") ? "" : abbreviate;
+
+    }
 
 
     private boolean isCheck() {
