@@ -23,7 +23,7 @@ public class Game {
     private int turnNumber;
     private char identifier;
 
-    public String movemenets = "";
+    public String movements = "";
 
 
 //    List<Board> gameStatements;
@@ -437,7 +437,7 @@ public class Game {
 
         this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
         System.out.println(this.getFullNotation());
-        movemenets = this.getFullNotation();
+        movements = this.getFullNotation();
         System.out.println(this.representBriefNotation());
         this.dropSelected();
         this.dropDestinationCell();
