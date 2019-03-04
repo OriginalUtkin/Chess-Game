@@ -193,7 +193,7 @@ public class Tab extends JPanel {
 
                         ChessPiece selectedPiece = game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn());
                         game.setSelected((Cell)selectedCell, selectedPiece);
-                        System.out.println("");
+
                         List<Movement> possibleMovements = game.getPossibleMovements();
                         setCellsColor(possibleMovements, Color.green, 2);
 
@@ -283,9 +283,9 @@ public class Tab extends JPanel {
     }
 
     private void setCellsColor(List<Movement> possibleMovements, Color color, int thickness){
-        for (int i = 0; i < possibleMovements.size(); i++){
-            Movement destMovement = possibleMovements.get(i);
-            Cell pomCell = squares[destMovement.getRow()][destMovement.getColumn()];
+
+        for (Movement movement: possibleMovements) {
+            Cell pomCell = squares[movement.getRow()][movement.getColumn()];
             pomCell.setBorder(BorderFactory.createLineBorder(color,thickness));
         }
     }

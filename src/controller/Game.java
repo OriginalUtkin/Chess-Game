@@ -234,6 +234,15 @@ public class Game {
         return false;
     }
 
+
+    private boolean beatEnemy(){
+        if (this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].isFree())
+            return false;
+
+        return this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().getColor() !=
+                this.gameBoard.gameBoard[this.selectedCell.getRow()][this.selectedCell.getColumn()].getPiece().getColor();
+    }
+
     public List<String> getTurnNotations(){
         /**
          * Return all notations which were created during the game.
@@ -485,6 +494,7 @@ public class Game {
 
         String abbreviation = this.selectedPiece.toString();
         String check = "";
+        String beatenEnemy = "";
 
         if (abbreviation.equals("p"))
             abbreviation = "";
@@ -496,6 +506,20 @@ public class Game {
             if(this.isMate())
                 check = "#";
         }
+
+//        if (this.beatEnemy()){
+//            beatenEnemy = "x " +
+//                    this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().toString() +
+//                    this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].toString();
+//        }else{
+//            beatenEnemy = this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString();
+//        }
+//
+//
+//        return  abbreviation +
+//                this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
+//                beatenEnemy + check;
+
 
         return  abbreviation +
                 this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
