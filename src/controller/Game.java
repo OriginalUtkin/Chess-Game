@@ -664,7 +664,7 @@ public class Game {
         if (abbreviation.equals("p"))
             abbreviation = "";
 
-        if (this.isMate()) {
+        if (this.isCheck()) {
             mate = "+";
         }
 
