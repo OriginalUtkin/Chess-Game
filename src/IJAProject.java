@@ -9,7 +9,7 @@ import java.lang.String;
 
 public class IJAProject {
     public static void main(String args[]) {
-        
+
         /*Initialize main frame*/
         JFrame frame= new JFrame("IJA Project");
         frame.setSize(1100,850);

@@ -117,6 +117,10 @@ public class Game {
         return possibleMovements;
     }
 
+    public Color getCurrentTurn(){
+        return this.currentTurn;
+    }
+
     public boolean isCellSelected() {
         /**
          * Check if any cell is selected

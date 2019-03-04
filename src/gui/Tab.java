@@ -170,7 +170,11 @@ public class Tab extends JPanel {
                         return;
                     }
 
-                    if (!game.isCellSelected() && game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn()) != null){
+                    if (
+                            !game.isCellSelected() &&
+                            game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn()) != null &&
+                            game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn()).getColor() == game.getCurrentTurn()
+                    ){
                         /*
                          * Just a one cell is selected on the game board. That means that we wanna calculate all
                          * possible movements for chess piece in that cell and show them on the game board table.
