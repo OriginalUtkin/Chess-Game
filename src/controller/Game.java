@@ -457,6 +457,7 @@ public class Game {
         if (this.selectedPiece.getStartedPosition()){
             this.selectedPiece.changeStartedPosition();
         }
+        String turnNotation = this.getFullNotation();
 
         this.destinationCell.setAbbreviation(this.selectedCell.getAbbreviation());
         this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());
@@ -465,7 +466,6 @@ public class Game {
 
 
         this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
-        String turnNotation = this.getFullNotation();
 
         this.dropSelected();
         this.dropDestinationCell();
@@ -494,7 +494,7 @@ public class Game {
 
         String abbreviation = this.selectedPiece.toString();
         String check = "";
-        String beatenEnemy = "";
+        String dstPart;
 
         if (abbreviation.equals("p"))
             abbreviation = "";
@@ -507,25 +507,16 @@ public class Game {
                 check = "#";
         }
 
-//        if (this.beatEnemy()){
-//            beatenEnemy = "x " +
-//                    this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().toString() +
-//                    this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].toString();
-//        }else{
-//            beatenEnemy = this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString();
-//        }
-//
-//
-//        return  abbreviation +
-//                this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
-//                beatenEnemy + check;
-
+        if (this.beatEnemy()){
+            dstPart = "x" +
+                    this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().toString() +
+                    this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].toString();
+        }else
+            dstPart = " " + this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString();
 
         return  abbreviation +
                 this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
-                this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
-                check
-                ;
+                dstPart + check;
     }
 
 
