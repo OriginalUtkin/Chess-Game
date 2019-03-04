@@ -9,16 +9,7 @@ import java.lang.String;
 
 public class IJAProject {
     public static void main(String args[]) {
-        /**
-         * PSEUDO CODE:
-         * Create chess piece (just for debugging. Pieces will be created during board init) (done)
-         * Get possible moves (done)
-         * Remove from possible moves variable cells which has been already obtained by other piece with the same color or add new possible movements in case of pawn (done)
-         * Call move function with new position parameters
-         * Render frontend when it is done
-         */
-
-
+        
         /*Initialize main frame*/
         JFrame frame= new JFrame("IJA Project");
         frame.setSize(1100,850);
