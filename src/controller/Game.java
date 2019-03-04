@@ -30,6 +30,9 @@ public class Game {
     private int turnNumber;
     private List<String> turnNotations;
 
+    private char identifier;
+    public String movements = "";
+
     // Game temporary variables
     private String whiteTurnNotation;
 
@@ -497,6 +500,7 @@ public class Game {
     }
 
 
+
     private boolean isCheck() {
         /**
          * Check if under moving chess piece king is under the check
@@ -585,14 +589,14 @@ public class Game {
                         this.gameBoard.gameBoard[currentSelectedRow][currentSelectedColumn].setPiece(kingPiece);
 
                         // King can't be beaten after beat chess piece which try to mate him
-                        if(!this.isBeatenByEnemy(currentSelectedRow, currentSelectedColumn, kingPiece.getColor())){
+                        if (!this.isBeatenByEnemy(currentSelectedRow, currentSelectedColumn, kingPiece.getColor())) {
                             System.out.println("[DEBUG][MATE][Success] King could kill dangerous piece");
 
                             this.gameBoard.gameBoard[currentKingRow][currentKingColumn].setPiece(kingPiece);
                             this.gameBoard.gameBoard[currentSelectedRow][currentSelectedColumn].setPiece(this.selectedPiece);
 
                             return false;
-                        }else{ // Just move king piece to his previous position and reset selected piece
+                        } else { // Just move king piece to his previous position and reset selected piece
                             System.out.println("[DEBUG][MATE][Fail] King couldn't kill dangerous piece");
 
                             this.gameBoard.gameBoard[currentKingRow][currentKingColumn].setPiece(kingPiece);
@@ -603,13 +607,13 @@ public class Game {
                 }
 
                 // Try to move King piece from current position cell to other and check if it is safe position
-                for (Movement movement: possibleKingMovements){
+                for (Movement movement : possibleKingMovements) {
                     ChessPiece pieceOnBoard = this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()].getPiece();
 
                     // temporary move king to this position and check if this position is safe
                     this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()].setPiece(kingPiece);
 
-                    if(!this.isBeatenByEnemy(movement.getRow(), movement.getColumn(), kingPiece.getColor())){
+                    if (!this.isBeatenByEnemy(movement.getRow(), movement.getColumn(), kingPiece.getColor())) {
                         System.out.println("[DEBUG][MATE][Success] King could move to other safe place from current one");
 
                         this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()].setPiece(pieceOnBoard);
@@ -617,7 +621,7 @@ public class Game {
 
                         return false;
 
-                    }else{
+                    } else {
                         System.out.println("[DEBUG][MATE][Fail] King couldn't move to safe place");
 
                         this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()].setPiece(pieceOnBoard);
@@ -628,10 +632,59 @@ public class Game {
         }
 
         return true;
-
     }
 
-    private boolean isBeatenByEnemy(final int row, final int column, final Color pieceColor){
+
+    private void setFlagForTheShortNotation ( char identifier){
+        this.identifier = identifier;
+    }
+
+    private String representBriefNotation () {
+
+        for (int i = 7; i >= 0; i--) {
+            for (int j = 0; j < this.gameBoard.gameBoard[i].length; j++) {
+
+                ChessPiece currentPiece = getBoardPiece(i, j);
+                if ((this.selectedCell.getRow() == i && (selectedCell.getColumn() != j))) {
+                    if (currentPiece != null && selectedPiece.toString().equals(currentPiece.toString())) {
+                        setFlagForTheShortNotation('s');
+                    }
+                } else if ((this.selectedCell.getColumn() == j && (this.selectedCell.getRow() != i))) {
+                    if (currentPiece != null && selectedPiece.toString().equals(currentPiece.toString())) {
+                        setFlagForTheShortNotation('n');
+                    }
+                }
+            }
+        }
+
+        String mate = "";
+        String turnNotation = "";
+        String abbreviation = this.selectedPiece.toString();
+
+        if (abbreviation.equals("p"))
+            abbreviation = "";
+
+        if (this.isMate()) {
+            mate = "+";
+        }
+
+        if (identifier == 's') {
+            turnNotation = "[short] " + Integer.valueOf(this.turnNumber).toString() + ". " + abbreviation +
+                    this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].returnLetter() +
+                    this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
+                    mate;
+        } else {
+            turnNotation = "[short] " + Integer.valueOf(this.turnNumber).toString() + ". " + abbreviation +
+                    this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].returnNumber() +
+                    this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
+                    mate;
+        }
+
+        return turnNotation;
+    }
+
+
+    private boolean isBeatenByEnemy ( final int row, final int column, final Color pieceColor){
         /**
          * Check if piece will be beaten by other piece with opposite color after move to new cell with coordinates
          * row and cell.
@@ -641,8 +694,8 @@ public class Game {
          * @param pieceColor color of piece which will be moved to new position
          */
 
-        for (int currRow = 0 ; currRow < 8; currRow++){
-            for (int currColumn = 0 ; currColumn < 8; currColumn++){
+        for (int currRow = 0; currRow < 8; currRow++) {
+            for (int currColumn = 0; currColumn < 8; currColumn++) {
 
                 ChessPiece boardPiece = this.gameBoard.gameBoard[currRow][currColumn].getPiece();
 
@@ -652,11 +705,11 @@ public class Game {
                 if (boardPiece.getColor() == pieceColor)
                     continue;
 
-                final List<Movement> boardPieceMovements  = boardPiece.calculatePossibleMovements();
+                final List<Movement> boardPieceMovements = boardPiece.calculatePossibleMovements();
 
-                for (Movement movement: boardPieceMovements){
+                for (Movement movement : boardPieceMovements) {
 
-                    if (movement.getRow() == row && movement.getColumn() == column){
+                    if (movement.getRow() == row && movement.getColumn() == column) {
                         return true;
                     }
                 }
@@ -666,5 +719,4 @@ public class Game {
 
         return false;
     }
-
 }

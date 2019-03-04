@@ -39,6 +39,7 @@ public class Cell {
         return this.piece;
     }
 
+
     public void setPiece(ChessPiece piece){
         /**
          * Set chess piece on cell. If piece is represented by ChessPiece object recalculate piece coordinates.
@@ -81,5 +82,12 @@ public class Cell {
          * @return string in format cell_letter + cell_number
          */
         return letter + String.valueOf(this.number);
+    }
+
+    public char returnLetter(){
+        return letter;
+    }
+    public String returnNumber(){
+        return String.valueOf(this.number);
     }
 }

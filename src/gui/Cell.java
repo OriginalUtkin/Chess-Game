@@ -28,7 +28,6 @@ public class Cell extends JPanel {
         this.color = color;
         this.abbreviation = abbreviation;
         this.setPieceImage();
-
     }
 
     public void setAbbreviation(String abbreviation){

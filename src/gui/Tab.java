@@ -4,8 +4,12 @@ import backend.Abstracts.ChessPiece;
 import backend.Figures.*;
 import controller.Game;
 import java.io.*;
+
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -26,13 +30,13 @@ public class Tab extends JPanel {
             // initialise Tab variables
             this.tabName = tab_name;
             this.squares =  new Cell[8][8];
-            this.game = new Game(false);
-
-            game.setPiece(new King(backend.Enums.Color.BLACK), 6,2);
-            game.setPiece(new Pawn(backend.Enums.Color.WHITE), 4,3);
-            game.setPiece(new Rook(backend.Enums.Color.WHITE),2, 3);
-
+//            this.game = new Game(false);
+//
+//            game.setPiece(new King(backend.Enums.Color.BLACK), 6,2);
+//            game.setPiece(new Pawn(backend.Enums.Color.WHITE), 4,3);
+//            game.setPiece(new Rook(backend.Enums.Color.WHITE),2, 3);
 //            game.setPiece(new Queen(backend.Enums.Color.BLACK), 1,3);
+            this.game = new Game(true);
 
             // initialise graphical part of tab
             JComponent panel = makeBoardPanel();
@@ -42,6 +46,20 @@ public class Tab extends JPanel {
         }else{
             JOptionPane.showMessageDialog(frame, "Too many tabs");
         }
+
+
+    }
+
+    public ChessPiece getBoardPiece(final int row, final int column){
+        return game.getBoardPiece(row, column);
+    }
+
+    public void setPieceToTheGame(ChessPiece newPiece, int oldRow, int oldColumn,
+            int newRow, int newColumn
+            ){
+        this.game.setPiece(newPiece, newRow,newColumn);
+        this.squares[newRow][newColumn].setAbbreviation(newPiece.getFullPieceString());
+        this.squares[oldRow][oldColumn].setAbbreviation("");
     }
 
     public static int getNumOfTabs() {
@@ -51,7 +69,7 @@ public class Tab extends JPanel {
     private JComponent makeBoardPanel() {
         /*Main panel*/
         JPanel panelBoard = new JPanel(new FlowLayout());
-        panelBoard.setPreferredSize(new Dimension(950,620));
+        panelBoard.setPreferredSize(new Dimension(1050,680));
         panelBoard.setBackground(Color.DARK_GRAY);
         panelBoard.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY,5,true));
 
@@ -60,12 +78,17 @@ public class Tab extends JPanel {
         rightPanel.setPreferredSize(new Dimension(330,600));
         rightPanel.setBackground(Color.DARK_GRAY);
 
+        /*Left side - coordinates board*/
+        JCPanel coordinatesBoard = new JCPanel();
+        coordinatesBoard.setPreferredSize(new Dimension(660,660));
+
         /*Left side - chess board*/
         JPanel chessBoard = new JPanel(new GridLayout(0, 8));
         chessBoard.setPreferredSize(new Dimension(600,600));
 
-        /*Initialize chessBoard for this Tab*/
-        this.initializeBoardCells(chessBoard);
+        coordinatesBoard.add(chessBoard);
+        panelBoard.add(coordinatesBoard);
+
 
         /*Logo image*/
         ImageIcon logoIcon = new ImageIcon(this.getClass().getResource("img/logo.png"));
@@ -78,8 +101,20 @@ public class Tab extends JPanel {
         emptyPanel.setBackground(Color.DARK_GRAY);
         rightPanel.add(emptyPanel);
 
-        panelBoard.add(chessBoard);
+        /*Initialize chessBoard for this Tab*/
+        initializeBoardCells(chessBoard);
+        chessBoard.repaint();
         panelBoard.add(rightPanel);
+
+
+        /*TextField with Movements*/
+        JTextArea movements = new JTextArea();
+        movements.setForeground(Color.WHITE);
+        movements.setFont(new Font("Serif", Font.PLAIN, 18));
+        movements.setBackground(new Color(32,32,32));
+        movements.setPreferredSize(new Dimension(330,300));
+        rightPanel.add(movements);
+
         chessBoard.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -126,7 +161,11 @@ public class Tab extends JPanel {
                             System.out.println("Possible movement");
 
                             // TODO : set this value to right panel with all turns
+
                             String turnNotation = game.movePiece();
+                            game.movePiece();
+                            movements.append(game.movements + "\n");
+                            movements.repaint();
                         }
 
                         return;
@@ -176,18 +215,16 @@ public class Tab extends JPanel {
                 System.out.println("Restart");
                 game = new Game(true);
                 chessBoard.removeAll();
+                movements.setText("");
                 initializeBoardCells(chessBoard);
+                movements.repaint();
+                movements.revalidate();
                 chessBoard.revalidate();
                 chessBoard.repaint();
             }
         });
         rightPanel.add(restartGame);
 
-        /*TextField with Movements*/
-        JTextField movements = new JTextField(28);
-        movements.setBackground(new Color(32,32,32));
-        movements.setPreferredSize(new Dimension(330,300));
-        rightPanel.add(movements);
 
         /*Buttons*/
         RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName, new ActionListener() {
