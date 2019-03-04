@@ -48,7 +48,7 @@ public class Cell extends JPanel {
         g.setColor(color);
         g.fillRect(x-8, y-8, 75, 75);
 
-        if (this.abbreviation != ""){
+        if (!this.abbreviation.equals("")){
             g.drawImage(pieceImage, x+10, y+10, this);
         }
     }
