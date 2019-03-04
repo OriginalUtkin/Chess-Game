@@ -440,9 +440,12 @@ public class Game {
     }
 
     public String movePiece() {
-        // TODO : change void -> Turn, object which contains info about turn. and push made turn to some list in game object
-        if (this.selectedPiece.getStartedPosition())
+
+        if (this.selectedPiece.getStartedPosition()){
+            System.out.println("");
             this.selectedPiece.changeStartedPosition();
+            System.out.println("");
+        }
 
         this.destinationCell.setAbbreviation(this.selectedCell.getAbbreviation());
         this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());

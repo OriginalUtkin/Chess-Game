@@ -163,9 +163,9 @@ public class Tab extends JPanel {
                             // TODO : set this value to right panel with all turns
 
                             String turnNotation = game.movePiece();
-                            game.movePiece();
-                            movements.append(game.movements + "\n");
-                            movements.repaint();
+//                            game.movePiece();
+//                            movements.append(game.movements + "\n");
+//                            movements.repaint();
                         }
 
                         return;
@@ -190,7 +190,7 @@ public class Tab extends JPanel {
 
                         ChessPiece selectedPiece = game.getBoardPiece(((Cell) selectedCell).getRow(), ((Cell) selectedCell).getColumn());
                         game.setSelected((Cell)selectedCell, selectedPiece);
-                        
+                        System.out.println("");
                         List<Movement> possibleMovements = game.getPossibleMovements();
                         setCellsColor(possibleMovements, Color.green, 2);
 
