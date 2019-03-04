@@ -442,9 +442,7 @@ public class Game {
     public String movePiece() {
 
         if (this.selectedPiece.getStartedPosition()){
-            System.out.println("");
             this.selectedPiece.changeStartedPosition();
-            System.out.println("");
         }
 
         this.destinationCell.setAbbreviation(this.selectedCell.getAbbreviation());
