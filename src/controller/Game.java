@@ -508,9 +508,14 @@ public class Game {
         }
 
         if (this.beatEnemy()){
-            dstPart = "x" +
-                    this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().toString() +
-                    this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].toString();
+            String pieceAbbreviation = "";
+
+            if (!this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().toString().equals("p"))
+                pieceAbbreviation =  this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().toString();
+
+            dstPart = "x" + pieceAbbreviation +
+            this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].toString();
+
         }else
             dstPart = this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString();
 
