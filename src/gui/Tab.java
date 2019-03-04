@@ -170,6 +170,7 @@ public class Tab extends JPanel {
                             moveLabel.setFont(new Font("Serif", Font.PLAIN, 18));
                             moveLabel.setForeground(Color.WHITE);
                             moveLabel.setText(moveLabel.getText() + "");
+                            move.setText(turnNotation);
 
                             move.setBorder(BorderFactory.createLineBorder(Color.yellow));
 

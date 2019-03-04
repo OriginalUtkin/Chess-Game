@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class JMovePanel extends JPanel {
+    private String text;
     public JMovePanel(){
         new FlowLayout(FlowLayout.CENTER, 0, 0);
         setPreferredSize(new Dimension(60,32));
@@ -14,8 +15,13 @@ public class JMovePanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setBorder(BorderFactory.createLineBorder(Color.red));
-                System.out.println("Clicked!");
+                System.out.println(text);
             }
         });
     }
+
+    public void setText(String text){
+        this.text = text;
+    }
+    public String getText(){return this.text;}
 }
