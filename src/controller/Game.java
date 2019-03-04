@@ -512,7 +512,7 @@ public class Game {
                     this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().toString() +
                     this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].toString();
         }else
-            dstPart = " " + this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString();
+            dstPart = this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString();
 
         return  abbreviation +
                 this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
