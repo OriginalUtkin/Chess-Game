@@ -163,7 +163,7 @@ public class Tab extends JPanel {
                             // TODO : set this value to right panel with all turns
 
                             String turnNotation = game.movePiece();
-                            movements.append(game.movements + "\n");
+                            movements.append(turnNotation + "\n");
                             movements.repaint();
                         }
 
