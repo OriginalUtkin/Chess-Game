@@ -23,6 +23,8 @@ public class Tab extends JPanel {
     private String tabName;
     private Cell[][] squares;
     private Game game;
+    private JMovePanel move;
+
 
     public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
         if (Tab.countOfTabs <= 5){
@@ -37,6 +39,7 @@ public class Tab extends JPanel {
 //            game.setPiece(new Rook(backend.Enums.Color.WHITE),2, 3);
 //            game.setPiece(new Queen(backend.Enums.Color.BLACK), 1,3);
             this.game = new Game(true);
+            this.move = new JMovePanel();
 
             // initialise graphical part of tab
             JComponent panel = makeBoardPanel();
@@ -108,11 +111,10 @@ public class Tab extends JPanel {
 
 
         /*TextField with Movements*/
-        JTextArea movements = new JTextArea();
-        movements.setForeground(Color.WHITE);
-        movements.setFont(new Font("Serif", Font.PLAIN, 18));
+        JPanel movements = new JPanel();
         movements.setBackground(new Color(32,32,32));
         movements.setPreferredSize(new Dimension(330,300));
+
         rightPanel.add(movements);
 
         chessBoard.addMouseListener(new MouseAdapter() {
@@ -163,7 +165,16 @@ public class Tab extends JPanel {
                             // TODO : set this value to right panel with all turns
 
                             String turnNotation = game.movePiece();
-                            movements.append(turnNotation + "\n");
+                            move = new JMovePanel();
+                            JLabel moveLabel = new JLabel(turnNotation);
+                            moveLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+                            moveLabel.setForeground(Color.WHITE);
+                            moveLabel.setText(moveLabel.getText() + "");
+
+                            move.setBorder(BorderFactory.createLineBorder(Color.yellow));
+
+                            move.add(moveLabel);
+                            movements.add(move);
                             movements.repaint();
                         }
 
@@ -188,6 +199,8 @@ public class Tab extends JPanel {
                          * 2) Apply chess rules to all calculated movements
                          */
 
+                        move.setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+
                         ((Cell) selectedCell).setBorder(BorderFactory.createLineBorder(Color.red));
                         selectedCell.repaint();
 
@@ -207,6 +220,8 @@ public class Tab extends JPanel {
         });
 
 
+
+
         /*Restart Button*/
         JButton restartGame = new JButton("Restart Game");
         restartGame.setBackground(new Color(204,204,0));
@@ -218,7 +233,7 @@ public class Tab extends JPanel {
                 System.out.println("Restart");
                 game = new Game(true);
                 chessBoard.removeAll();
-                movements.setText("");
+                movements.removeAll();
                 initializeBoardCells(chessBoard);
                 movements.repaint();
                 movements.revalidate();
