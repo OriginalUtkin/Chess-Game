@@ -458,6 +458,16 @@ public class Game {
         }
         String turnNotation = this.getFullNotation();
 
+        if (this.currentTurn == Color.WHITE){
+            this.whiteTurnNotation = turnNotation;
+
+        }else{
+            this.turnNotations.add(Integer.valueOf(this.turnNumber).toString() + ". " + whiteTurnNotation + " " +
+                    turnNotation + '\n');
+            this.turnNumber += 1;
+            this.whiteTurnNotation = null;
+        }
+
         this.destinationCell.setAbbreviation(this.selectedCell.getAbbreviation());
         this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());
 
@@ -469,17 +479,7 @@ public class Game {
         this.dropSelected();
         this.dropDestinationCell();
 
-        if (this.currentTurn == Color.WHITE){
-            this.whiteTurnNotation = turnNotation;
-
-        }else{
-            this.turnNotations.add(Integer.valueOf(this.turnNumber).toString() + ". " + whiteTurnNotation + " " +
-                    turnNotation + '\n');
-            this.turnNumber += 1;
-        }
-
         this.changeTurn();
-        this.whiteTurnNotation = null;
 
         return turnNotation;
     }
