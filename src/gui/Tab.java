@@ -5,11 +5,9 @@ import backend.Figures.*;
 import controller.Game;
 import java.io.*;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -32,12 +30,6 @@ public class Tab extends JPanel {
             // initialise Tab variables
             this.tabName = tab_name;
             this.squares =  new Cell[8][8];
-//            this.game = new Game(false);
-//
-//            game.setPiece(new King(backend.Enums.Color.BLACK), 6,2);
-//            game.setPiece(new Pawn(backend.Enums.Color.WHITE), 4,3);
-//            game.setPiece(new Rook(backend.Enums.Color.WHITE),2, 3);
-//            game.setPiece(new Queen(backend.Enums.Color.BLACK), 1,3);
             this.game = new Game(true);
             this.move = new JMovePanel();
 

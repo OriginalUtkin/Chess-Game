@@ -45,7 +45,7 @@ public class IJAProject {
         loadGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 Notation notationName = new Notation(tabPane, frame);
-                notationName.parseNotation();
+                notationName.parseFile();
             }
         });
 
