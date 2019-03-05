@@ -22,6 +22,8 @@ public class Notation{
      private Matcher m;
      private Tab loadedTab;
 
+     private boolean flag = false;
+
      public Notation(JTabbedPane tabPane, JFrame frame){
           loadedTab = new Tab(tabPane, frame, "Loaded Game");
      }
@@ -74,73 +76,103 @@ public class Notation{
           return fileData;
      }
 
-     public void parseNotation(){
+     public void parseFile(){
+          StringBuilder fileData = this.readFile();
+          this.parseNotation(fileData.toString());
+     }
+
+     private void parseNotation(String str){
+          m = this.matchPattern(str, "^\\d{1,2}[\\.]{1}\\s*");
+          if (m.find()){
+               String strWithoutNumeration = str.replace(m.group(), "");
+               this.moveFigure(strWithoutNumeration);
+          }else if(str.equals("")){
+               System.out.println("[END]");
+          }
+          else{
+               System.out.println(str);
+               System.exit(1);
+          }
+     }
+
+
+     private void moveFigure(String strWithoutNumeration){
           String movement = "";
           String source = "";
           String destination = "";
           Integer column, destColumn = 0;
           String destRow = "";
           String row = "";
-
           ChessPiece gottenPiece;
-          boolean flag = false;
 
+          m = this.matchPattern(strWithoutNumeration,"^[\"K\",\"D\",\"V\",\"S\",\"J\",\"p\"]{1}" );
 
-          StringBuilder fileData = this.readFile();
-
-          m = this.matchPattern(fileData.toString(), "^\\d{1,2}[\\.]{1}\\s*");
-
-          if (m.find()){
-               String strWithoutNumeration = fileData.toString().replace(m.group(), "");
-               m = this.matchPattern(strWithoutNumeration,"^[\"K\",\"J\",\"D\", \"V\",\"J\",\"p\"]{1}" );
-
-               if (m.find()){
-                    String abbeviation = m.group();
-                    movement =  strWithoutNumeration.replace(m.group(),"");
-                    m = this.matchPattern(movement, "^[a-h]{1}[1-8]{1}");
-                    if (m.find()){
-                         source = m.group();
-                         m = this.matchPattern(source, "^[a-h]{1}");
-                         if (m.find()){
-                              column = this.transformCoordinate(m.group());
-                              m = this.matchPattern(source, "[1-8]{1}");
-                              if (m.find()){ row = m.group();
-                                   gottenPiece = loadedTab.getBoardPiece(Integer.parseInt(row)-1, column);
-                                   if (gottenPiece.toString().equals(abbeviation)){
-                                        destination = movement.replace(source,"");
-                                        System.out.println(destination);
-
-                                        m = this.matchPattern(destination, "^[a-h]{1}");
-                                        if (m.find()){
-                                             destColumn = this.transformCoordinate(m.group());
-                                             m = this.matchPattern(destination, "[1-8]{1}");
-                                             if (m.find()){
-                                                  destRow = m.group();
-                                                  System.out.println("Row " + destRow + "Column " + destColumn);
-                                             }
-                                        }
-                                        List<Movement> possibleMovements =  gottenPiece.calculatePossibleMovements();
-                                        for (int i = 0; i< possibleMovements.size(); i++){
-                                             if ( (possibleMovements.get(i).getRow() == Integer.parseInt(destRow)-1)
-                                                     && (possibleMovements.get(i).getColumn() == destColumn)
-                                             ){
-                                                  System.out.println("True");
-                                                  loadedTab.setPieceToTheGame(gottenPiece, Integer.parseInt(row)-1,
-                                                          column,Integer.parseInt(destRow)-1,destColumn);
-                                                  flag = true;
-                                             }
-                                        }
-                                        if (!flag){
-                                             System.out.println("Impossible movement for this figure");
-                                             System.exit(1);
+          if (m.find()) {
+               String abbeviation = m.group();
+               movement = strWithoutNumeration.substring(1);
+               m = this.matchPattern(movement, "^[a-h]{1}[1-8]{1}");
+               if (m.find()) {
+                    source = m.group();
+                    m = this.matchPattern(source, "^[a-h]{1}");
+                    if (m.find()) {
+                         column = this.transformCoordinate(m.group());
+                         m = this.matchPattern(source, "[1-8]{1}");
+                         if (m.find()) {
+                              row = m.group();
+                              gottenPiece = loadedTab.getBoardPiece(Integer.parseInt(row) - 1, column);
+                              if (gottenPiece.toString().equals(abbeviation)) {
+                                   destination = movement.replace(source, "");
+                                   m = this.matchPattern(destination, "^[a-h]{1}");
+                                   if (m.find()) {
+                                        destColumn = this.transformCoordinate(m.group());
+                                        movement = destination.substring(1);
+                                        m = this.matchPattern(destination, "[1-8]{1}");
+                                        if (m.find()) {
+                                             destRow = m.group();
+                                             movement = movement.substring(1);
                                         }
                                    }
+                                   List<Movement> possibleMovements = gottenPiece.calculatePossibleMovements();
+                                   for (int i = 0; i < possibleMovements.size(); i++) {
+                                        if ((possibleMovements.get(i).getRow() == Integer.parseInt(destRow) - 1)
+                                                && (possibleMovements.get(i).getColumn() == destColumn)
+                                        ) {
+                                             loadedTab.setPieceToTheGame(gottenPiece, Integer.parseInt(row) - 1,
+                                                     column, Integer.parseInt(destRow) - 1, destColumn);
+
+                                             flag = true;
+                                        }
+                                   }
+                                   m = this.matchPattern(movement, "^\\s+");
+                                   if (!m.find()){
+                                        // No spaces
+                                        System.out.println("Incorrect notation");
+                                        System.exit(1);
+                                   }else{
+                                        movement = movement.substring(1);
+                                        m = this.matchPattern(movement,"^[\"K\",\"D\",\"V\",\"S\",\"J\",\"p\"]{1}" );
+                                        if (m.find()){
+                                             this.moveFigure(movement);
+                                        }else{
+                                             /*The next movement*/
+                                             this.parseNotation(movement);
+                                        }
+                                   }
+                                   if (!flag) {
+                                        System.out.println("Impossible destination for this figure");
+                                        System.exit(1);
+                                   }
+                              }else{
+                                   // No figure in the cell
+                                   System.out.println("Incorrect notation");
+                                   System.exit(1);
                               }
                          }
                     }
-               }else{
-                    System.out.println("Notation format error");
                }
+          }else{
+               System.out.println("Incorrect notation, expecting K,D,V,S,J,p");
+               System.exit(1);
           }
      }
 

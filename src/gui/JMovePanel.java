@@ -23,5 +23,8 @@ public class JMovePanel extends JPanel {
     public void setText(String text){
         this.text = text;
     }
+    public void repaintPanel(){
+        this.repaint();
+    }
     public String getText(){return this.text;}
 }
