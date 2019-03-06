@@ -11,35 +11,20 @@ public class Turn {
     final private int destinationRow;
     final private int destinationColumn;
 
-    final private ChessPiece movedPiece;
-    final private ChessPiece beatenPeace;
-
-    final private Color playerColor;
+    final private String abbreviation;
 
     public Turn(
             int sourceRow,
             int sourceColumn,
             int destinationRow,
             int destinationColumn,
-            ChessPiece movedPiece,
-            ChessPiece beatenPeace
+            String abbreviation
     ){
         this.sourceRow = sourceRow;
         this.sourceColumn = sourceColumn;
         this.destinationRow = destinationRow;
         this.destinationColumn = destinationColumn;
-        this.movedPiece = movedPiece;
-        this.beatenPeace = beatenPeace;
-
-        this.playerColor = movedPiece.getColor();
-    }
-
-    public ChessPiece getBeatenPeace() {
-        return beatenPeace;
-    }
-
-    public ChessPiece getMovedPiece() {
-        return movedPiece;
+        this.abbreviation = abbreviation;
     }
 
     public int getDestinationColumn() {
@@ -58,12 +43,13 @@ public class Turn {
         return sourceRow;
     }
 
-    public Color getPlayerColor(){
-        return this.playerColor;
+    public String getAbbreviation() {
+        return abbreviation;
     }
 
     @Override
     public String toString(){
-        return "Turn representation";
+        return "[" + abbreviation + "][SRC] row:" + sourceRow + " column:" + sourceColumn + "  [DST] row:" + destinationRow
+                + " column: " + destinationColumn;
     }
 }

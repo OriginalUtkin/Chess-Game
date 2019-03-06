@@ -1,14 +1,13 @@
 package controller;
 
-import backend.Abstracts.ChessPiece;
-import backend.Figures.Movement;
-import gui.Tab;
+import backend.Enums.Color;
 
-import javax.swing.*;
+import backend.Figures.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,12 +19,11 @@ public class Notation{
      private String shortNotation;
      private String fullNotation;
      private Matcher m;
-     private Tab loadedTab;
 
-     private boolean flag = false;
+     private List<Turn> turns;
 
-     public Notation(JTabbedPane tabPane, JFrame frame){
-          loadedTab = new Tab(tabPane, frame, "Loaded Game");
+     public Notation(){
+          this.turns = new ArrayList<>();
      }
 
      private int transformCoordinate(String s){
@@ -54,12 +52,12 @@ public class Notation{
           return m;
      }
 
-     private StringBuilder readFile(){
+     private StringBuilder readFile(String filename){
           BufferedReader file = null;
           StringBuilder fileData = new StringBuilder();
 
           try {
-               file = new BufferedReader(new FileReader("src/controller/notation.txt"));
+               file = new BufferedReader(new FileReader(filename));
           } catch (FileNotFoundException e) {
                e.printStackTrace();
           }
@@ -76,8 +74,8 @@ public class Notation{
           return fileData;
      }
 
-     public void parseFile(){
-          StringBuilder fileData = this.readFile();
+     public void parseFile(String filename){
+          StringBuilder fileData = this.readFile(filename);
           this.parseNotation(fileData.toString());
      }
 
@@ -97,75 +95,59 @@ public class Notation{
 
 
      private void moveFigure(String strWithoutNumeration){
-          String movement = "";
-          String source = "";
-          String destination = "";
-          Integer column, destColumn = 0;
-          String destRow = "";
-          String row = "";
-          ChessPiece gottenPiece;
+          String movement, source, destination;
+          String srcRow, srcColumn, destColumn, destRow;
 
           m = this.matchPattern(strWithoutNumeration,"^[\"K\",\"D\",\"V\",\"S\",\"J\",\"p\"]{1}" );
 
           if (m.find()) {
-               String abbeviation = m.group();
+               String abbreviation = m.group();
                movement = strWithoutNumeration.substring(1);
                m = this.matchPattern(movement, "^[a-h]{1}[1-8]{1}");
                if (m.find()) {
                     source = m.group();
                     m = this.matchPattern(source, "^[a-h]{1}");
                     if (m.find()) {
-                         column = this.transformCoordinate(m.group());
+//                         column = this.transformCoordinate(m.group());
+                         srcColumn = m.group();
                          m = this.matchPattern(source, "[1-8]{1}");
                          if (m.find()) {
-                              row = m.group();
-                              gottenPiece = loadedTab.getBoardPiece(Integer.parseInt(row) - 1, column);
-                              if (gottenPiece.toString().equals(abbeviation)) {
-                                   destination = movement.replace(source, "");
-                                   m = this.matchPattern(destination, "^[a-h]{1}");
+                              srcRow = m.group();
+                              destination = movement.replace(source, "");
+                              m = this.matchPattern(destination, "^[a-h]{1}");
+                              if (m.find()) {
+//                                   destColumn = this.transformCoordinate(m.group());
+                                   destColumn = m.group();
+                                   movement = destination.substring(1);
+                                   m = this.matchPattern(destination, "[1-8]{1}");
                                    if (m.find()) {
-                                        destColumn = this.transformCoordinate(m.group());
-                                        movement = destination.substring(1);
-                                        m = this.matchPattern(destination, "[1-8]{1}");
-                                        if (m.find()) {
-                                             destRow = m.group();
-                                             movement = movement.substring(1);
-                                        }
-                                   }
-                                   List<Movement> possibleMovements = gottenPiece.calculatePossibleMovements();
-                                   for (int i = 0; i < possibleMovements.size(); i++) {
-                                        if ((possibleMovements.get(i).getRow() == Integer.parseInt(destRow) - 1)
-                                                && (possibleMovements.get(i).getColumn() == destColumn)
-                                        ) {
-                                             loadedTab.setPieceToTheGame(gottenPiece, Integer.parseInt(row) - 1,
-                                                     column, Integer.parseInt(destRow) - 1, destColumn);
+                                        destRow = m.group();
 
-                                             flag = true;
-                                        }
-                                   }
-                                   m = this.matchPattern(movement, "^\\s+");
-                                   if (!m.find()){
-                                        // No spaces
-                                        System.out.println("Incorrect notation");
-                                        System.exit(1);
-                                   }else{
+                                        // Add notation to the list of turns
+
+                                        Turn chessPiece = new Turn(Integer.valueOf(srcRow)-1, this.transformCoordinate(srcColumn),
+                                                Integer.valueOf(destRow)-1, this.transformCoordinate(destColumn), abbreviation);
+
+                                        this.turns.add(chessPiece);
+
                                         movement = movement.substring(1);
-                                        m = this.matchPattern(movement,"^[\"K\",\"D\",\"V\",\"S\",\"J\",\"p\"]{1}" );
-                                        if (m.find()){
-                                             this.moveFigure(movement);
-                                        }else{
-                                             /*The next movement*/
-                                             this.parseNotation(movement);
-                                        }
                                    }
-                                   if (!flag) {
-                                        System.out.println("Impossible destination for this figure");
-                                        System.exit(1);
-                                   }
-                              }else{
-                                   // No figure in the cell
+                              }
+
+                              m = this.matchPattern(movement, "^\\s+");
+                              if (!m.find()){
+                                   // No spaces
                                    System.out.println("Incorrect notation");
                                    System.exit(1);
+                              }else{
+                                   movement = movement.substring(1);
+                                   m = this.matchPattern(movement,"^[\"K\",\"D\",\"V\",\"S\",\"J\",\"p\"]{1}" );
+                                   if (m.find()){
+                                        this.moveFigure(movement);
+                                   }else{
+                                        /*The next movement*/
+                                        this.parseNotation(movement);
+                                   }
                               }
                          }
                     }
@@ -177,5 +159,7 @@ public class Notation{
      }
 
 
-
+     public List<Turn> returnTurnList(){
+          return this.turns;
+     }
 }

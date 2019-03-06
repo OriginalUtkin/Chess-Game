@@ -56,20 +56,14 @@ public class IJAProject {
                 fileChooser.setDialogTitle("Load game");
 
                 if (fileChooser.showOpenDialog(chooserFrame) == JFileChooser.APPROVE_OPTION) {
-                    System.out.println("I'm gonna load whatever u want");
                     File fileName = fileChooser.getSelectedFile();
-                    // Send fileName.toString to your parser
-                    // Open this file on parser side and parse it
-                    // return all parsed turn here
+                    Notation notationName = new Notation();
+                    notationName.parseFile(fileName.toString());
+
                     // Now we cant create a tab and send parsed turn to the game
-                    new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1));
-
+                    Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1));
+                    loadedTab.setTurnList(notationName.returnTurnList());
                 }
-
-
-
-                Notation notationName = new Notation(tabPane, frame);
-                notationName.parseFile();
             }
 
         });

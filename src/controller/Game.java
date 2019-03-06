@@ -29,6 +29,7 @@ public class Game {
     private Color currentTurn;
     private int turnNumber;
     private List<String> turnNotations;
+    private List<Turn> turnList = new ArrayList<>();
 
     private char identifier;
 
@@ -740,5 +741,30 @@ public class Game {
         }
 
         return false;
+    }
+
+
+    public void setTurnList(List<Turn> turns){
+        this.turnList = turns;
+        /*Parse list*/
+        for (int i=0; i<this.turnList.size(); i++){
+            this.parseOneNotation(this.turnList.get(i));
+        }
+    }
+
+    private void parseOneNotation(Turn turnObj){
+        ChessPiece currentPiece = this.getBoardPiece(turnObj.getSourceRow(), turnObj.getSourceColumn());
+        if (currentPiece.toString().equals(turnObj.getAbbreviation())){
+            List<Movement> possibleMovements = currentPiece.calculatePossibleMovements();
+            for (int i = 0; i < possibleMovements.size(); i++) {
+                if ((possibleMovements.get(i).getRow() == turnObj.getDestinationRow())
+                        && (possibleMovements.get(i).getColumn() == turnObj.getDestinationColumn())
+                ) {
+                    this.setPiece(currentPiece, turnObj.getDestinationRow(), turnObj.getDestinationColumn());
+                }
+            }
+        }else{
+            System.out.println("Impossible movement");
+        }
     }
 }
