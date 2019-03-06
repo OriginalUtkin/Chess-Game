@@ -1,5 +1,9 @@
+import backend.Abstracts.ChessPiece;
+import controller.Turn;
+import gui.Cell;
 import gui.Tab;
 import controller.Notation;
+import sun.rmi.server.InactiveGroupException;
 
 import java.awt.*;
 import javax.swing.*;
@@ -62,7 +66,21 @@ public class IJAProject {
 
                     // Now we cant create a tab and send parsed turn to the game
                     Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1));
-                    loadedTab.setTurnList(notationName.returnTurnList());
+
+                    for (int i=0; i<notationName.returnTurnList().size(); i++){
+                        Turn currentTurn = notationName.returnTurnList().get(i);
+                        ChessPiece currentPiece = loadedTab.parseOneNotation(currentTurn);
+                        int oldRow = currentTurn.getSourceRow();
+                        int oldColumn = currentTurn.getSourceColumn();
+                        int newRow = currentTurn.getDestinationRow();
+                        int newColumn = currentTurn.getDestinationColumn();
+                        loadedTab.setPieceToTheGame(currentPiece, oldRow, Integer.valueOf(oldColumn), newRow, newColumn);
+                        String notation = Integer.toString(oldRow);
+                        notation += notationName.convertCoordinateBack(oldColumn);
+                        notation += newRow;
+                        notation += notationName.convertCoordinateBack(newColumn);
+                        loadedTab.setTurnNotation(notation, new Color(32,32,32));
+                    }
                 }
             }
 

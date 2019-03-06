@@ -743,16 +743,7 @@ public class Game {
         return false;
     }
 
-
-    public void setTurnList(List<Turn> turns){
-        this.turnList = turns;
-        /*Parse list*/
-        for (int i=0; i<this.turnList.size(); i++){
-            this.parseOneNotation(this.turnList.get(i));
-        }
-    }
-
-    private void parseOneNotation(Turn turnObj){
+    public ChessPiece parseNotation(Turn turnObj){
         ChessPiece currentPiece = this.getBoardPiece(turnObj.getSourceRow(), turnObj.getSourceColumn());
         if (currentPiece.toString().equals(turnObj.getAbbreviation())){
             List<Movement> possibleMovements = currentPiece.calculatePossibleMovements();
@@ -766,5 +757,6 @@ public class Game {
         }else{
             System.out.println("Impossible movement");
         }
+        return currentPiece;
     }
 }

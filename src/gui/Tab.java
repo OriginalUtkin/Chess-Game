@@ -26,13 +26,15 @@ public class Tab extends JPanel {
     private Game game;
     private JMovePanel move;
 
+    private JPanel movements;
+
 
     public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
-        if (Tab.countOfTabs <= 5){
+        if (Tab.countOfTabs <= 5) {
 
             // initialise Tab variables
             this.tabName = tab_name;
-            this.squares =  new Cell[8][8];
+            this.squares = new Cell[8][8];
             this.game = new Game(true);
             this.move = new JMovePanel();
 
@@ -41,11 +43,15 @@ public class Tab extends JPanel {
             tabbedPane.addTab(tab_name, panel);
             tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-        }else{
+        } else {
             JOptionPane.showMessageDialog(frame, "Too many tabs");
         }
 
 
+    }
+
+    public Cell[][] returnTabSquares(){
+        return this.squares;
     }
 
     public ChessPiece getBoardPiece(final int row, final int column){
@@ -106,7 +112,7 @@ public class Tab extends JPanel {
 
 
         /*TextField with Movements*/
-        JPanel movements = new JPanel();
+        movements = new JPanel();
         movements.setBackground(new Color(32,32,32));
         movements.setPreferredSize(new Dimension(330,300));
 
@@ -160,18 +166,7 @@ public class Tab extends JPanel {
                             // TODO : set this value to right panel with all turns
 
                             String turnNotation = game.movePiece();
-                            move = new JMovePanel();
-                            JLabel moveLabel = new JLabel(turnNotation);
-                            moveLabel.setFont(new Font("Serif", Font.PLAIN, 18));
-                            moveLabel.setForeground(Color.WHITE);
-                            moveLabel.setText(moveLabel.getText() + "");
-                            move.setText(turnNotation);
-
-                            move.setBorder(BorderFactory.createLineBorder(Color.yellow));
-
-                            move.add(moveLabel);
-                            movements.add(move);
-                            movements.repaint();
+                            setTurnNotation(turnNotation, Color.yellow);
                         }
 
                         return;
@@ -293,6 +288,22 @@ public class Tab extends JPanel {
         return panelBoard;
     }
 
+
+    public void setTurnNotation(String str, Color color){
+        move = new JMovePanel();
+        JLabel moveLabel = new JLabel(str);
+        moveLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+        moveLabel.setForeground(Color.WHITE);
+        moveLabel.setText(moveLabel.getText() + "");
+        move.setText(str);
+
+        move.setBorder(BorderFactory.createLineBorder(color));
+
+        move.add(moveLabel);
+        movements.add(move);
+        movements.repaint();
+    }
+
     private void setCellsColor(List<Movement> possibleMovements, Color color, int thickness){
 
         for (Movement movement: possibleMovements) {
@@ -329,7 +340,8 @@ public class Tab extends JPanel {
         }
     }
 
-    public void setTurnList(List<Turn> turns){
-        this.game.setTurnList(turns);
+    public ChessPiece parseOneNotation(Turn turn){
+        return this.game.parseNotation(turn);
     }
+
 }

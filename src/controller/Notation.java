@@ -38,6 +38,18 @@ public class Notation{
           return result;
      }
 
+     public String convertCoordinateBack(int n){
+          String result = "";
+          switch (n){
+               case 0: result="a";break; case 1: result="b"; break; case 2:result="c"; break;
+               case 3: result="d";break; case 4:result="e"; break; case 5:result="f"; break;
+               case 6: result = "g";break; case 7: result="h";break;
+               default:
+                    break;
+          }
+          return result;
+     }
+
      private Matcher matchPattern(String str, String pattern){
           Pattern urlPattern = Pattern.compile(pattern);
           m = urlPattern.matcher(str);
