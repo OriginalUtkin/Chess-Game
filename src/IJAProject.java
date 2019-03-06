@@ -5,6 +5,9 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.String;
 
 public class IJAProject {
@@ -42,11 +45,33 @@ public class IJAProject {
         menuGame.add(loadGame);
         loadGame.setFont(font);
 
+
         loadGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
+
+                System.out.println("[DEBUG][LOAD] Loading game");
+                JFrame chooserFrame = new JFrame();
+
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Load game");
+
+                if (fileChooser.showOpenDialog(chooserFrame) == JFileChooser.APPROVE_OPTION) {
+                    System.out.println("I'm gonna load whatever u want");
+                    File fileName = fileChooser.getSelectedFile();
+                    // Send fileName.toString to your parser
+                    // Open this file on parser side and parse it
+                    // return all parsed turn here
+                    // Now we cant create a tab and send parsed turn to the game
+                    new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1));
+
+                }
+
+
+
                 Notation notationName = new Notation(tabPane, frame);
                 notationName.parseFile();
             }
+
         });
 
         JMenuItem exitGame = new JMenuItem("Exit");
