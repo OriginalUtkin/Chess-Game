@@ -10,7 +10,7 @@ public class JMovePanel extends JPanel {
 
     public JMovePanel(){
         new FlowLayout(FlowLayout.CENTER, 0, 0);
-        setPreferredSize(new Dimension(60,32));
+        setPreferredSize(new Dimension(200,32));
         setBackground(new Color(32,32,32));
         addMouseListener(new MouseAdapter() {
             @Override

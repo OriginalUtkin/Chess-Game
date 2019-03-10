@@ -304,7 +304,7 @@ public class Tab extends JPanel {
     public void setTurnNotation(String str, Color color){
         move = new JMovePanel();
         JLabel moveLabel = new JLabel(str);
-        moveLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+        moveLabel.setFont(new Font("Serif", Font.PLAIN, 15));
         moveLabel.setForeground(Color.WHITE);
         moveLabel.setText(moveLabel.getText() + "");
         move.setText(str);
