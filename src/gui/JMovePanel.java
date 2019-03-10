@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 
 public class JMovePanel extends JPanel {
     private String text;
+
     public JMovePanel(){
         new FlowLayout(FlowLayout.CENTER, 0, 0);
         setPreferredSize(new Dimension(60,32));

@@ -25,6 +25,7 @@ public class Turn {
         this.destinationRow = destinationRow;
         this.destinationColumn = destinationColumn;
         this.abbreviation = abbreviation;
+
     }
 
     public int getDestinationColumn() {

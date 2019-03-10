@@ -743,20 +743,11 @@ public class Game {
         return false;
     }
 
-    public ChessPiece parseNotation(Turn turnObj){
-        ChessPiece currentPiece = this.getBoardPiece(turnObj.getSourceRow(), turnObj.getSourceColumn());
-        if (currentPiece.toString().equals(turnObj.getAbbreviation())){
-            List<Movement> possibleMovements = currentPiece.calculatePossibleMovements();
-            for (int i = 0; i < possibleMovements.size(); i++) {
-                if ((possibleMovements.get(i).getRow() == turnObj.getDestinationRow())
-                        && (possibleMovements.get(i).getColumn() == turnObj.getDestinationColumn())
-                ) {
-                    this.setPiece(currentPiece, turnObj.getDestinationRow(), turnObj.getDestinationColumn());
-                }
-            }
-        }else{
-            System.out.println("Impossible movement");
-        }
-        return currentPiece;
+
+
+    public void applyTurn(final Turn turn){
+        ChessPiece movedPiece = this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].getPiece();
+        this.gameBoard.gameBoard[turn.getDestinationRow()][turn.getDestinationColumn()].setPiece(movedPiece);
+        this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].setPiece(null);
     }
 }

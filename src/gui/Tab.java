@@ -287,7 +287,19 @@ public class Tab extends JPanel {
         Tab.countOfTabs += 1;
         return panelBoard;
     }
+    public void loadTurn(final Turn turn, final int counter){
+        String additional_abb;
 
+        if (counter%2 == 0){
+            additional_abb = "W";
+        }else{
+            additional_abb = "B";
+        }
+
+        this.game.applyTurn(turn);
+        this.squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation("");
+        this.squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(additional_abb+turn.getAbbreviation());
+    }
 
     public void setTurnNotation(String str, Color color){
         move = new JMovePanel();
@@ -340,8 +352,8 @@ public class Tab extends JPanel {
         }
     }
 
-    public ChessPiece parseOneNotation(Turn turn){
-        return this.game.parseNotation(turn);
-    }
+//    public ChessPiece parseOneNotation(Turn turn){
+//        return this.game.parseNotation(turn);
+//    }
 
 }

@@ -1,4 +1,5 @@
 import backend.Abstracts.ChessPiece;
+import controller.NotationTest;
 import controller.Turn;
 import gui.Cell;
 import gui.Tab;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.String;
+import java.util.List;
 
 public class IJAProject {
     public static void main(String args[]) {
@@ -61,25 +63,12 @@ public class IJAProject {
 
                 if (fileChooser.showOpenDialog(chooserFrame) == JFileChooser.APPROVE_OPTION) {
                     File fileName = fileChooser.getSelectedFile();
-                    Notation notationName = new Notation();
-                    notationName.parseFile(fileName.toString());
-
-                    // Now we cant create a tab and send parsed turn to the game
+                    NotationTest loader = new NotationTest();
+                    List<Turn> turns = loader.fileReader(fileName.toString());
                     Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1));
 
-                    for (int i=0; i<notationName.returnTurnList().size(); i++){
-                        Turn currentTurn = notationName.returnTurnList().get(i);
-                        ChessPiece currentPiece = loadedTab.parseOneNotation(currentTurn);
-                        int oldRow = currentTurn.getSourceRow();
-                        int oldColumn = currentTurn.getSourceColumn();
-                        int newRow = currentTurn.getDestinationRow();
-                        int newColumn = currentTurn.getDestinationColumn();
-                        loadedTab.setPieceToTheGame(currentPiece, oldRow, Integer.valueOf(oldColumn), newRow, newColumn);
-                        String notation = Integer.toString(oldRow);
-                        notation += notationName.convertCoordinateBack(oldColumn);
-                        notation += newRow;
-                        notation += notationName.convertCoordinateBack(newColumn);
-                        loadedTab.setTurnNotation(notation, new Color(32,32,32));
+                    for(int counter = 0; counter < turns.size(); counter++){
+                        loadedTab.loadTurn(turns.get(counter), counter );
                     }
                 }
             }
