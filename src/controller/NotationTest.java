@@ -9,7 +9,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NotationTest {
+    private List<String> lines;
 
+    public NotationTest(){
+        lines = new ArrayList<>();
+    }
+
+    public String getLine(final int index){
+        return this.lines.get(index);
+    }
 
     public List<Turn> fileReader(String path){
         List<Turn> turns = new ArrayList<>();
@@ -43,6 +51,7 @@ public class NotationTest {
 
                     Turn turn = new Turn(start_row, start_column, dst_row, dst_column, piece_name);
                     turns.add(turn);
+                    this.lines.add(line);
                 }
 
             }
@@ -53,6 +62,8 @@ public class NotationTest {
 
         return turns;
     }
+
+
 
 
     private static int transformCoordinate(String s){

@@ -69,6 +69,7 @@ public class IJAProject {
 
                     for(int counter = 0; counter < turns.size(); counter++){
                         loadedTab.loadTurn(turns.get(counter), counter );
+                        loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
                     }
                 }
             }
