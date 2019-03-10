@@ -16,7 +16,7 @@ public class NotationTest {
 
         try {
             Scanner scanner = new Scanner(new File(path));
-            Pattern pattern = Pattern.compile("((J|K|D|V|S){0,1}([a-g])([1-8])([a-g])([1-8]))");
+            Pattern pattern = Pattern.compile("((J|K|D|V|S){0,1}([a-h])([1-8])([a-h])([1-8]))");
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
