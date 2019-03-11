@@ -246,7 +246,14 @@ public class Tab extends JPanel {
         RightPanelButton undo =  new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Turn turnInfo = game.undo();
+                if (turnInfo != null){
+                    // TODO : if piece was beaten during the turn abbreviation should be set to this position
+                    squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
 
+                    squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
+                            turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                }
             }
         });
 

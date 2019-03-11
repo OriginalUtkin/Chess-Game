@@ -28,6 +28,7 @@ public class Game {
     // Game turn specification
     private Color currentTurn;
     private int turnNumber;
+    private int selectedTurnNumber;
     private List<String> turnNotations;
 
     private char identifier;
@@ -46,6 +47,8 @@ public class Game {
         this.turnNotations = new ArrayList<>();
         this.turnNumber = 1;
         this.currentTurn = Color.WHITE;
+
+        this.selectedTurnNumber = 0;
 
     }
 
@@ -480,6 +483,9 @@ public class Game {
         this.dropDestinationCell();
 
         this.changeTurn();
+        this.selectedTurnNumber += 1;
+
+        this.turnNotations.add(turnNotation);
 
         return turnNotation;
     }
@@ -760,7 +766,7 @@ public class Game {
 
             System.out.println("[DEBUG][LOAD][APPLY TURN] White turn is dropped");
         }
-
+        this.selectedTurnNumber += 1;
         this.changeTurn();
     }
 
@@ -768,7 +774,31 @@ public class Game {
 
     }
 
-    public void undo(){
+    public Turn undo(){
+        if (this.selectedTurnNumber > 0){
+            NotationTest notationsParser = new NotationTest();
 
+            String previousTurnNotation = this.turnNotations.get(this.selectedTurnNumber - 1);
+            Turn previousTurn = notationsParser.parseSingleNotation(previousTurnNotation);
+
+            // Get moved piece
+            ChessPiece piece = this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].getPiece();
+
+            this.gameBoard.gameBoard[previousTurn.getSourceRow()][previousTurn.getSourceColumn()].setPiece(piece);
+            this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].setPiece(null);
+
+            this.currentTurn = piece.getColor();
+            previousTurn.setColor(piece.getColor());
+
+            this.selectedTurnNumber -= 1;
+
+            return previousTurn;
+        }else{
+            return null;
+        }
+    }
+
+    private ChessPiece getPieceByAbbreviation(){
+        return null;
     }
 }

@@ -14,6 +14,8 @@ public class Turn {
     final private String abbreviation;
     final private String beaten;
 
+    private Color color;
+
     public Turn(
             int sourceRow,
             int sourceColumn,
@@ -29,6 +31,14 @@ public class Turn {
         this.abbreviation = abbreviation;
         this.beaten = beaten;
 
+    }
+
+    public void setColor(Color color){
+        this.color = color;
+    }
+
+    public Color getColor(){
+        return this.color;
     }
 
     public int getDestinationColumn() {
