@@ -483,9 +483,11 @@ public class Game {
         this.dropDestinationCell();
 
         this.changeTurn();
+
+        this.turnNotations.add(this.selectedTurnNumber, turnNotation);
+
         this.selectedTurnNumber += 1;
 
-        this.turnNotations.add(turnNotation);
 
         return turnNotation;
     }
