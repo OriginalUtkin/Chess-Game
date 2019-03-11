@@ -287,7 +287,7 @@ public class Tab extends JPanel {
         Tab.countOfTabs += 1;
         return panelBoard;
     }
-    public void loadTurn(final Turn turn, final int counter){
+    public void loadTurn(final Turn turn, final int counter, final String notation){
         String additional_abb;
 
         if (counter%2 == 0){
@@ -296,7 +296,7 @@ public class Tab extends JPanel {
             additional_abb = "B";
         }
 
-        this.game.applyTurn(turn);
+        this.game.applyTurn(turn, notation);
         this.squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation("");
         this.squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(additional_abb+turn.getAbbreviation());
     }
@@ -324,9 +324,6 @@ public class Tab extends JPanel {
         }
     }
 
-    public void changeTurn(){
-        this.game.changeTurn();
-    }
 
     private void initializeBoardCells(JPanel panel){
 

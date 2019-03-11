@@ -1,18 +1,13 @@
-import backend.Abstracts.ChessPiece;
 import controller.NotationTest;
 import controller.Turn;
-import gui.Cell;
 import gui.Tab;
-import controller.Notation;
-import sun.rmi.server.InactiveGroupException;
 
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+
 import java.lang.String;
 import java.util.List;
 
@@ -68,12 +63,9 @@ public class IJAProject {
                     Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1));
 
                     for(int counter = 0; counter < turns.size(); counter++){
-                        loadedTab.loadTurn(turns.get(counter), counter );
+                        loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
                         loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
                     }
-
-                    if ((turns.size()-1)%2 == 0)
-                        loadedTab.changeTurn();
                 }
             }
         });

@@ -29,7 +29,6 @@ public class Game {
     private Color currentTurn;
     private int turnNumber;
     private List<String> turnNotations;
-    private List<Turn> turnList = new ArrayList<>();
 
     private char identifier;
 
@@ -743,10 +742,26 @@ public class Game {
         return false;
     }
 
-    public void applyTurn(final Turn turn){
+    public void applyTurn(final Turn turn, final String turnNotation){
         ChessPiece movedPiece = this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].getPiece();
         this.gameBoard.gameBoard[turn.getDestinationRow()][turn.getDestinationColumn()].setPiece(movedPiece);
         this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].setPiece(null);
+
+        if (this.currentTurn == Color.WHITE){
+            this.whiteTurnNotation = turnNotation;
+
+            System.out.println("[DEBUG][LOAD][APPLY TURN] White turn is set");
+
+        }else{
+            this.turnNotations.add(Integer.valueOf(this.turnNumber).toString() + ". " + whiteTurnNotation + " " +
+                    turnNotation + '\n');
+            this.turnNumber += 1;
+            this.whiteTurnNotation = null;
+
+            System.out.println("[DEBUG][LOAD][APPLY TURN] White turn is dropped");
+        }
+
+        this.changeTurn();
     }
 
     public void redo(){
