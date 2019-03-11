@@ -324,6 +324,10 @@ public class Tab extends JPanel {
         }
     }
 
+    public void changeTurn(){
+        this.game.changeTurn();
+    }
+
     private void initializeBoardCells(JPanel panel){
 
         for (int i = 7; i >= 0; i--) {

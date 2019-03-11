@@ -92,7 +92,7 @@ public class Game {
         this.destinationCell = null;
     }
 
-    private void changeTurn() {
+    public void changeTurn() {
         if (this.currentTurn == Color.WHITE)
             this.currentTurn = Color.BLACK;
         else
@@ -754,6 +754,6 @@ public class Game {
     }
 
     public void undo(){
-        
+
     }
 }

@@ -67,15 +67,13 @@ public class IJAProject {
                     List<Turn> turns = loader.fileReader(fileName.toString());
                     Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1));
 
-                    for(int counter = 0, notation_counter = 0; counter < turns.size(); counter++){
+                    for(int counter = 0; counter < turns.size(); counter++){
                         loadedTab.loadTurn(turns.get(counter), counter );
-
-                        if (counter % 2 != 0){
-                            loadedTab.setTurnNotation(loader.getLine(notation_counter), Color.yellow);
-                            notation_counter += 1;
-                        }
-
+                        loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
                     }
+
+                    if ((turns.size()-1)%2 == 0)
+                        loadedTab.changeTurn();
                 }
             }
         });

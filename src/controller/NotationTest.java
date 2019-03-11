@@ -9,14 +9,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NotationTest {
-    private List<String> lines;
+    private List<String> notations;
 
     public NotationTest(){
-        lines = new ArrayList<>();
+        notations = new ArrayList<>();
     }
 
     public String getLine(final int index){
-        return this.lines.get(index);
+        return this.notations.get(index);
     }
 
     public List<Turn> fileReader(String path){
@@ -28,7 +28,7 @@ public class NotationTest {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 turns.addAll(this.parseNotation(line));
-                this.lines.add(line);
+
             }
 
         }catch (FileNotFoundException exception) {
@@ -48,6 +48,7 @@ public class NotationTest {
         while (matcher.find()) {
             // If Group 1 is empty -> common movement; piece was beaten otherwise
             if (matcher.group(1) != null){
+                // Group 1 - full match
                 // Group 2  - Chess piece
                 // Group 3 - start column coordinate
                 // Group 4 - start row coordinate
@@ -74,6 +75,7 @@ public class NotationTest {
                 int dst_row = Integer.valueOf(matcher.group(7)) - 1;
 
                 turns.add(new Turn(start_row, start_column, dst_row, dst_column, piece_name, beaten_piece_name));
+                this.notations.add(matcher.group(1));
 
             }else{
                 // Group 8  - full match
@@ -96,6 +98,7 @@ public class NotationTest {
                 int dst_row = Integer.valueOf(matcher.group(13)) - 1;
 
                 turns.add(new Turn(start_row, start_column, dst_row, dst_column, piece_name, null));
+                this.notations.add(matcher.group(8));
             }
 
         }
