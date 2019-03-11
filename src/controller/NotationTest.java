@@ -24,40 +24,80 @@ public class NotationTest {
 
         try {
             Scanner scanner = new Scanner(new File(path));
-            Pattern pattern = Pattern.compile("((J|K|D|V|S){0,1}([a-h])([1-8])([a-h])([1-8]))");
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                Matcher matcher = pattern.matcher(line);
-
-                while (matcher.find()) {
-                    // Group 1  - full match
-                    // Group 2 - name of the piece
-                    // Group 3 - start column coordinate
-                    // Group 4 - start row coordinate
-                    // Group 5 - destination column coordinate
-                    // Group 6 - destination row coordinate
-                    String piece_name = matcher.group(2);
-
-                    if (piece_name == null){
-                        piece_name = "P";
-                    }
-
-                    int start_column = transformCoordinate(matcher.group(3));
-                    int start_row = Integer.valueOf(matcher.group(4)) - 1;
-
-                    int dst_column = transformCoordinate(matcher.group(5));
-                    int dst_row = Integer.valueOf(matcher.group(6)) - 1;
-
-                    Turn turn = new Turn(start_row, start_column, dst_row, dst_column, piece_name);
-                    turns.add(turn);
-                    this.lines.add(line);
-                }
-
+                turns.addAll(this.parseNotation(line));
+                this.lines.add(line);
             }
 
         }catch (FileNotFoundException exception) {
             exception.printStackTrace();
+        }
+
+        return turns;
+    }
+
+    public List<Turn> parseNotation(final String notationString){
+
+        Pattern pattern = Pattern.compile("((J|K|D|V|S|)([a-h])([1-8])x(J|K|D|V|S|)([a-h])([1-8]))|((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8]))");
+        Matcher matcher = pattern.matcher(notationString);
+
+        List<Turn> turns = new ArrayList<>();
+
+        while (matcher.find()) {
+            // If Group 1 is empty -> common movement; piece was beaten otherwise
+            if (matcher.group(1) != null){
+                // Group 2  - Chess piece
+                // Group 3 - start column coordinate
+                // Group 4 - start row coordinate
+                // Group 5 - beaten chess piece
+                // Group 6 - destination column coordinate
+                // Group 7 - destination row coordinate
+
+                String piece_name = matcher.group(2);
+
+                if (piece_name.isEmpty()){
+                    piece_name = "P";
+                }
+
+                int start_column = transformCoordinate(matcher.group(3));
+                int start_row = Integer.valueOf(matcher.group(4)) - 1;
+
+                String beaten_piece_name = matcher.group(5);
+
+                if (beaten_piece_name.isEmpty()){
+                    beaten_piece_name = "P";
+                }
+
+                int dst_column = transformCoordinate(matcher.group(6));
+                int dst_row = Integer.valueOf(matcher.group(7)) - 1;
+
+                turns.add(new Turn(start_row, start_column, dst_row, dst_column, piece_name, beaten_piece_name));
+
+            }else{
+                // Group 8  - full match
+                // Group 9 - name of the piece
+                // Group 10 - start column coordinate
+                // Group 11 - start row coordinate
+                // Group 12 - destination column coordinate
+                // Group 13 - destination row coordinate
+
+                String piece_name = matcher.group(9);
+
+                if (piece_name.isEmpty()){
+                    piece_name = "P";
+                }
+
+                int start_column = transformCoordinate(matcher.group(10));
+                int start_row = Integer.valueOf(matcher.group(11)) - 1;
+
+                int dst_column = transformCoordinate(matcher.group(12));
+                int dst_row = Integer.valueOf(matcher.group(13)) - 1;
+
+                turns.add(new Turn(start_row, start_column, dst_row, dst_column, piece_name, null));
+            }
+
         }
 
         return turns;

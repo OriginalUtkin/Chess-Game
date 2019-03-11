@@ -743,11 +743,17 @@ public class Game {
         return false;
     }
 
-
-
     public void applyTurn(final Turn turn){
         ChessPiece movedPiece = this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].getPiece();
         this.gameBoard.gameBoard[turn.getDestinationRow()][turn.getDestinationColumn()].setPiece(movedPiece);
         this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].setPiece(null);
+    }
+
+    public void redo(){
+
+    }
+
+    public void undo(){
+        
     }
 }

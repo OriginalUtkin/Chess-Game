@@ -12,19 +12,22 @@ public class Turn {
     final private int destinationColumn;
 
     final private String abbreviation;
+    final private String beaten;
 
     public Turn(
             int sourceRow,
             int sourceColumn,
             int destinationRow,
             int destinationColumn,
-            String abbreviation
+            String abbreviation,
+            String beaten
     ){
         this.sourceRow = sourceRow;
         this.sourceColumn = sourceColumn;
         this.destinationRow = destinationRow;
         this.destinationColumn = destinationColumn;
         this.abbreviation = abbreviation;
+        this.beaten = beaten;
 
     }
 
@@ -46,6 +49,10 @@ public class Turn {
 
     public String getAbbreviation() {
         return abbreviation;
+    }
+
+    public String getBeaten() {
+        return this.beaten;
     }
 
     @Override

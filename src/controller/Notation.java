@@ -138,7 +138,7 @@ public class Notation{
                                         // Add notation to the list of turns
 
                                         Turn chessPiece = new Turn(Integer.valueOf(srcRow)-1, this.transformCoordinate(srcColumn),
-                                                Integer.valueOf(destRow)-1, this.transformCoordinate(destColumn), abbreviation);
+                                                Integer.valueOf(destRow)-1, this.transformCoordinate(destColumn), abbreviation, null);
 
                                         this.turns.add(chessPiece);
 
