@@ -801,7 +801,7 @@ public class Game {
             String followingTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber);
             Turn followingTurn = notationParser.parseSingleNotation(followingTurnNotation);
 
-            followingTurn.setColor (this.selectedTurnNumber%2==0 ? Color.WHITE : Color.BLACK);
+            followingTurn.setColor (this.currentTurn);
             this.applyTurn(followingTurn, followingTurnNotation, true);
 
             this.cancelledNotations.remove(followingTurnNotation);
