@@ -19,6 +19,16 @@ public class Cell {
     private ChessPiece piece;
 
 
+    /**
+     * Main constructor for game cell object.
+     *
+     * @param color color of the current cell
+     * @param piece chess piece that is staying on the cell
+     * @param letter letter of the cell that represents cell column
+     * @param number number of the cell that represents cell row
+     * @param row cell row coordinate in the board array
+     * @param column cell column coordinate in the board array
+     */
     Cell(Color color, ChessPiece piece, char letter, int number, int row, int column){
         this.color = color;
         this.letter = letter;
@@ -27,27 +37,28 @@ public class Cell {
         this.column = column;
 
         this.piece = piece;
-
     }
 
+
+
+    /***
+     * Return piece that is currently staying on cell object.
+     *
+     * @return ChessPiece object - piece on cell
+     */
     public ChessPiece getPiece(){
-        /***
-         * Return piece that is currently staying on cell object.
-         *
-         * @return ChessPiece object - piece on cell
-         */
         return this.piece;
     }
 
 
+
+    /**
+     * Set chess piece on cell. If piece is represented by ChessPiece object recalculate piece coordinates.
+     *
+     * @param piece object on the game board
+     *
+     */
     public void setPiece(ChessPiece piece){
-        /**
-         * Set chess piece on cell. If piece is represented by ChessPiece object recalculate piece coordinates.
-         *
-         * @param piece object on the game board
-         *
-         * @return void
-         */
         this.piece = piece;
 
         if (piece != null){
@@ -56,37 +67,57 @@ public class Cell {
         }
     }
 
+
+
+    /**
+     * Check if any chess piece is staying on the cell.
+     *
+     * @return boolean; True in case that cell is empty. Otherwise False is returned
+     */
     public boolean isFree(){
-        /**
-         * Check if any chess piece is staying on the cell.
-         *
-         * @return boolean; True in case that cell is empty. Otherwise False is returned
-         */
         return this.piece == null;
     }
 
+
+
+    /**
+     * Return full representation of cell in string format.
+     *
+     * @return string in format cell_number + cell_letter + cell_color
+     */
     public String getFullString() {
-        /**
-         * Return full representation of cell in string format.
-         *
-         * @return string in format cell_number + cell_letter + cell_color
-         */
         return String.valueOf(this.number) + letter + this.color;
     }
 
+
+
+    /**
+     * Return representation of cell in string format.
+     *
+     * @return string in format cell_letter + cell_number
+     */
     @Override
     public String toString(){
-        /**
-         * Return representation of cell in string format.
-         *
-         * @return string in format cell_letter + cell_number
-         */
         return letter + String.valueOf(this.number);
     }
 
+
+    /**
+     * Getter for cell letter (row).
+     *
+     * @return char symbol which represents selected board cell
+     */
     public char returnLetter(){
         return letter;
     }
+
+
+
+    /**
+     * Getter for cell number (column)
+     *
+     * @return cell number in String format which represents selected board cell
+     */
     public String returnNumber(){
         return String.valueOf(this.number);
     }

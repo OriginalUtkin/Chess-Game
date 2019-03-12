@@ -10,6 +10,11 @@ import backend.Figures.*;
 public class Board {
     public Cell[][] gameBoard;
 
+    /**
+     * Main Board object constructor.
+     *
+     * @param initCells indicate if chess pieces will be initialised on the game board after creating.
+     */
     public Board(boolean initCells){
         this.gameBoard = new Cell[8][8];
         this.initBoardCells();
@@ -17,12 +22,12 @@ public class Board {
             this.initFigures();
     }
 
+
+
+    /**
+     * Initialize the board game object without pieces on it.
+     */
     private void initBoardCells(){
-        /**
-         * Initialize the board game object without figures on it.
-         */
-
-
         char[] cellLetters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
         for (int row = 0; row < 8; row++){
@@ -38,6 +43,11 @@ public class Board {
 
     }
 
+
+
+    /**
+     * Initialise chess pieces on the created game board.
+     */
     private void initFigures(){
 
         for (int row = 0; row < 8; row++){
