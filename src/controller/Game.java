@@ -35,8 +35,6 @@ public class Game {
 
     private char identifier;
 
-    // Game temporary variables
-    private String whiteTurnNotation;
 
 
     /**
@@ -584,17 +582,6 @@ public class Game {
     }
 
 
-
-    /**
-     * Return last notation of the white player turn. Used in case when game is saved before black player turn.
-     *
-     * @return notation string for last white player turn in format [turn_num]. [turn_notation]
-     */
-    public String getLastWhiteNotation(){
-        return this.whiteTurnNotation != null ?
-                Integer.valueOf(this.turnNumber).toString() + ". " +this.whiteTurnNotation :
-                null;
-    }
 
     private boolean isMate() {
         List<Movement> selectedPossibleMovements = this.getPossibleMovements();
