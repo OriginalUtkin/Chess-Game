@@ -30,6 +30,7 @@ public class Game {
     private int turnNumber;
     private int selectedTurnNumber;
     private List<String> singleTurnNotations;
+    private List<String> cancelledNotations;
 
     private char identifier;
 
@@ -45,6 +46,7 @@ public class Game {
         this.destinationCell = null;
 
         this.singleTurnNotations = new ArrayList<>();
+        this.cancelledNotations = new ArrayList<>();
 
         this.turnNumber = 1;
         this.currentTurn = Color.WHITE;
@@ -758,6 +760,8 @@ public class Game {
          */
         List<String> notations = new ArrayList<>();
 
+        this.singleTurnNotations.removeAll(this.cancelledNotations);
+        
         if (this.singleTurnNotations.size() == 0){
             return notations;
         }
@@ -838,6 +842,7 @@ public class Game {
             previousTurn.setColor(piece.getColor());
 
             this.selectedTurnNumber -= 1;
+            this.cancelledNotations.add(this.singleTurnNotations.get(this.selectedTurnNumber));
 
             return previousTurn;
         }
