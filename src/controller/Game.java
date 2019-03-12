@@ -95,9 +95,16 @@ public class Game {
         this.destinationCell = null;
     }
 
-    public void changeTurn() {
+    private void changeTurn() {
+        /**
+         * Change a turn and set color for pieces which could be selected during current turn.
+         *
+         * @return void
+         */
+
         if (this.currentTurn == Color.WHITE)
             this.currentTurn = Color.BLACK;
+
         else
             this.currentTurn = Color.WHITE;
     }
@@ -454,7 +461,7 @@ public class Game {
         String turnNotation = this.getFullNotation();
 
 
-        this.destinationCell.setAbbreviation(this.selectedCell.getAbbreviation());
+        this.destinationCell.setAbbreviation(this.selectedPiece.getColor().toString() + this.selectedPiece.toString());
         this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());
 
         this.selectedCell.setAbbreviation("");

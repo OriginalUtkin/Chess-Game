@@ -248,14 +248,16 @@ public class Tab extends JPanel {
                 Turn turnInfo = game.undo();
 
                 if (turnInfo != null){
+
                     if (turnInfo.getBeaten().isEmpty())
                         squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
 
-                    // TODO: some bug here. Isn't work correct 
-                    else
+                    // TODO: some bug here. Isn't work correct
+                    else{
                         squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
                                 .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
                                         turnInfo.getBeaten());
+                    }
 
                     squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
                             turnInfo.getColor().toString() + turnInfo.getAbbreviation());
