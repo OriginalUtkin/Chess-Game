@@ -154,6 +154,10 @@ public class NotationTest {
 
                 String piece_name = matcher.group(9);
 
+                if (piece_name.isEmpty()){
+                    piece_name = "P";
+                }
+
                 int start_column = transformCoordinate(matcher.group(10));
                 int start_row = Integer.valueOf(matcher.group(11)) - 1;
 

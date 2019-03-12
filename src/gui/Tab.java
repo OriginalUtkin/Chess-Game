@@ -45,8 +45,6 @@ public class Tab extends JPanel {
         } else {
             JOptionPane.showMessageDialog(frame, "Too many tabs");
         }
-
-
     }
 
     public Cell[][] returnTabSquares(){
@@ -238,7 +236,12 @@ public class Tab extends JPanel {
         RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Turn turnInfo = game.redo();
+                System.out.println(turnInfo);
+                if (turnInfo != null){
+                    squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
+                    squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                }
             }
         });
 
@@ -312,7 +315,7 @@ public class Tab extends JPanel {
             additional_abb = "B";
         }
 
-        this.game.applyTurn(turn, notation);
+        this.game.applyTurn(turn, notation, false);
         this.squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation("");
         this.squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(additional_abb+turn.getAbbreviation());
     }

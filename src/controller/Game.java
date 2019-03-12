@@ -741,14 +741,16 @@ public class Game {
         return false;
     }
 
-    public void applyTurn(final Turn turn, final String turnNotation){
+    public void applyTurn(final Turn turn, final String turnNotation, final boolean redo){
         ChessPiece movedPiece = this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].getPiece();
         this.gameBoard.gameBoard[turn.getDestinationRow()][turn.getDestinationColumn()].setPiece(movedPiece);
         this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].setPiece(null);
 
         this.selectedTurnNumber += 1;
         this.changeTurn();
-        this.singleTurnNotations.add(turnNotation);
+
+        if (!redo)
+            this.singleTurnNotations.add(turnNotation);
     }
 
 
@@ -790,8 +792,25 @@ public class Game {
         return notations;
     }
 
-    public void redo(){
+    public Turn redo(){
+        /**
+         *
+         */
+        if (this.selectedTurnNumber <= this.singleTurnNotations.size() - 1){
+            NotationTest notationParser = new NotationTest();
+            String followingTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber);
+            Turn followingTurn = notationParser.parseSingleNotation(followingTurnNotation);
 
+            followingTurn.setColor (this.selectedTurnNumber%2==0 ? Color.WHITE : Color.BLACK);
+            this.applyTurn(followingTurn, followingTurnNotation, true);
+
+            this.cancelledNotations.remove(followingTurnNotation);
+
+            return followingTurn;
+        }
+
+        else
+            return null;
     }
 
     public Turn undo(){

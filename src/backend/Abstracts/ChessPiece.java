@@ -18,10 +18,10 @@ abstract public class ChessPiece implements Serializable {
 
     final protected Color color;
 
-    final protected char abbreviation;
+    final private char abbreviation;
 
 
-    final protected int value;
+    final private int value;
 
     protected boolean startedPosition;
     protected int currentRow;
@@ -71,7 +71,7 @@ abstract public class ChessPiece implements Serializable {
     }
 
 
-    final public List<Movement> getDiagonalMovements(final int maxDiagonalStep){
+    final protected List<Movement> getDiagonalMovements(final int maxDiagonalStep){
         /**
          * Return all possible diagonal movements for chess piece.
          *
@@ -126,7 +126,7 @@ abstract public class ChessPiece implements Serializable {
     }
 
 
-    final public List<Movement> getVerticalMovements(final int maxVerticalStep){
+    final protected List<Movement> getVerticalMovements(final int maxVerticalStep){
         /**
          * Return all possible vertical movements for chess piece.
          *
@@ -172,7 +172,7 @@ abstract public class ChessPiece implements Serializable {
     }
 
 
-    final public List<Movement> getHorizontalMovements(final int maxHorizontalStep){
+    final protected List<Movement> getHorizontalMovements(final int maxHorizontalStep){
         /**
          * Return all possible horizontal movements for chess piece.
          *
