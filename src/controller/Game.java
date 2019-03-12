@@ -39,6 +39,12 @@ public class Game {
     private String whiteTurnNotation;
 
 
+    /**
+     * Main game object constructor.
+     *
+     * @param initFlag define if pieces will be added to the board. If false any pieces won't be created
+     * @param loaded define if game is loaded or not
+     */
     public Game(boolean initFlag, boolean loaded) {
         this.gameBoard = new Board(initFlag);
         this.loaded = loaded;
@@ -57,24 +63,26 @@ public class Game {
 
     }
 
-    public void setSelected(gui.Cell selectedCell, ChessPiece selectedPiece) {
-        /**
-         * Set selectedCell and selectedPiece variables to particular values (Set selection of src cell).
-         *
-         * @param selectedCell is a cell from gui which was selected
-         * @param selectedPiece chess piece which is staying on selected cell
-         */
 
+
+    /**
+     * Set selectedCell and selectedPiece variables to particular values (Set selection of src cell).
+     *
+     * @param selectedCell is a cell from gui which was selected
+     * @param selectedPiece chess piece which is staying on selected cell
+     */
+    public void setSelected(gui.Cell selectedCell, ChessPiece selectedPiece) {
         this.selectedCell = selectedCell;
         this.selectedPiece = selectedPiece;
     }
 
-    public void dropSelected() {
-        /**
-         * Set selectedCell and selectedPiece variables to null (Drop selection). Is used after turn is done or turn
-         * isn't even possible.
-         */
 
+
+    /**
+     * Set selectedCell and selectedPiece variables to null (Drop selection). Is used after turn is done or turn
+     * isn't even possible.
+     */
+    public void dropSelected() {
         this.selectedCell.setBorder(BorderFactory.createLineBorder(java.awt.Color.black));
         this.selectedCell.repaint();
 
@@ -82,30 +90,31 @@ public class Game {
         this.selectedCell = null;
     }
 
-    public void setDestinationCell(gui.Cell dstCell) {
-        /**
-         * Set destinationCell variable to (gui) Cell object from GUI (Set selection of dst cell).
-         */
 
+
+    /**
+     * Set destinationCell variable to (gui) Cell object from GUI (Set selection of dst cell).
+     */
+    public void setDestinationCell(gui.Cell dstCell) {
         this.destinationCell = dstCell;
     }
 
-    public void dropDestinationCell() {
-        /**
-         * Set destinationCell variable tu null (Drop selection). Is used after turn is done or turn
-         * isn't even possible.
-         */
 
+
+    /**
+     * Set destinationCell variable tu null (Drop selection). Is used after turn is done or turn
+     * isn't even possible.
+     */
+    public void dropDestinationCell() {
         this.destinationCell = null;
     }
 
-    private void changeTurn() {
-        /**
-         * Change a turn and set color for pieces which could be selected during current turn.
-         *
-         * @return void
-         */
 
+
+    /**
+     * Change a turn and set color for pieces which could be selected during current turn.
+     */
+    private void changeTurn() {
         if (this.currentTurn == Color.WHITE)
             this.currentTurn = Color.BLACK;
 
@@ -113,16 +122,14 @@ public class Game {
             this.currentTurn = Color.WHITE;
     }
 
-    public List<Movement> getPossibleMovements() {
-        /**
-         * Calculate all possible movements for selected cell. Calculation method depends on object (polimorphic method).
-         *
-         * @see applyRules
-         * @see calculatePossibleMovements calculation movements method for particular chess piece
-         *
-         * @return list of all possible movements. One movement is represented by Movement object
-         */
 
+
+    /**
+     * Calculate all possible movements for selected cell. Calculation method depends on object (polimorphic method).
+     *
+     * @return list of all possible movements. One movement is represented by Movement object
+     */
+    public List<Movement> getPossibleMovements() {
         List<Movement> possibleMovements;
 
         possibleMovements = this.selectedPiece.calculatePossibleMovements();
@@ -131,78 +138,89 @@ public class Game {
         return possibleMovements;
     }
 
+
+
+    /**
+     * Getter for currentTurn field.
+     *
+     * @return Color object which represents which pieces are movable in the current turn
+     */
     public Color getCurrentTurn(){
         return this.currentTurn;
     }
 
-    public boolean isCellSelected() {
-        /**
-         * Check if any cell is selected
-         *
-         * @return true if cell is selected, false otherwise
-         */
 
+
+    /**
+     * Check if any cell is selected.
+     *
+     * @return true if cell is selected, false otherwise
+     */
+    public boolean isCellSelected() {
         return this.selectedPiece != null && this.selectedCell != null;
     }
 
-    public boolean destinationSelected() {
-        /**
-         * Check if any destination cell is selected
-         *
-         * @return true if cell is selected, false otherwise
-         */
 
+
+    /**
+     * Check if any destination cell is selected.
+     *
+     * @return true if cell is selected, false otherwise
+     */
+    public boolean destinationSelected() {
         return this.destinationCell != null;
     }
 
+    /**
+     * Return chess piece that is staying on cell with coordinates x and y.
+     *
+     * @param row - row coordinate; array index 0 - 7
+     * @param column - column coordinate; array index 0 - 7
+     *
+     * @return ChessPiece object if chess piece is staying on selected cell; null otherwise
+     */
     public ChessPiece getBoardPiece(final int row, final int column) {
-        /**
-         * Return chess piece that is staying on cell with coordinates x and y.
-         *
-         * @param row - row coordinate; array index 0 - 7
-         * @param column - column coordinate; array index 0 - 7
-         *
-         * @return ChessPiece object if chess piece is staying on selected cell; null otherwise
-         */
-
         return this.gameBoard.gameBoard[row][column].getPiece();
     }
 
-    public void setPiece(ChessPiece piece, int row, int column) {
-        /**
-         * set chess piece object to particular position
-         *
-         * @param piece which will be set to the board
-         * @param row where piece will be set
-         * @param column where piece will be set
-         */
 
+
+    /**
+     * set chess piece object to particular position
+     *
+     * @param piece which will be set to the board
+     * @param row where piece will be set
+     * @param column where piece will be set
+     */
+    public void setPiece(ChessPiece piece, int row, int column) {
         this.gameBoard.gameBoard[row][column].setPiece(piece);
     }
 
+
+
+    /**
+     * Check if movement of chess piece is possible.
+     *
+     * Chess piece can move to destination cell in case:
+     * 1) Destination cell is free
+     * 2) Destination cell isn't free but contains enemy player chess piece
+     *
+     * Check if additionalCheck flag is set. If so, that means that this movement should be
+     * processed using other rules (pawn diagonal movement, pawn vertical movement):
+     *
+     * Diagonal:
+     * 1) Destination cell shouldn't be free
+     * 2) Same as 2 point above
+     *
+     * Vertical:
+     * 1) Destination cell SHOULD be free
+     *
+     * @param movement - possible movement of chess piece
+     * @param pieceColor - color of chess piece
+     *
+     * @return true if chess piece movement is possible, false otherwise
+     */
     private boolean isPossibleMovement(Movement movement, final Color pieceColor) {
-        /**
-         * Check if movement of chess piece is possible.
-         *
-         * Chess piece can move to destination cell in case:
-         * 1) Destination cell is free
-         * 2) Destination cell isn't free but contains enemy player chess piece
-         *
-         * Check if additionalCheck flag is set. If so, that means that this movement should be
-         * processed using other rules (pawn diagonal movement, pawn vertical movement):
-         *
-         * Diagonal:
-         * 1) Destination cell shouldn't be free
-         * 2) Same as 2 point above
-         *
-         * Vertical:
-         * 1) Destination cell SHOULD be free
-         *
-         * @param movement - possible movement of chess piece
-         * @param color - color of chess piece
-         *
-         * @return true if chess piece movement is possible, false otherwise
-         */
 
         final Cell dstCell = this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()];
 
@@ -224,16 +242,17 @@ public class Game {
         return dstCell.isFree() || dstCell.getPiece().getColor() != pieceColor;
     }
 
-    private boolean beatEnemy(final Movement movement, final Color pieceColor) {
-        /**
-         * Check if after movement selected piece enemy peace was beaten.
-         *
-         * @param movement possible movement of selected chess piece
-         * @param pieceColor color of selected chess piece
-         *
-         * @return true is enemy piece was beaten, else otherwise
-         */
 
+
+    /**
+     * Check if after movement selected piece enemy peace was beaten.
+     *
+     * @param movement possible movement of selected chess piece
+     * @param pieceColor color of selected chess piece
+     *
+     * @return true is enemy piece was beaten, else otherwise
+     */
+    private boolean beatEnemy(final Movement movement, final Color pieceColor) {
         final Cell dstCell = this.gameBoard.gameBoard[movement.getRow()][movement.getColumn()];
 
         if (dstCell.isFree())
@@ -257,25 +276,22 @@ public class Game {
                 this.gameBoard.gameBoard[this.selectedCell.getRow()][this.selectedCell.getColumn()].getPiece().getColor();
     }
 
-    // TODO: this method could be refactored somehow :/
-    private void applyRules(List<Movement> allPossibleMovements, final Color pieceColor) {
-        /**
-         * !!!---------------------WARNING----------------------!!!
-         * This method is changing allPossibleMovements list parameter
-         * !!!--------------------------------------------------!!!
-         *
-         * Recalculate possible piece moves on chess board;
-         *
-         * @see beatEnemy
-         * @see isPossible
-         *
-         * @param allPossibleMovements all possible movements list of selected chess piece. This list will be changed
-         *                             after applying rules.
-         * @param boardPiece selected board piece. Moves are calculated depends on selected piece color
-         *
-         * @return void but input list will be changed in result
-         */
 
+
+    /**
+     * !!!---------------------WARNING----------------------------------------!!!
+     *            This method is changing allPossibleMovements list parameter
+     * !!!--------------------------------------------------------------------!!!
+     * Recalculate possible piece moves on chess board;
+     *
+     * @param allPossibleMovements all possible movements list of selected chess piece. This list will be changed
+     *                             after applying rules
+     *
+     * @param pieceColor selected board piece. Moves are calculated depends on selected piece color
+     *
+     * return void but input list will be changed in result
+     */
+    private void applyRules(List<Movement> allPossibleMovements, final Color pieceColor) {
         boolean horizontalLeft = false;
         boolean horizontalRight = false;
 
@@ -438,17 +454,18 @@ public class Game {
         }
     }
 
-    public boolean isPossibleDestination(int dstRow, int dstColumn) {
-        /**
-         * Calculate possible movements for currently selected chess piece and check if destination cell
-         * is possible movement for selected piece
-         *
-         * @param srcX destination row coordinate
-         * @param srcY destination column coordinate
-         *
-         * @return true in case if destination cell is a possible movement and piece could be moved. False otherwise
-         */
 
+
+    /**
+     * Calculate possible movements for currently selected chess piece and check if destination cell
+     * is possible movement for selected piece.
+     *
+     * @param dstRow destination row coordinate
+     * @param dstColumn destination column coordinate
+     *
+     * @return true in case if destination cell is a possible movement and piece could be moved; False otherwise
+     */
+    public boolean isPossibleDestination(int dstRow, int dstColumn) {
         for (Movement movement : this.getPossibleMovements()) {
             if (movement.getRow() == dstRow && movement.getColumn() == dstColumn)
                 return true;
@@ -457,6 +474,13 @@ public class Game {
         return false;
     }
 
+
+
+    /**
+     * Move selected piece from source selected cell to the destination selected cell.
+     *
+     * @return turn notation in string form
+     */
     public String movePiece() {
 
         if (this.selectedPiece.getStartedPosition()){
@@ -489,13 +513,14 @@ public class Game {
         return turnNotation;
     }
 
-    private String getFullNotation() {
-        /**
-         * Create full turn notation.
-         *
-         * @return string which represent full turn notation
-         */
 
+
+    /**
+     * Create full turn notation.
+     *
+     * @return string which represent full turn notation
+     */
+    private String getFullNotation() {
         String check = "";
         String dstPart;
 
@@ -521,19 +546,26 @@ public class Game {
                 dstPart + check;
     }
 
+
+    /**
+     * Return particular abbreviate for chess piece.
+     *
+     * @param abbreviate input abbreviate
+     *
+     * @return empty string if pawn, abbreviate for particular chess piece otherwise
+     */
     private String notationAbbreviate(final String abbreviate){
-
         return abbreviate.equals("p") ? "" : abbreviate;
-
     }
 
 
+
+    /**
+     * Check if under moving chess piece king is under the check.
+     *
+     * @return true if king under the check after moving chess piece, false otherwise
+     */
     private boolean isCheck() {
-        /**
-         * Check if under moving chess piece king is under the check
-         *
-         * @return true if king under the check after moving chess piece, false otherwise
-         */
         List<Movement> possibleMovements = this.getPossibleMovements();
 
         for (Movement movement : possibleMovements) {
@@ -551,13 +583,14 @@ public class Game {
         return false;
     }
 
-    public String getLastWhiteNotation(){
-        /**
-         * Return last notation of the white player turn. Used in case when game is saved before black player turn.
-         *
-         * @return notation string for last white player turn in format [turn_num]. [turn_notation]
-         */
 
+
+    /**
+     * Return last notation of the white player turn. Used in case when game is saved before black player turn.
+     *
+     * @return notation string for last white player turn in format [turn_num]. [turn_notation]
+     */
+    public String getLastWhiteNotation(){
         return this.whiteTurnNotation != null ?
                 Integer.valueOf(this.turnNumber).toString() + ". " +this.whiteTurnNotation :
                 null;
@@ -711,16 +744,16 @@ public class Game {
     }
 
 
-    private boolean isBeatenByEnemy ( final int row, final int column, final Color pieceColor){
-        /**
-         * Check if piece will be beaten by other piece with opposite color after move to new cell with coordinates
-         * row and cell.
-         *
-         * @param row new row position of piece
-         * @param column new column position of piece
-         * @param pieceColor color of piece which will be moved to new position
-         */
 
+    /**
+     * Check if piece will be beaten by other piece with opposite color after move to new cell with coordinates
+     * row and cell.
+     *
+     * @param row new row position of piece
+     * @param column new column position of piece
+     * @param pieceColor color of piece which will be moved to new position
+     */
+    private boolean isBeatenByEnemy ( final int row, final int column, final Color pieceColor){
         for (int currRow = 0; currRow < 8; currRow++) {
             for (int currColumn = 0; currColumn < 8; currColumn++) {
 
@@ -759,15 +792,16 @@ public class Game {
     }
 
 
+
+    /**
+     * Get all turn notations and transform them to correct file notation format (<turn_num>. <white_turn> <black_turn>).
+     *
+     * If some turns were cancelled (was used undo operation and redo wasn't used after it) this turns won't be
+     * loaded.
+     *
+     * @return List of string which contains all turn notations
+     */
     public List<String> saveGame(){
-        /**
-         * Get all turn notations and transform them to correct file notation format (<turn_num>. <white_turn> <black_turn>).
-         *
-         * If some turns were cancelled (was used undo operation and redo wasn't used after it) this turns won't be
-         * loaded.
-         *
-         * @return List of string which contains all turn notations.
-         */
         List<String> notations = new ArrayList<>();
 
         this.singleTurnNotations.removeAll(this.cancelledNotations);
@@ -797,10 +831,15 @@ public class Game {
         return notations;
     }
 
+
+
+    /**
+     * Redo one player turn.
+     *
+     * @return Turn object which represents a following turn if number of turns is less than all turns number; null
+     * otherwise
+     */
     public Turn redo(){
-        /**
-         *
-         */
         if (this.selectedTurnNumber <= this.singleTurnNotations.size() - 1){
             NotationTest notationParser = new NotationTest();
             String followingTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber);
@@ -818,18 +857,14 @@ public class Game {
             return null;
     }
 
-    public Turn undo(){
-        /**
-         * Undo one player turn.
-         *
-         * @see singleTurnNotations
-         * @see cancelledNotations
-         * @see selectedTurnNumber
-         * @see Turn
-         *
-         * @return Turn object which represents a previous turn if number of turns is greater than 0. null otherwise
-         */
 
+
+    /**
+     * Undo one player turn.
+     *
+     * @return Turn object which represents a previous turn if number of turns is greater than 0; null otherwise
+     */
+    public Turn undo(){
         if (this.selectedTurnNumber > 0){
             NotationTest notationsParser = new NotationTest();
 
