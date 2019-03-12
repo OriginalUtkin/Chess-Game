@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Notation{
+public class NotationTMP {
 
      private int turnNumber;
 
@@ -22,7 +22,7 @@ public class Notation{
 
      private List<Turn> turns;
 
-     public Notation(){
+     public NotationTMP(){
           this.turns = new ArrayList<>();
      }
 

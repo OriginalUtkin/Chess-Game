@@ -1,4 +1,4 @@
-import controller.NotationTest;
+import controller.NotationParser;
 import controller.Turn;
 import gui.Tab;
 
@@ -58,7 +58,7 @@ public class IJAProject {
 
                 if (fileChooser.showOpenDialog(chooserFrame) == JFileChooser.APPROVE_OPTION) {
                     File fileName = fileChooser.getSelectedFile();
-                    NotationTest loader = new NotationTest();
+                    NotationParser loader = new NotationParser();
                     List<Turn> turns = loader.fileReader(fileName.toString());
                     Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1), true);
 

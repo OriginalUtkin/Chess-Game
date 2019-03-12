@@ -841,7 +841,7 @@ public class Game {
      */
     public Turn redo(){
         if (this.selectedTurnNumber <= this.singleTurnNotations.size() - 1){
-            NotationTest notationParser = new NotationTest();
+            NotationParser notationParser = new NotationParser();
             String followingTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber);
             Turn followingTurn = notationParser.parseSingleNotation(followingTurnNotation);
             followingTurn.setColor(this.gameBoard.gameBoard[followingTurn.getSourceRow()][followingTurn.getSourceColumn()].getPiece().getColor());
@@ -866,7 +866,7 @@ public class Game {
      */
     public Turn undo(){
         if (this.selectedTurnNumber > 0){
-            NotationTest notationsParser = new NotationTest();
+            NotationParser notationsParser = new NotationParser();
 
             String previousTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber - 1);
             Turn previousTurn = notationsParser.parseSingleNotation(previousTurnNotation);

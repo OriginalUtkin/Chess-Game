@@ -8,15 +8,15 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NotationTest {
-    private List<String> notations;
+public class NotationParser {
+    private List<String> loadedNotations;
 
-    public NotationTest(){
-        notations = new ArrayList<>();
+    public NotationParser(){
+        loadedNotations = new ArrayList<>();
     }
 
     public String getLine(final int index){
-        return this.notations.get(index);
+        return this.loadedNotations.get(index);
     }
 
     public List<Turn> fileReader(String path){
@@ -38,7 +38,7 @@ public class NotationTest {
         return turns;
     }
 
-    public List<Turn> parseNotation(final String notationString){
+    private List<Turn> parseNotation(final String notationString){
 
         Pattern pattern = Pattern.compile("((J|K|D|V|S|)([a-h])([1-8])x(J|K|D|V|S|)([a-h])([1-8]))|((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8]))");
         Matcher matcher = pattern.matcher(notationString);
@@ -75,7 +75,7 @@ public class NotationTest {
                 int dst_row = Integer.valueOf(matcher.group(7)) - 1;
 
                 turns.add(new Turn(start_row, start_column, dst_row, dst_column, piece_name, beaten_piece_name));
-                this.notations.add(matcher.group(1));
+                this.loadedNotations.add(matcher.group(1));
 
             }else{
                 // Group 8  - full match
@@ -98,7 +98,7 @@ public class NotationTest {
                 int dst_row = Integer.valueOf(matcher.group(13)) - 1;
 
                 turns.add(new Turn(start_row, start_column, dst_row, dst_column, piece_name, ""));
-                this.notations.add(matcher.group(8));
+                this.loadedNotations.add(matcher.group(8));
             }
 
         }
