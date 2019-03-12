@@ -97,7 +97,7 @@ public class NotationTest {
                 int dst_column = transformCoordinate(matcher.group(12));
                 int dst_row = Integer.valueOf(matcher.group(13)) - 1;
 
-                turns.add(new Turn(start_row, start_column, dst_row, dst_column, piece_name, null));
+                turns.add(new Turn(start_row, start_column, dst_row, dst_column, piece_name, ""));
                 this.notations.add(matcher.group(8));
             }
 
@@ -154,17 +154,13 @@ public class NotationTest {
 
                 String piece_name = matcher.group(9);
 
-                if (piece_name.isEmpty()){
-                    piece_name = "P";
-                }
-
                 int start_column = transformCoordinate(matcher.group(10));
                 int start_row = Integer.valueOf(matcher.group(11)) - 1;
 
                 int dst_column = transformCoordinate(matcher.group(12));
                 int dst_row = Integer.valueOf(matcher.group(13)) - 1;
 
-                turn = new Turn(start_row, start_column, dst_row, dst_column, piece_name, null);
+                turn = new Turn(start_row, start_column, dst_row, dst_column, piece_name, "");
             }
 
         }

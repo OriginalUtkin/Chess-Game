@@ -4,7 +4,7 @@ import backend.Abstracts.ChessPiece;
 import backend.Board.Board;
 import backend.Enums.Color;
 import backend.Enums.Direction;
-import backend.Figures.Movement;
+import backend.Figures.*;
 import backend.Board.Cell;
 
 import javax.swing.*;
@@ -745,13 +745,13 @@ public class Game {
 
     public List<String> saveGame(){
         /**
+         * Get all turn notations and transform them to correct file notation format (<turn_num>. <white_turn> <black_turn>).
          *
+         * @return List of string which contains all turn notations.
          */
         List<String> notations = new ArrayList<>();
 
         if (this.singleTurnNotations.size() == 0){
-            notations.add("");
-
             return notations;
         }
 
@@ -781,6 +781,7 @@ public class Game {
     }
 
     public Turn undo(){
+
         if (this.selectedTurnNumber > 0){
             NotationTest notationsParser = new NotationTest();
 
@@ -791,7 +792,40 @@ public class Game {
             ChessPiece piece = this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].getPiece();
 
             this.gameBoard.gameBoard[previousTurn.getSourceRow()][previousTurn.getSourceColumn()].setPiece(piece);
-            this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].setPiece(null);
+
+            if (previousTurn.getBeaten().isEmpty())
+                this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].setPiece(null);
+
+            else{
+
+                ChessPiece beatenPiece;
+                Color beatenColor = Color.getOppositeColor(piece.getColor());
+
+                String beatenPieceAbbr = previousTurn.getBeaten();
+
+                switch (beatenPieceAbbr) {
+                    case "P":
+                        beatenPiece = new Pawn(beatenColor);
+                        break;
+                    case "J":
+                        beatenPiece = new Knight(beatenColor);
+                        break;
+                    case "S":
+                        beatenPiece = new Bishop(beatenColor);
+                        break;
+                    case "V":
+                        beatenPiece = new Rook(beatenColor);
+                        break;
+                    case "D":
+                        beatenPiece = new Queen(beatenColor);
+                        break;
+                    default:
+                        beatenPiece = new King(beatenColor);
+                        break;
+                }
+
+                this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].setPiece(beatenPiece);
+            }
 
             this.currentTurn = piece.getColor();
             previousTurn.setColor(piece.getColor());
@@ -799,9 +833,10 @@ public class Game {
             this.selectedTurnNumber -= 1;
 
             return previousTurn;
-        }else{
-            return null;
         }
+
+        else
+            return null;
     }
 
     private ChessPiece getPieceByAbbreviation(){

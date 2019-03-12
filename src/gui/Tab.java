@@ -246,9 +246,16 @@ public class Tab extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Turn turnInfo = game.undo();
+
                 if (turnInfo != null){
-                    // TODO : if piece was beaten during the turn abbreviation should be set to this position
-                    squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
+                    if (turnInfo.getBeaten().isEmpty())
+                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
+
+                    // TODO: some bug here. Isn't work correct 
+                    else
+                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
+                                .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
+                                        turnInfo.getBeaten());
 
                     squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
                             turnInfo.getColor().toString() + turnInfo.getAbbreviation());
@@ -273,7 +280,6 @@ public class Tab extends JPanel {
                         List<String> allTurns = game.saveGame();
                         FileWriter notationWriter = new FileWriter(fileName.toString());
 
-                        // TODO : change this algorithm
                         for(final String singleNotation: allTurns){
                             notationWriter.write(singleNotation);
                         }
