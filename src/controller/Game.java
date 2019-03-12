@@ -800,8 +800,8 @@ public class Game {
             NotationTest notationParser = new NotationTest();
             String followingTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber);
             Turn followingTurn = notationParser.parseSingleNotation(followingTurnNotation);
+            followingTurn.setColor(this.gameBoard.gameBoard[followingTurn.getSourceRow()][followingTurn.getSourceColumn()].getPiece().getColor());
 
-            followingTurn.setColor (this.currentTurn);
             this.applyTurn(followingTurn, followingTurnNotation, true);
 
             this.cancelledNotations.remove(followingTurnNotation);
