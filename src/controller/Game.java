@@ -29,7 +29,7 @@ public class Game {
     private Color currentTurn;
     private int turnNumber;
     private int selectedTurnNumber;
-    private List<String> turnNotations;
+    private List<String> singleTurnNotations;
 
     private char identifier;
 
@@ -44,7 +44,8 @@ public class Game {
         this.selectedCell = null;
         this.destinationCell = null;
 
-        this.turnNotations = new ArrayList<>();
+        this.singleTurnNotations = new ArrayList<>();
+
         this.turnNumber = 1;
         this.currentTurn = Color.WHITE;
 
@@ -243,15 +244,6 @@ public class Game {
 
         return this.gameBoard.gameBoard[this.destinationCell.getRow()][this.destinationCell.getColumn()].getPiece().getColor() !=
                 this.gameBoard.gameBoard[this.selectedCell.getRow()][this.selectedCell.getColumn()].getPiece().getColor();
-    }
-
-    public List<String> getTurnNotations(){
-        /**
-         * Return all notations which were created during the game.
-         *
-         * @return List with all notations which is already formated
-         */
-        return this.turnNotations;
     }
 
     // TODO: this method could be refactored somehow :/
@@ -461,15 +453,6 @@ public class Game {
         }
         String turnNotation = this.getFullNotation();
 
-        if (this.currentTurn == Color.WHITE){
-            this.whiteTurnNotation = turnNotation;
-
-        }else{
-            this.turnNotations.add(Integer.valueOf(this.turnNumber).toString() + ". " + whiteTurnNotation + " " +
-                    turnNotation + '\n');
-            this.turnNumber += 1;
-            this.whiteTurnNotation = null;
-        }
 
         this.destinationCell.setAbbreviation(this.selectedCell.getAbbreviation());
         this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());
@@ -484,7 +467,7 @@ public class Game {
 
         this.changeTurn();
 
-        this.turnNotations.add(this.selectedTurnNumber, turnNotation);
+        this.singleTurnNotations.add(this.selectedTurnNumber, turnNotation);
 
         this.selectedTurnNumber += 1;
 
@@ -743,7 +726,6 @@ public class Game {
                         return true;
                     }
                 }
-
             }
         }
 
@@ -755,21 +737,43 @@ public class Game {
         this.gameBoard.gameBoard[turn.getDestinationRow()][turn.getDestinationColumn()].setPiece(movedPiece);
         this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].setPiece(null);
 
-        if (this.currentTurn == Color.WHITE){
-            this.whiteTurnNotation = turnNotation;
-
-            System.out.println("[DEBUG][LOAD][APPLY TURN] White turn is set");
-
-        }else{
-            this.turnNotations.add(Integer.valueOf(this.turnNumber).toString() + ". " + whiteTurnNotation + " " +
-                    turnNotation + '\n');
-            this.turnNumber += 1;
-            this.whiteTurnNotation = null;
-
-            System.out.println("[DEBUG][LOAD][APPLY TURN] White turn is dropped");
-        }
         this.selectedTurnNumber += 1;
         this.changeTurn();
+        this.singleTurnNotations.add(turnNotation);
+    }
+
+
+    public List<String> saveGame(){
+        /**
+         *
+         */
+        List<String> notations = new ArrayList<>();
+
+        if (this.singleTurnNotations.size() == 0){
+            notations.add("");
+
+            return notations;
+        }
+
+        int max_counter = this.singleTurnNotations.size() % 2 == 0 ? this.singleTurnNotations.size() - 1 : this.singleTurnNotations.size() - 2;
+
+        int start_index = 0;
+        int end_index = 1;
+        int turn = 1;
+
+        while(start_index < max_counter){
+            notations.add(turn + ". " + this.singleTurnNotations.get(start_index) + " " + this.singleTurnNotations.get(end_index) + "\n");
+
+            start_index = end_index + 1;
+            end_index += 2;
+            turn += 1;
+        }
+
+        if (max_counter == singleTurnNotations.size() - 2){
+            notations.add(turn + ". " + this.singleTurnNotations.get(this.singleTurnNotations.size() - 1));
+        }
+
+        return notations;
     }
 
     public void redo(){
@@ -780,7 +784,7 @@ public class Game {
         if (this.selectedTurnNumber > 0){
             NotationTest notationsParser = new NotationTest();
 
-            String previousTurnNotation = this.turnNotations.get(this.selectedTurnNumber - 1);
+            String previousTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber - 1);
             Turn previousTurn = notationsParser.parseSingleNotation(previousTurnNotation);
 
             // Get moved piece
