@@ -756,12 +756,15 @@ public class Game {
         /**
          * Get all turn notations and transform them to correct file notation format (<turn_num>. <white_turn> <black_turn>).
          *
+         * If some turns were cancelled (was used undo operation and redo wasn't used after it) this turns won't be
+         * loaded.
+         *
          * @return List of string which contains all turn notations.
          */
         List<String> notations = new ArrayList<>();
 
         this.singleTurnNotations.removeAll(this.cancelledNotations);
-        
+
         if (this.singleTurnNotations.size() == 0){
             return notations;
         }
@@ -792,6 +795,16 @@ public class Game {
     }
 
     public Turn undo(){
+        /**
+         * Undo one player turn.
+         *
+         * @see singleTurnNotations
+         * @see cancelledNotations
+         * @see selectedTurnNumber
+         * @see Turn
+         *
+         * @return Turn object which represents a previous turn if number of turns is greater than 0. null otherwise
+         */
 
         if (this.selectedTurnNumber > 0){
             NotationTest notationsParser = new NotationTest();
@@ -849,9 +862,5 @@ public class Game {
 
         else
             return null;
-    }
-
-    private ChessPiece getPieceByAbbreviation(){
-        return null;
     }
 }
