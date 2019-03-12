@@ -25,7 +25,7 @@ public class IJAProject {
         /*Initialize JTabbedPane*/
         JTabbedPane tabPane = new JTabbedPane();
         tabPane.setFont( new Font( "Dialog", Font.BOLD|Font.ITALIC, 20 ) );
-        Tab tabs = new Tab(tabPane, frame, "Game1"); // implicitly one game
+        Tab tabs = new Tab(tabPane, frame, "Game1", false); // implicitly one game
 
 
         /*Menu panel*/
@@ -38,7 +38,7 @@ public class IJAProject {
 
         newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new Tab(tabPane,frame, "Game" + (Tab.getNumOfTabs()+1));
+                new Tab(tabPane,frame, "Game" + (Tab.getNumOfTabs()+1), false);
             }
         });
 
@@ -60,7 +60,7 @@ public class IJAProject {
                     File fileName = fileChooser.getSelectedFile();
                     NotationTest loader = new NotationTest();
                     List<Turn> turns = loader.fileReader(fileName.toString());
-                    Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1));
+                    Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1), true);
 
                     for(int counter = 0; counter < turns.size(); counter++){
                         loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));

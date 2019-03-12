@@ -16,6 +16,7 @@ public class Game {
 
     // Game backend
     private Board gameBoard;
+    private boolean loaded;
 
     // Game board interaction specification
     private ChessPiece selectedPiece;
@@ -38,8 +39,9 @@ public class Game {
     private String whiteTurnNotation;
 
 
-    public Game(boolean initFlag) {
+    public Game(boolean initFlag, boolean loaded) {
         this.gameBoard = new Board(initFlag);
+        this.loaded = loaded;
 
         this.selectedPiece = null;
         this.selectedCell = null;
@@ -476,7 +478,10 @@ public class Game {
 
         this.changeTurn();
 
-        this.singleTurnNotations.add(this.selectedTurnNumber, turnNotation);
+        if (this.selectedTurnNumber >= this.singleTurnNotations.size())
+            this.singleTurnNotations.add(this.selectedTurnNumber, turnNotation);
+        else
+            this.singleTurnNotations.set(this.selectedTurnNumber, turnNotation);
 
         this.selectedTurnNumber += 1;
 

@@ -24,17 +24,19 @@ public class Tab extends JPanel {
     private Cell[][] squares;
     private Game game;
     private JMovePanel move;
+    private boolean loaded;
 
     private JPanel movements;
 
 
-    public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
+    public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name, boolean loaded) {
         if (Tab.countOfTabs <= 5) {
 
             // initialise Tab variables
             this.tabName = tab_name;
+            this.loaded = loaded;
             this.squares = new Cell[8][8];
-            this.game = new Game(true);
+            this.game = new Game(true, this.loaded);
             this.move = new JMovePanel();
 
             // initialise graphical part of tab
@@ -219,7 +221,7 @@ public class Tab extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // TODO: test version. Doesn't work properly; add new method to controller
                 System.out.println("Restart");
-                game = new Game(true);
+                game = new Game(true, loaded);
                 chessBoard.removeAll();
                 movements.removeAll();
                 initializeBoardCells(chessBoard);
