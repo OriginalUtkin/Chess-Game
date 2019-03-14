@@ -12,13 +12,6 @@ public class JMovePanel extends JPanel {
         new FlowLayout(FlowLayout.CENTER, 0, 0);
         setPreferredSize(new Dimension(200,32));
         setBackground(new Color(32,32,32));
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                setBorder(BorderFactory.createLineBorder(Color.red));
-                System.out.println(text);
-            }
-        });
     }
 
     public void setText(String text){

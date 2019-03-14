@@ -326,9 +326,12 @@ public class Tab extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // send notation to controller
+                move.setBorder(BorderFactory.createLineBorder(Color.red));
+
                 System.out.println(move.getText() + " !!!!!!!!");
             }
         });
+
 
         JLabel moveLabel = new JLabel(str);
         moveLabel.setFont(new Font("Serif", Font.PLAIN, 15));
