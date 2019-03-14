@@ -290,10 +290,7 @@ public class Tab extends JPanel {
                         for(final String singleNotation: allTurns){
                             notationWriter.write(singleNotation);
                         }
-
-                        if(game.getLastWhiteNotation() != null){
-                            notationWriter.write(game.getLastWhiteNotation());
-                        }
+                        
                         notationWriter.flush();
                         notationWriter.close();
 
