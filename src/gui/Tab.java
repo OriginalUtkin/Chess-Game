@@ -326,7 +326,7 @@ public class Tab extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // send notation to controller
-                
+                System.out.println(move.getText() + " !!!!!!!!");
             }
         });
 
