@@ -290,7 +290,7 @@ public class Tab extends JPanel {
                         for(final String singleNotation: allTurns){
                             notationWriter.write(singleNotation);
                         }
-                        
+
                         notationWriter.flush();
                         notationWriter.close();
 
@@ -321,6 +321,15 @@ public class Tab extends JPanel {
 
     public void setTurnNotation(String str, Color color){
         move = new JMovePanel();
+
+        move.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // send notation to controller
+                
+            }
+        });
+
         JLabel moveLabel = new JLabel(str);
         moveLabel.setFont(new Font("Serif", Font.PLAIN, 15));
         moveLabel.setForeground(Color.WHITE);
