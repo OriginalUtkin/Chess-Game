@@ -57,9 +57,7 @@ public class Tab extends JPanel {
         return game.getBoardPiece(row, column);
     }
 
-    public void setPieceToTheGame(ChessPiece newPiece, int oldRow, int oldColumn,
-            int newRow, int newColumn
-            ){
+    public void setPieceToTheGame(ChessPiece newPiece, int oldRow, int oldColumn, int newRow, int newColumn){
         this.game.setPiece(newPiece, newRow,newColumn);
         this.squares[newRow][newColumn].setAbbreviation(newPiece.getFullPieceString());
         this.squares[oldRow][oldColumn].setAbbreviation("");
@@ -179,8 +177,6 @@ public class Tab extends JPanel {
                             setCellsColor(possibleMovements, Color.black,1);
                             System.out.println("Possible movement");
 
-                            // TODO : set this value to right panel with all turns
-
                             String turnNotation = game.movePiece();
                             setTurnNotation(turnNotation, Color.yellow);
                         }
@@ -274,7 +270,6 @@ public class Tab extends JPanel {
                     if (turnInfo.getBeaten().isEmpty())
                         squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
 
-                    // TODO: some bug here. Isn't work correct
                     else{
                         squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
                                 .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
@@ -390,9 +385,4 @@ public class Tab extends JPanel {
             }
         }
     }
-
-//    public ChessPiece parseOneNotation(Turn turn){
-//        return this.game.parseNotation(turn);
-//    }
-
 }
