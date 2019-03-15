@@ -148,9 +148,22 @@ public class Tab extends JPanel {
 
                         for(Turn turn: turns){
                             if (isRedo){
-
+                                if (turn != null){
+                                    squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation("");
+                                    squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getAbbreviation());
+                                }
                             }else{
-                                
+                                if (turn.getBeaten().isEmpty())
+                                    squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation("");
+
+                                else{
+                                    squares[turn.getDestinationRow()][turn.getDestinationColumn()]
+                                            .setAbbreviation(backend.Enums.Color.getOppositeColor(turn.getColor()).toString() +
+                                                    turn.getBeaten());
+                                }
+
+                                squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation(
+                                        turn.getColor().toString() + turn.getAbbreviation());
                             }
                         }
                     }
