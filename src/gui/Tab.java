@@ -117,6 +117,23 @@ public class Tab extends JPanel {
 
         rightPanel.add(movements);
 
+        movements.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Component selectedMovement = movements.getComponentAt(e.getX(), e.getY());
+
+                if(selectedMovement instanceof JMovePanel){
+                    for(Component movement: movements.getComponents()){
+                        if(!((JMovePanel)movement).equals(selectedMovement)){
+                            ((JMovePanel) movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+                        }
+                    }
+                    ((JMovePanel)selectedMovement).setBorder(BorderFactory.createLineBorder(Color.yellow));
+                    System.out.println(((JMovePanel) selectedMovement).getText());
+                }
+            }
+        });
+
         chessBoard.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -297,7 +314,6 @@ public class Tab extends JPanel {
                     }catch (IOException exception){
                         // TODO: Show error message for user and do nothing
                     }
-
                 }
             }
         });
@@ -322,23 +338,15 @@ public class Tab extends JPanel {
     public void setTurnNotation(String str, Color color){
         move = new JMovePanel();
 
-        move.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // send notation to controller
-                move.setBorder(BorderFactory.createLineBorder(Color.red));
-
-                System.out.println(move.getText() + " !!!!!!!!");
-            }
-        });
-
-
         JLabel moveLabel = new JLabel(str);
         moveLabel.setFont(new Font("Serif", Font.PLAIN, 15));
         moveLabel.setForeground(Color.WHITE);
         moveLabel.setText(moveLabel.getText() + "");
         move.setText(str);
 
+        for(Component movement: movements.getComponents()){
+            ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+        }
         move.setBorder(BorderFactory.createLineBorder(color));
 
         move.add(moveLabel);
