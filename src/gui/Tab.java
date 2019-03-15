@@ -17,6 +17,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+
+/**
+ *
+ * @author xutkin00, xpolis03
+ */
+
 public class Tab extends JPanel {
     private static int countOfTabs = 0;
 
@@ -29,6 +35,13 @@ public class Tab extends JPanel {
     private JPanel movements;
 
 
+    /**
+     *
+     * @param tabbedPane
+     * @param frame
+     * @param tab_name
+     * @param loaded
+     */
     public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name, boolean loaded) {
         if (Tab.countOfTabs <= 5) {
 
@@ -40,7 +53,7 @@ public class Tab extends JPanel {
             this.move = new JMovePanel();
 
             // initialise graphical part of tab
-            JComponent panel = makeBoardPanel();
+            JComponent panel = initializeTab();
             tabbedPane.addTab(tab_name, panel);
             tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
@@ -63,11 +76,21 @@ public class Tab extends JPanel {
         this.squares[oldRow][oldColumn].setAbbreviation("");
     }
 
+
+    /**
+     *
+     * @return
+     */
     public static int getNumOfTabs() {
         return countOfTabs;
     }
 
-    private JComponent makeBoardPanel() {
+
+    /**
+     *
+     * @return
+     */
+    private JComponent initializeTab() {
         /*Main panel*/
         JPanel panelBoard = new JPanel(new FlowLayout());
         panelBoard.setPreferredSize(new Dimension(1050,680));
@@ -116,6 +139,7 @@ public class Tab extends JPanel {
         rightPanel.add(movements);
 
         movements.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 Component selectedMovement = movements.getComponentAt(e.getX(), e.getY());
@@ -126,8 +150,8 @@ public class Tab extends JPanel {
                             ((JMovePanel) movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
                         }
                     }
+
                     ((JMovePanel)selectedMovement).setBorder(BorderFactory.createLineBorder(Color.yellow));
-                    System.out.println(((JMovePanel) selectedMovement).getText());
                 }
             }
         });
@@ -222,9 +246,6 @@ public class Tab extends JPanel {
             }
         });
 
-
-
-
         /*Restart Button*/
         JButton restartGame = new JButton("Restart Game");
         restartGame.setBackground(new Color(204,204,0));
@@ -248,7 +269,8 @@ public class Tab extends JPanel {
 
 
         /*Buttons*/
-        RightPanelButton redo =  new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName, new ActionListener() {
+       new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName, new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 Turn turnInfo = game.redo();
@@ -260,7 +282,9 @@ public class Tab extends JPanel {
             }
         });
 
-        RightPanelButton undo =  new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName, new ActionListener() {
+
+       new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName, new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 Turn turnInfo = game.undo();
@@ -283,6 +307,7 @@ public class Tab extends JPanel {
         });
 
         RightPanelButton save = new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName, new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("[DEBUG][SAVE] Saving game");
@@ -316,6 +341,14 @@ public class Tab extends JPanel {
         Tab.countOfTabs += 1;
         return panelBoard;
     }
+
+
+    /**
+     *
+     * @param turn
+     * @param counter
+     * @param notation
+     */
     public void loadTurn(final Turn turn, final int counter, final String notation){
         String additional_abb;
 
@@ -330,6 +363,12 @@ public class Tab extends JPanel {
         this.squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(additional_abb+turn.getAbbreviation());
     }
 
+
+    /**
+     *
+     * @param str
+     * @param color
+     */
     public void setTurnNotation(String str, Color color){
         move = new JMovePanel();
 
@@ -349,6 +388,13 @@ public class Tab extends JPanel {
         movements.repaint();
     }
 
+
+    /**
+     *
+     * @param possibleMovements
+     * @param color
+     * @param thickness
+     */
     private void setCellsColor(List<Movement> possibleMovements, Color color, int thickness){
 
         for (Movement movement: possibleMovements) {
@@ -358,6 +404,10 @@ public class Tab extends JPanel {
     }
 
 
+    /**
+     *
+     * @param panel
+     */
     private void initializeBoardCells(JPanel panel){
 
         for (int i = 7; i >= 0; i--) {
