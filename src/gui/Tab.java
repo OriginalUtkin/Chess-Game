@@ -61,22 +61,7 @@ public class Tab extends JPanel {
             JOptionPane.showMessageDialog(frame, "Too many tabs");
         }
     }
-
-    public Cell[][] returnTabSquares(){
-        return this.squares;
-    }
-
-    public ChessPiece getBoardPiece(final int row, final int column){
-        return game.getBoardPiece(row, column);
-    }
-
-    public void setPieceToTheGame(ChessPiece newPiece, int oldRow, int oldColumn, int newRow, int newColumn){
-        this.game.setPiece(newPiece, newRow,newColumn);
-        this.squares[newRow][newColumn].setAbbreviation(newPiece.getFullPieceString());
-        this.squares[oldRow][oldColumn].setAbbreviation("");
-    }
-
-
+    
     /**
      *
      * @return
@@ -306,7 +291,7 @@ public class Tab extends JPanel {
             }
         });
 
-        RightPanelButton save = new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName, new ActionListener() {
+       new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
