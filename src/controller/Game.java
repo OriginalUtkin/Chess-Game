@@ -909,4 +909,43 @@ public class Game {
         else
             return null;
     }
+
+    public boolean isRedo(final String turnNotation){
+        int index = this.singleTurnNotations.indexOf(turnNotation) + 1;
+
+        return index > selectedTurnNumber;
+
+    }
+
+    /**
+     * Get game board state for particular notation.
+     *
+     * @param notation turn notation selected on the frontend
+     */
+    public List<Turn> getGameboardState(final String notation){
+
+        int index = this.singleTurnNotations.indexOf(notation) + 1;
+
+        List<Turn> turns = new ArrayList<>();
+
+        if (index != this.selectedTurnNumber){
+            System.out.println("[DEBUG][CONTROLLER][getGameboardState] Calculating state");
+
+
+            boolean redo = this.isRedo(notation);
+            int max_index = index - selectedTurnNumber;
+
+            int counter = 0;
+
+            if (max_index < 0) max_index = Math.abs(max_index);
+
+            while(counter < max_index){
+                turns.add(redo? this.redo() : this.undo());
+                counter+=1;
+            }
+        }else
+            System.out.println("[DEBUG][CONTROLLER][getGameboardState] Current turn is selected");
+
+        return turns;
+    }
 }

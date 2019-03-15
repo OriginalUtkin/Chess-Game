@@ -61,7 +61,7 @@ public class Tab extends JPanel {
             JOptionPane.showMessageDialog(frame, "Too many tabs");
         }
     }
-    
+
     /**
      *
      * @return
@@ -137,9 +137,27 @@ public class Tab extends JPanel {
                     }
 
                     ((JMovePanel)selectedMovement).setBorder(BorderFactory.createLineBorder(Color.yellow));
+
+                    String notation =((JMovePanel) selectedMovement).getText();
+
+                    List<Turn> turns = game.getGameboardState(notation);
+                    boolean isRedo = game.isRedo(notation);
+
+                    if (!turns.isEmpty()){
+                        // Draw turn depends on operation
+
+                        for(Turn turn: turns){
+                            if (isRedo){
+
+                            }else{
+                                
+                            }
+                        }
+                    }
                 }
             }
         });
+
 
         chessBoard.addMouseListener(new MouseAdapter() {
             @Override
