@@ -6,12 +6,18 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 
 import java.lang.String;
 import java.util.List;
 
 public class IJAProject {
+    private static boolean flag = false;
+    private static Tab loadedTab;
+    static int count = 0;
+    private static int period = 6000;
     public static void main(String args[]) {
 
         /*Initialize main frame*/
@@ -49,7 +55,6 @@ public class IJAProject {
 
         loadGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
-
                 System.out.println("[DEBUG][LOAD] Loading game");
                 JFrame chooserFrame = new JFrame();
 
@@ -60,11 +65,30 @@ public class IJAProject {
                     File fileName = fileChooser.getSelectedFile();
                     NotationParser loader = new NotationParser();
                     List<Turn> turns = loader.fileReader(fileName.toString());
-                    Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1), true);
+                    loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1), true);
+                    loadedTab.setReplayMode(flag);
 
-                    for(int counter = 0; counter < turns.size(); counter++){
-                        loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
-                        loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
+                    ActionListener listener = new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            if (count == turns.size()-1){
+                                ((Timer)e.getSource()).stop();
+                            }
+                            loadedTab.loadTurn(turns.get(count), count, loader.getLine(count));
+                            loadedTab.setTurnNotation(loader.getLine(count), Color.yellow);
+                            loadedTab.setEvent(e);
+                            count++;
+                        }
+                    };
+
+                    if (flag){ /*automatic*/
+                        Timer timer = new Timer(period,listener);
+                        timer.start();
+                    }else{
+                        for(int counter = 0; counter < turns.size(); counter++) {
+                            loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
+                            loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
+                        }
                     }
                 }
             }
@@ -80,11 +104,86 @@ public class IJAProject {
             }
         });
 
+
+        /*Automatic or manual re-play*/
+        JMenu menuSettings = new JMenu("Settings");
+        menuSettings.setFont(font);
+
+
+        JMenu automaticBox = new JMenu("Automatic re-play");
+        JCheckBox manualBox = new JCheckBox("Manual re-play");
+
+        JCheckBox fast = new JCheckBox("Fast (2s)");
+        JCheckBox slower = new JCheckBox("Slower (4s)");
+        JCheckBox slow = new JCheckBox("Slow (6s)");
+        fast.setFont(font);
+        fast.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (fast.isSelected()){
+                    manualBox.setSelected(false);
+                    slower.setSelected(false);
+                    slow.setSelected(false);
+                    period = 2000;
+                }
+                flag = true; /*manual*/
+            }
+        });
+        automaticBox.add(fast);
+
+        slower.setFont(font);
+        slower.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (slower.isSelected()){
+                    fast.setSelected(false);
+                    manualBox.setSelected(false);
+                    slow.setSelected(false);
+                    period = 4000;
+                }
+                flag = true; /*automatic*/
+            }
+        });
+        automaticBox.add(slower);
+
+
+        slow.setFont(font);
+        slow.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (slow.isSelected()){
+                    manualBox.setSelected(false);
+                    fast.setSelected(false);
+                    slower.setSelected(false);
+                    period = 6000;
+                }
+                flag = true; /*automatic*/
+            }
+        });
+        automaticBox.add(slow);
+
+
+
+        manualBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (manualBox.isSelected()){
+                    slower.setSelected(false);
+                    fast.setSelected(false);
+                    slow.setSelected(false);
+                }
+                flag = false; /*manual*/
+            }
+        });
+
+        automaticBox.setFont(font);
+        menuSettings.add(automaticBox);
+        manualBox.setFont(font);
+        menuSettings.add(manualBox);
+
+
         JMenu menuView = new JMenu("View");
         menuView.setFont(font);
 
         frame.setJMenuBar(menuBar);
         menuBar.add(menuGame);
+        menuBar.add(menuSettings);
         menuBar.add(menuView);
         frame.add(tabPane);
 
