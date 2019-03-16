@@ -106,7 +106,7 @@ public class Tab extends JPanel {
 
         /*Indent*/
         JPanel emptyPanel = new JPanel();
-        emptyPanel.setPreferredSize(new Dimension(300,25));
+        emptyPanel.setPreferredSize(new Dimension(300,10));
         emptyPanel.setBackground(Color.DARK_GRAY);
         rightPanel.add(emptyPanel);
 
@@ -119,9 +119,19 @@ public class Tab extends JPanel {
         /*TextField with Movements*/
         movements = new JPanel();
         movements.setBackground(new Color(32,32,32));
-        movements.setPreferredSize(new Dimension(330,300));
+        movements.setLayout(new BoxLayout(movements, BoxLayout.Y_AXIS));
+        movements.setAutoscrolls(true);
 
-        rightPanel.add(movements);
+        JScrollPane scrollPane = new JScrollPane(movements);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(0, 0, 330, 300);
+
+        JPanel contentPane = new JPanel(null);
+        contentPane.setPreferredSize(new Dimension(330, 300));
+        contentPane.add(scrollPane);
+
+        rightPanel.add(contentPane);
 
         movements.addMouseListener(new MouseAdapter() {
 
@@ -265,7 +275,7 @@ public class Tab extends JPanel {
         /*Restart Button*/
         JButton restartGame = new JButton("Restart Game");
         restartGame.setBackground(new Color(204,204,0));
-        restartGame.setFont(new Font("Verdana", Font.PLAIN, 14));
+        restartGame.setFont(new Font("Verdana", Font.PLAIN, 16));
         restartGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -392,6 +402,7 @@ public class Tab extends JPanel {
         moveLabel.setFont(new Font("Serif", Font.PLAIN, 15));
         moveLabel.setForeground(Color.WHITE);
         moveLabel.setText(moveLabel.getText() + "");
+        move.setMaximumSize(new Dimension(300,40));
         move.setText(str);
 
         for(Component movement: movements.getComponents()){
