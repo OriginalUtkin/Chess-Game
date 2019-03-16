@@ -914,7 +914,6 @@ public class Game {
         int index = this.singleTurnNotations.indexOf(turnNotation) + 1;
 
         return index > selectedTurnNumber;
-
     }
 
     /**

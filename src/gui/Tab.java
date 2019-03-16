@@ -140,18 +140,16 @@ public class Tab extends JPanel {
 
                     String notation =((JMovePanel) selectedMovement).getText();
 
-                    List<Turn> turns = game.getGameboardState(notation);
                     boolean isRedo = game.isRedo(notation);
-
+                    List<Turn> turns = game.getGameboardState(notation);
+                    
                     if (!turns.isEmpty()){
                         // Draw turn depends on operation
-
-                        for(Turn turn: turns){
+                        for(final Turn turn: turns){
                             if (isRedo){
-                                if (turn != null){
-                                    squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation("");
-                                    squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getAbbreviation());
-                                }
+                                squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation("");
+                                squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getAbbreviation());
+
                             }else{
                                 if (turn.getBeaten().isEmpty())
                                     squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation("");
