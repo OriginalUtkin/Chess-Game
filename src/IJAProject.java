@@ -66,29 +66,11 @@ public class IJAProject {
                     NotationParser loader = new NotationParser();
                     List<Turn> turns = loader.fileReader(fileName.toString());
                     loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1), true);
-                    loadedTab.setReplayMode(flag);
-
-                    ActionListener listener = new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            if (count == turns.size()-1){
-                                ((Timer)e.getSource()).stop();
-                            }
-                            loadedTab.loadTurn(turns.get(count), count, loader.getLine(count));
-                            loadedTab.setTurnNotation(loader.getLine(count), Color.yellow);
-                            loadedTab.setEvent(e);
-                            count++;
-                        }
-                    };
-
-                    if (flag){ /*automatic*/
-                        Timer timer = new Timer(period,listener);
-                        timer.start();
-                    }else{
-                        for(int counter = 0; counter < turns.size(); counter++) {
-                            loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
-                            loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
-                        }
+                    loadedTab.setReplayMode(flag, period, loader);
+                    
+                    for(int counter = 0; counter < turns.size(); counter++) {
+                        loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
+                        loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
                     }
                 }
             }

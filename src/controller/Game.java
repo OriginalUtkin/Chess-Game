@@ -35,6 +35,10 @@ public class Game {
 
     private char identifier;
 
+    public List<String> returnsingleTurnNotation(){
+        return this.singleTurnNotations;
+    }
+
 
 
     /**

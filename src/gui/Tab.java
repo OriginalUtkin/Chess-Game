@@ -3,12 +3,14 @@ package gui;
 import backend.Abstracts.ChessPiece;
 import backend.Figures.*;
 import controller.Game;
+import controller.NotationParser;
 import controller.Turn;
 
 import java.io.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -36,6 +38,9 @@ public class Tab extends JPanel {
 
     private boolean replay;
     private ActionEvent event;
+    private int period = 2000;
+    private static int count = 0;
+    private NotationParser loader;
 
 
     /**
@@ -296,8 +301,6 @@ public class Tab extends JPanel {
         emptyPanel.setBackground(Color.DARK_GRAY);
         rightPanel.add(emptyPanel);
 
-
-
         /*Buttons*/
         new RightPanelButton("", rightPanel, "img/back.png", this.tabName, new ActionListener() {
 
@@ -319,6 +322,58 @@ public class Tab extends JPanel {
                     squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
                             turnInfo.getColor().toString() + turnInfo.getAbbreviation());
                 }
+            }
+        });
+
+        new RightPanelButton("", rightPanel, "img/play.png", this.tabName, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Play");
+                int counter = 0;
+                List<Turn> turns = new ArrayList<>();
+                while (counter < game.returnsingleTurnNotation().size()){
+                    Turn turnInfo = game.undo();
+
+                    if (turnInfo != null){
+
+                        if (turnInfo.getBeaten().isEmpty())
+                            squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
+
+                        else{
+                            squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
+                                    .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
+                                            turnInfo.getBeaten());
+                        }
+
+                        squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
+                                turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                    }
+                    movements.removeAll();
+                    movements.repaint();
+                    counter+=1;
+                }
+
+                ActionListener listener = new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            /*TODO doesn't stop*/
+                            if (count == turns.size()-1){
+                                ((Timer)e.getSource()).stop();
+                            }
+                            Turn turnInfo = game.redo();
+                            System.out.println(turnInfo);
+                            if (turnInfo != null){
+                                squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
+                                squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                            }
+                            count++;
+                        }
+                    };
+
+
+                /*play movements*/
+                Timer timer = new Timer(period,listener);
+                timer.start();
             }
         });
 
@@ -507,7 +562,9 @@ public class Tab extends JPanel {
         ((Timer)this.event.getSource()).stop();
     }
 
-    public void setReplayMode(boolean flag){
-        replay = flag;
+    public void setReplayMode(boolean flag, int period, NotationParser loader){
+        this.replay = flag;
+        this.period = period;
+        this.loader = loader;
     }
 }
