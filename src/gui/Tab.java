@@ -34,6 +34,9 @@ public class Tab extends JPanel {
 
     private JPanel movements;
 
+    private boolean replay;
+    private ActionEvent event;
+
 
     /**
      *
@@ -99,21 +102,38 @@ public class Tab extends JPanel {
         panelBoard.add(coordinatesBoard);
 
 
-        /*Logo image*/
-        ImageIcon logoIcon = new ImageIcon(this.getClass().getResource("img/logo.png"));
-        JLabel label = new JLabel(logoIcon);
-        rightPanel.add(label);
-
-        /*Indent*/
-        JPanel emptyPanel = new JPanel();
-        emptyPanel.setPreferredSize(new Dimension(300,10));
-        emptyPanel.setBackground(Color.DARK_GRAY);
-        rightPanel.add(emptyPanel);
 
         /*Initialize chessBoard for this Tab*/
         initializeBoardCells(chessBoard);
         chessBoard.repaint();
         panelBoard.add(rightPanel);
+
+
+        /*Players panel*/
+        JPanel players = new JPanel(new GridLayout());
+        players.setPreferredSize(new Dimension(330, 50));
+        players.setBackground(new Color(32,32,32));
+
+
+        JPanel blackPlayer = new JPanel(new GridLayout());
+        //blackPlayer.setPreferredSize(new Dimension(120,40));
+        JLabel blackLabel = new JLabel("     Player 1");
+        blackLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        blackLabel.setForeground(Color.WHITE);
+
+        players.add(blackLabel);
+        players.add(blackLabel);
+
+
+        JPanel whitePlayer = new JPanel(new GridLayout());
+        //whitePlayer.setPreferredSize(new Dimension(120,40));
+        JLabel whiteLabel = new JLabel("     Player 2");
+        whiteLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        whiteLabel.setForeground(Color.BLACK);
+        whitePlayer.add(whiteLabel);
+        players.add(whitePlayer);
+
+        rightPanel.add(players);
 
 
         /*TextField with Movements*/
@@ -272,44 +292,16 @@ public class Tab extends JPanel {
             }
         });
 
-        /*Restart Button*/
-        JButton restartGame = new JButton("Restart Game");
-        restartGame.setBackground(new Color(204,204,0));
-        restartGame.setFont(new Font("Verdana", Font.PLAIN, 16));
-        restartGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO: test version. Doesn't work properly; add new method to controller
-                System.out.println("Restart");
-                game = new Game(true, loaded);
-                chessBoard.removeAll();
-                movements.removeAll();
-                initializeBoardCells(chessBoard);
-                movements.repaint();
-                movements.revalidate();
-                chessBoard.revalidate();
-                chessBoard.repaint();
-            }
-        });
-        rightPanel.add(restartGame);
+        /*Indent*/
+        JPanel emptyPanel = new JPanel();
+        emptyPanel.setPreferredSize(new Dimension(300,10));
+        emptyPanel.setBackground(Color.DARK_GRAY);
+        rightPanel.add(emptyPanel);
+
 
 
         /*Buttons*/
-       new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName, new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Turn turnInfo = game.redo();
-                System.out.println(turnInfo);
-                if (turnInfo != null){
-                    squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
-                    squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
-                }
-            }
-        });
-
-
-       new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName, new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/back.png", this.tabName, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -332,6 +324,52 @@ public class Tab extends JPanel {
             }
         });
 
+        new RightPanelButton("", rightPanel, "img/stop.png", this.tabName, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (replay){
+                    replay = false;
+                    stopTimer();
+                }
+            }
+        });
+        new RightPanelButton("", rightPanel, "img/ahead.png", this.tabName, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Turn turnInfo = game.redo();
+                System.out.println(turnInfo);
+                if (turnInfo != null){
+                    squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
+                    squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                }
+            }
+        });
+
+        /*Restart Button*/
+        JButton restartGame = new JButton("Restart Game");
+        restartGame.setBackground(new Color(204,204,0));
+        restartGame.setFont(new Font("Verdana", Font.PLAIN, 16));
+        restartGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: test version. Doesn't work properly; add new method to controller
+                System.out.println("Restart");
+                game = new Game(true, loaded);
+                chessBoard.removeAll();
+                movements.removeAll();
+                initializeBoardCells(chessBoard);
+                movements.repaint();
+                movements.revalidate();
+                chessBoard.revalidate();
+                chessBoard.repaint();
+            }
+        });
+        rightPanel.add(restartGame);
+
+
+
+        /*Save Button */
        new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName, new ActionListener() {
 
             @Override
@@ -461,5 +499,17 @@ public class Tab extends JPanel {
                 panel.add(drawing);
             }
         }
+    }
+
+    public void setEvent(ActionEvent e){
+        this.event = e;
+    }
+
+    public void stopTimer(){
+        ((Timer)this.event.getSource()).stop();
+    }
+
+    public void setReplayMode(boolean flag){
+        replay = flag;
     }
 }
