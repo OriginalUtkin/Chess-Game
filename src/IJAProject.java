@@ -67,7 +67,7 @@ public class IJAProject {
                     List<Turn> turns = loader.fileReader(fileName.toString());
                     loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1), true);
                     loadedTab.setReplayMode(flag, period, loader);
-                    
+
                     for(int counter = 0; counter < turns.size(); counter++) {
                         loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
                         loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
@@ -93,7 +93,6 @@ public class IJAProject {
 
 
         JMenu automaticBox = new JMenu("Automatic re-play");
-        JCheckBox manualBox = new JCheckBox("Manual re-play");
 
         JCheckBox fast = new JCheckBox("Fast (2s)");
         JCheckBox slower = new JCheckBox("Slower (4s)");
@@ -102,7 +101,6 @@ public class IJAProject {
         fast.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 if (fast.isSelected()){
-                    manualBox.setSelected(false);
                     slower.setSelected(false);
                     slow.setSelected(false);
                     period = 2000;
@@ -117,7 +115,6 @@ public class IJAProject {
             public void itemStateChanged(ItemEvent e) {
                 if (slower.isSelected()){
                     fast.setSelected(false);
-                    manualBox.setSelected(false);
                     slow.setSelected(false);
                     period = 4000;
                 }
@@ -131,7 +128,6 @@ public class IJAProject {
         slow.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 if (slow.isSelected()){
-                    manualBox.setSelected(false);
                     fast.setSelected(false);
                     slower.setSelected(false);
                     period = 6000;
@@ -143,21 +139,8 @@ public class IJAProject {
 
 
 
-        manualBox.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if (manualBox.isSelected()){
-                    slower.setSelected(false);
-                    fast.setSelected(false);
-                    slow.setSelected(false);
-                }
-                flag = false; /*manual*/
-            }
-        });
-
         automaticBox.setFont(font);
         menuSettings.add(automaticBox);
-        manualBox.setFont(font);
-        menuSettings.add(manualBox);
 
 
         JMenu menuView = new JMenu("View");

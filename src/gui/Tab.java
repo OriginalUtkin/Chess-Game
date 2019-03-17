@@ -356,8 +356,8 @@ public class Tab extends JPanel {
                 ActionListener listener = new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            /*TODO doesn't stop*/
-                            if (count == turns.size()-1){
+                            System.out.println(game.returnsingleTurnNotation().size());
+                            if (count == game.returnsingleTurnNotation().size()-1){
                                 ((Timer)e.getSource()).stop();
                             }
                             Turn turnInfo = game.redo();
