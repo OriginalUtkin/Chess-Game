@@ -36,9 +36,8 @@ public class Tab extends JPanel {
 
     private JPanel movements;
 
-    private boolean replay;
     private ActionEvent event;
-    private int period = 2000;
+    private int period;
     private static int count = 0;
     private NotationParser loader;
 
@@ -117,24 +116,25 @@ public class Tab extends JPanel {
         /*Players panel*/
         JPanel players = new JPanel(new GridLayout());
         players.setPreferredSize(new Dimension(330, 50));
-        players.setBackground(new Color(32,32,32));
+        players.setBackground(Color.WHITE);
 
 
         JPanel blackPlayer = new JPanel(new GridLayout());
         //blackPlayer.setPreferredSize(new Dimension(120,40));
         JLabel blackLabel = new JLabel("     Player 1");
         blackLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        blackLabel.setForeground(Color.WHITE);
+        blackLabel.setForeground(Color.BLACK);
 
         players.add(blackLabel);
         players.add(blackLabel);
 
 
         JPanel whitePlayer = new JPanel(new GridLayout());
+        whitePlayer.setBackground(new Color(32,32,32));
         //whitePlayer.setPreferredSize(new Dimension(120,40));
         JLabel whiteLabel = new JLabel("     Player 2");
         whiteLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        whiteLabel.setForeground(Color.BLACK);
+        whiteLabel.setForeground(Color.WHITE);
         whitePlayer.add(whiteLabel);
         players.add(whitePlayer);
 
@@ -249,6 +249,7 @@ public class Tab extends JPanel {
                             }
                             setCellsColor(possibleMovements, Color.black,1);
                             System.out.println("Possible movement");
+                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
 
                             String turnNotation = game.movePiece();
                             setTurnNotation(turnNotation, Color.yellow);
@@ -321,6 +322,8 @@ public class Tab extends JPanel {
 
                     squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
                             turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+
+                    changeColors(whiteLabel, whitePlayer, blackLabel, players);
                 }
             }
         });
@@ -328,7 +331,7 @@ public class Tab extends JPanel {
         new RightPanelButton("", rightPanel, "img/play.png", this.tabName, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Play");
+                System.out.println("Play, interval: " + period);
                 int counter = 0;
                 List<Turn> turns = new ArrayList<>();
                 while (counter < game.returnsingleTurnNotation().size()){
@@ -348,6 +351,7 @@ public class Tab extends JPanel {
                         squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
                                 turnInfo.getColor().toString() + turnInfo.getAbbreviation());
                     }
+
                     movements.removeAll();
                     movements.repaint();
                     counter+=1;
@@ -361,9 +365,12 @@ public class Tab extends JPanel {
                             }
                             Turn turnInfo = game.redo();
                             System.out.println(turnInfo);
-                            if (turnInfo != null){
+                            if (turnInfo != null) {
                                 squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
                                 squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                                changeColors(whiteLabel, whitePlayer, blackLabel, players);
+                            }else{
+                                ((Timer)e.getSource()).stop();
                             }
                             count++;
                         }
@@ -379,10 +386,7 @@ public class Tab extends JPanel {
         new RightPanelButton("", rightPanel, "img/stop.png", this.tabName, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (replay){
-                    replay = false;
                     stopTimer();
-                }
             }
         });
         new RightPanelButton("", rightPanel, "img/ahead.png", this.tabName, new ActionListener() {
@@ -394,6 +398,7 @@ public class Tab extends JPanel {
                 if (turnInfo != null){
                     squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
                     squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                    changeColors(whiteLabel, whitePlayer, blackLabel, players);
                 }
             }
         });
@@ -456,6 +461,22 @@ public class Tab extends JPanel {
 
         Tab.countOfTabs += 1;
         return panelBoard;
+    }
+
+    private void changeColors(JLabel whiteLabel, JPanel whitePlayer, JLabel blackLabel, JPanel players){
+        if (game.getCurrentTurn() == backend.Enums.Color.WHITE){
+            whiteLabel.setForeground(Color.WHITE);
+            whitePlayer.setBackground(new Color(32,32,32));
+            blackLabel.setForeground(Color.BLACK);
+            players.setBackground(Color.WHITE);
+            players.repaint();
+        }else {
+            whiteLabel.setForeground(Color.BLACK);
+            whitePlayer.setBackground(Color.WHITE);
+            blackLabel.setForeground(Color.WHITE);
+            players.setBackground(new Color(32,32,32));
+            players.repaint();
+        }
     }
 
 
@@ -561,9 +582,7 @@ public class Tab extends JPanel {
         ((Timer)this.event.getSource()).stop();
     }
 
-    public void setReplayMode(boolean flag, int period, NotationParser loader){
-        this.replay = flag;
+    public void setPeriod(int period){
         this.period = period;
-        this.loader = loader;
     }
 }

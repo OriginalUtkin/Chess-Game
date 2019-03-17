@@ -4,20 +4,20 @@ import gui.Tab;
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import java.lang.String;
+import java.util.ArrayList;
 import java.util.List;
 
 public class IJAProject {
-    private static boolean flag = false;
     private static Tab loadedTab;
     static int count = 0;
-    private static int period = 6000;
+    private static int period = 2000;
+    private static List<Tab> tabList = new ArrayList<>();
     public static void main(String args[]) {
 
         /*Initialize main frame*/
@@ -32,6 +32,8 @@ public class IJAProject {
         JTabbedPane tabPane = new JTabbedPane();
         tabPane.setFont( new Font( "Dialog", Font.BOLD|Font.ITALIC, 20 ) );
         Tab tabs = new Tab(tabPane, frame, "Game1", false); // implicitly one game
+        tabList.add(tabs);
+        tabs.setPeriod(period);
 
 
         /*Menu panel*/
@@ -44,7 +46,9 @@ public class IJAProject {
 
         newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new Tab(tabPane,frame, "Game" + (Tab.getNumOfTabs()+1), false);
+                Tab newTab = new Tab(tabPane,frame, "Game" + (Tab.getNumOfTabs()+1), false);
+                tabList.add(newTab);
+                newTab.setPeriod(period);
             }
         });
 
@@ -66,7 +70,8 @@ public class IJAProject {
                     NotationParser loader = new NotationParser();
                     List<Turn> turns = loader.fileReader(fileName.toString());
                     loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1), true);
-                    loadedTab.setReplayMode(flag, period, loader);
+                    tabList.add(loadedTab);
+                    loadedTab.setPeriod(period);
 
                     for(int counter = 0; counter < turns.size(); counter++) {
                         loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
@@ -91,56 +96,49 @@ public class IJAProject {
         JMenu menuSettings = new JMenu("Settings");
         menuSettings.setFont(font);
 
+        JMenuItem setInterval = new JMenuItem("Set speed");
 
-        JMenu automaticBox = new JMenu("Automatic re-play");
+        setInterval.setFont(font);
+        menuSettings.add(setInterval);
 
-        JCheckBox fast = new JCheckBox("Fast (2s)");
-        JCheckBox slower = new JCheckBox("Slower (4s)");
-        JCheckBox slow = new JCheckBox("Slow (6s)");
-        fast.setFont(font);
-        fast.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if (fast.isSelected()){
-                    slower.setSelected(false);
-                    slow.setSelected(false);
-                    period = 2000;
-                }
-                flag = true; /*manual*/
+        setInterval.addMouseListener(new MouseAdapter() {
+            JFormattedTextField speedField;
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                JFrame frame = new JFrame("Interval");
+                frame.setPreferredSize(new Dimension(300,150));
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                JPanel speedPanel = new JPanel();
+                speedPanel.setBackground(new Color(32,32,32));
+                JLabel speedLabel = new JLabel("Set speed");
+                speedLabel.setForeground(Color.WHITE);
+                speedPanel.add(speedLabel);
+
+
+                speedField = new JFormattedTextField("");
+                speedField.setBackground(Color.WHITE);
+                speedField.setValue(new Integer(0));
+                speedField.setColumns(10);
+                speedField.addPropertyChangeListener("value", new PropertyChangeListener() {
+                    @Override
+                    public void propertyChange(PropertyChangeEvent evt) {
+                        period = ((Number)speedField.getValue()).intValue();
+                        System.out.println(period);
+                        for (int i = 0; i<tabList.size(); i++){
+                            tabList.get(i).setPeriod(period*1000);
+                        }
+                        frame.setVisible(false);
+                    }
+                });
+
+                speedPanel.add(speedField);
+                frame.add(speedPanel);
+                frame.setLocation(350,150);
+                frame.pack();
+                frame.setVisible(true);
             }
         });
-        automaticBox.add(fast);
-
-        slower.setFont(font);
-        slower.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if (slower.isSelected()){
-                    fast.setSelected(false);
-                    slow.setSelected(false);
-                    period = 4000;
-                }
-                flag = true; /*automatic*/
-            }
-        });
-        automaticBox.add(slower);
-
-
-        slow.setFont(font);
-        slow.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if (slow.isSelected()){
-                    fast.setSelected(false);
-                    slower.setSelected(false);
-                    period = 6000;
-                }
-                flag = true; /*automatic*/
-            }
-        });
-        automaticBox.add(slow);
-
-
-
-        automaticBox.setFont(font);
-        menuSettings.add(automaticBox);
 
 
         JMenu menuView = new JMenu("View");
