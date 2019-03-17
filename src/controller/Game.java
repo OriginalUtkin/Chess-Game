@@ -33,6 +33,8 @@ public class Game {
     private List<String> singleTurnNotations;
     private List<String> cancelledNotations;
 
+    private boolean deleteGUINotations;
+
     private char identifier;
 
 
@@ -59,8 +61,22 @@ public class Game {
 
         this.selectedTurnNumber = 0;
 
+        this.deleteGUINotations = false;
+
     }
 
+    public void setDeleteGUINotations(final boolean value){
+        this.deleteGUINotations = value;
+    }
+
+    /**
+     * Define if notation entries on gui part should be deleted
+     *
+     * @return true if notations should be deleted, false otherwise
+     */
+    public boolean isDeleteGUINotations(){
+        return this.deleteGUINotations;
+    }
 
 
     /**
@@ -75,6 +91,9 @@ public class Game {
     }
 
 
+    public int getSelectedTurnNumber(){
+        return this.selectedTurnNumber;
+    }
 
     /**
      * Set selectedCell and selectedPiece variables to null (Drop selection). Is used after turn is done or turn
@@ -502,8 +521,15 @@ public class Game {
 
         if (this.selectedTurnNumber >= this.singleTurnNotations.size())
             this.singleTurnNotations.add(this.selectedTurnNumber, turnNotation);
-        else
+        else{
             this.singleTurnNotations.set(this.selectedTurnNumber, turnNotation);
+
+            if(this.selectedTurnNumber < this.singleTurnNotations.size() - 1){
+                this.singleTurnNotations.subList(this.selectedTurnNumber + 1, this.singleTurnNotations.size()).clear();
+            }
+            this.deleteGUINotations = true;
+            this.cancelledNotations.clear();
+        }
 
         this.selectedTurnNumber += 1;
 

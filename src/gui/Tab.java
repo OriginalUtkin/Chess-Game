@@ -9,6 +9,7 @@ import java.io.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -216,6 +217,19 @@ public class Tab extends JPanel {
                             System.out.println("Possible movement");
 
                             String turnNotation = game.movePiece();
+
+                            if (game.isDeleteGUINotations()){
+
+                                int lastNotation = game.getSelectedTurnNumber() - 1;
+                                List<Component> notationEntries = Arrays.asList(movements.getComponents());
+                                for(Component entry: notationEntries){
+
+                                    if(notationEntries.indexOf(entry) >= lastNotation){
+                                        movements.remove(entry);
+                                    }
+                                }
+                            }
+
                             setTurnNotation(turnNotation, Color.yellow);
                         }
 
