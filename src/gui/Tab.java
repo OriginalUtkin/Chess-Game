@@ -38,9 +38,12 @@ public class Tab extends JPanel {
 
     private boolean replay;
     private ActionEvent event;
+<<<<<<< HEAD
     private int period = 2000;
     private static int count = 0;
     private NotationParser loader;
+=======
+>>>>>>> 4e632fd37bec87c2f893bcccf0961c2801e2423e
 
 
     /**
@@ -301,6 +304,11 @@ public class Tab extends JPanel {
         emptyPanel.setBackground(Color.DARK_GRAY);
         rightPanel.add(emptyPanel);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 4e632fd37bec87c2f893bcccf0961c2801e2423e
         /*Buttons*/
         new RightPanelButton("", rightPanel, "img/back.png", this.tabName, new ActionListener() {
 
@@ -325,6 +333,7 @@ public class Tab extends JPanel {
             }
         });
 
+<<<<<<< HEAD
         new RightPanelButton("", rightPanel, "img/play.png", this.tabName, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -377,6 +386,8 @@ public class Tab extends JPanel {
             }
         });
 
+=======
+>>>>>>> 4e632fd37bec87c2f893bcccf0961c2801e2423e
         new RightPanelButton("", rightPanel, "img/stop.png", this.tabName, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -562,9 +573,14 @@ public class Tab extends JPanel {
         ((Timer)this.event.getSource()).stop();
     }
 
+<<<<<<< HEAD
     public void setReplayMode(boolean flag, int period, NotationParser loader){
         this.replay = flag;
         this.period = period;
         this.loader = loader;
+=======
+    public void setReplayMode(boolean flag){
+        replay = flag;
+>>>>>>> 4e632fd37bec87c2f893bcccf0961c2801e2423e
     }
 }
