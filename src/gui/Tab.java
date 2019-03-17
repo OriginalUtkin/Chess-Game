@@ -228,6 +228,8 @@ public class Tab extends JPanel {
                                         movements.remove(entry);
                                     }
                                 }
+
+                                game.setDeleteGUINotations(false);
                             }
 
                             setTurnNotation(turnNotation, Color.yellow);
