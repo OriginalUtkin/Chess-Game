@@ -30,6 +30,8 @@ public class Game {
     private Color currentTurn;
     private int turnNumber;
     private int selectedTurnNumber;
+    private int period;
+
     private List<String> singleTurnNotations;
     private List<String> cancelledNotations;
 
@@ -56,6 +58,7 @@ public class Game {
         this.singleTurnNotations = new ArrayList<>();
         this.cancelledNotations = new ArrayList<>();
 
+        this.period = 5000;
         this.turnNumber = 1;
         this.currentTurn = Color.WHITE;
 
@@ -69,6 +72,7 @@ public class Game {
         this.deleteGUINotations = value;
     }
 
+
     /**
      * Define if notation entries on gui part should be deleted
      *
@@ -77,6 +81,7 @@ public class Game {
     public boolean isDeleteGUINotations(){
         return this.deleteGUINotations;
     }
+
 
 
     /**
@@ -91,9 +96,23 @@ public class Game {
     }
 
 
+    /**
+     *
+     * @param newPeriodValue
+     */
+    public void setPeriod(final int newPeriodValue){
+        this.period = newPeriodValue;
+    }
+
+
+    /**
+     *
+     * @return
+     */
     public int getSelectedTurnNumber(){
         return this.selectedTurnNumber;
     }
+
 
     /**
      * Set selectedCell and selectedPiece variables to null (Drop selection). Is used after turn is done or turn

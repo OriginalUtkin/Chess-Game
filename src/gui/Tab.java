@@ -297,9 +297,33 @@ public class Tab extends JPanel {
         });
         rightPanel.add(restartGame);
 
+        /* Set timeout button */
+        new RightPanelButton("Pause", rightPanel, "", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JPanel panel = new JPanel();
+                panel.add(new JLabel("Set interval between turns"));
+                JFormattedTextField textField = new JFormattedTextField(5);
+                textField.setColumns(5);
+                panel.add(textField);
+
+                int chosenOption = JOptionPane.showOptionDialog(null, panel, "Set time interval between turn", JOptionPane.OK_CANCEL_OPTION, 1, null, null, null);
+
+                if (chosenOption == JOptionPane.OK_OPTION){
+                    int periodValue = ((Number)textField.getValue()).intValue();
+
+                    /**
+                     * Check if period value is possible value
+                     */
+
+                    game.setPeriod(periodValue * 1000);
+                }
+            }
+        });
 
         /*Buttons*/
-       new RightPanelButton("Redo", rightPanel, "img/redo.png", this.tabName, new ActionListener() {
+       new RightPanelButton("Redo", rightPanel, "img/redo.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -312,8 +336,7 @@ public class Tab extends JPanel {
             }
         });
 
-
-       new RightPanelButton("Undo", rightPanel, "img/undo.png", this.tabName, new ActionListener() {
+       new RightPanelButton("Undo", rightPanel, "img/undo.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -336,7 +359,7 @@ public class Tab extends JPanel {
             }
         });
 
-       new RightPanelButton("Save", rightPanel, "img/save.png", this.tabName, new ActionListener() {
+       new RightPanelButton("Save", rightPanel, "img/save.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
