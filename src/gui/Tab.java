@@ -60,6 +60,8 @@ public class Tab extends JPanel {
             tabbedPane.addTab(tab_name, panel);
             tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
+            countOfTabs += 1;
+
         } else {
             JOptionPane.showMessageDialog(frame, "Too many tabs");
         }
@@ -456,7 +458,6 @@ public class Tab extends JPanel {
             }
         });
 
-        Tab.countOfTabs += 1;
         return panelBoard;
     }
 
@@ -468,13 +469,8 @@ public class Tab extends JPanel {
      * @param notation
      */
     public void loadTurn(final Turn turn, final int counter, final String notation){
-        String additional_abb;
 
-        if (counter%2 == 0){
-            additional_abb = "W";
-        }else{
-            additional_abb = "B";
-        }
+        String additional_abb =  counter%2 == 0 ? "W" : "B";
 
         this.game.applyTurn(turn, notation, false);
         this.squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation("");
