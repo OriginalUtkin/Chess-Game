@@ -105,6 +105,10 @@ public class Game {
     }
 
 
+    public int getPeriod(){
+        return this.period;
+    }
+
     /**
      *
      * @return

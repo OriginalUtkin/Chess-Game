@@ -33,6 +33,8 @@ public class Tab extends JPanel {
     private JMovePanel move;
     private boolean loaded;
 
+    private ActionEvent event;
+
     private JPanel movements;
 
 
@@ -99,30 +101,54 @@ public class Tab extends JPanel {
         coordinatesBoard.add(chessBoard);
         panelBoard.add(coordinatesBoard);
 
-
-        /*Logo image*/
-        ImageIcon logoIcon = new ImageIcon(this.getClass().getResource("img/logo.png"));
-        JLabel label = new JLabel(logoIcon);
-        rightPanel.add(label);
-
-        /*Indent*/
-        JPanel emptyPanel = new JPanel();
-        emptyPanel.setPreferredSize(new Dimension(300,25));
-        emptyPanel.setBackground(Color.DARK_GRAY);
-        rightPanel.add(emptyPanel);
-
         /*Initialize chessBoard for this Tab*/
         initializeBoardCells(chessBoard);
         chessBoard.repaint();
         panelBoard.add(rightPanel);
 
+        /*Players panel*/
+        JPanel players = new JPanel(new GridLayout());
+        players.setPreferredSize(new Dimension(330, 50));
+        players.setBackground(new Color(32,32,32));
+
+
+        JPanel blackPlayer = new JPanel(new GridLayout());
+        //blackPlayer.setPreferredSize(new Dimension(120,40));
+        JLabel blackLabel = new JLabel("     Player 1");
+        blackLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        blackLabel.setForeground(Color.WHITE);
+
+        players.add(blackLabel);
+        players.add(blackLabel);
+
+
+        JPanel whitePlayer = new JPanel(new GridLayout());
+        JLabel whiteLabel = new JLabel("     Player 2");
+        whiteLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        whiteLabel.setForeground(Color.BLACK);
+        whitePlayer.add(whiteLabel);
+        players.add(whitePlayer);
+
+        rightPanel.add(players);
+
 
         /*TextField with Movements*/
         movements = new JPanel();
         movements.setBackground(new Color(32,32,32));
-        movements.setPreferredSize(new Dimension(330,300));
 
-        rightPanel.add(movements);
+        movements.setLayout(new BoxLayout(movements, BoxLayout.Y_AXIS));
+        movements.setAutoscrolls(true);
+
+        JScrollPane scrollPane = new JScrollPane(movements);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(0, 0, 330, 300);
+
+        JPanel contentPane = new JPanel(null);
+        contentPane.setPreferredSize(new Dimension(330, 300));
+        contentPane.add(scrollPane);
+
+        rightPanel.add(contentPane);
 
         movements.addMouseListener(new MouseAdapter() {
 
@@ -276,10 +302,11 @@ public class Tab extends JPanel {
             }
         });
 
+
         /*Restart Button*/
         JButton restartGame = new JButton("Restart Game");
         restartGame.setBackground(new Color(204,204,0));
-        restartGame.setFont(new Font("Verdana", Font.PLAIN, 14));
+        restartGame.setFont(new Font("Verdana", Font.PLAIN, 16));
         restartGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -298,7 +325,7 @@ public class Tab extends JPanel {
         rightPanel.add(restartGame);
 
         /* Set timeout button */
-        new RightPanelButton("Pause", rightPanel, "", new ActionListener() {
+        new RightPanelButton("Set pause", rightPanel, null, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -308,13 +335,14 @@ public class Tab extends JPanel {
                 textField.setColumns(5);
                 panel.add(textField);
 
-                int chosenOption = JOptionPane.showOptionDialog(null, panel, "Set time interval between turn", JOptionPane.OK_CANCEL_OPTION, 1, null, null, null);
+                int chosenOption = JOptionPane.showOptionDialog(null, panel, "Set time interval between turn",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
                 if (chosenOption == JOptionPane.OK_OPTION){
                     int periodValue = ((Number)textField.getValue()).intValue();
 
                     /**
-                     * Check if period value is possible value
+                     * TODO Check if period value is possible value
                      */
 
                     game.setPeriod(periodValue * 1000);
@@ -335,6 +363,43 @@ public class Tab extends JPanel {
                 }
             }
         });
+
+
+       new RightPanelButton("Stop", rightPanel, "img/stop.png", new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               stopTimer();
+           }
+        });
+
+
+       new RightPanelButton("Play", rightPanel, "img/play.png", new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               System.out.println("Play");
+
+               ActionListener listener = new ActionListener() {
+                   @Override
+                   public void actionPerformed(ActionEvent e) {
+                       setEvent(e);
+
+                       Turn turnInfo = game.redo();
+                       System.out.println(turnInfo);
+
+                       if (turnInfo != null){
+                           squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
+                           squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                       }else{
+                           ((Timer)e.getSource()).stop();
+                       }
+                   }
+               };
+
+               /*play movements*/
+               Timer timer = new Timer(game.getPeriod(),listener);
+               timer.start();
+           }
+       });
 
        new RightPanelButton("Undo", rightPanel, "img/undo.png", new ActionListener() {
 
@@ -429,6 +494,7 @@ public class Tab extends JPanel {
         moveLabel.setFont(new Font("Serif", Font.PLAIN, 15));
         moveLabel.setForeground(Color.WHITE);
         moveLabel.setText(moveLabel.getText() + "");
+        move.setMaximumSize(new Dimension(300,40));
         move.setText(str);
 
         for(Component movement: movements.getComponents()){
@@ -487,5 +553,14 @@ public class Tab extends JPanel {
                 panel.add(drawing);
             }
         }
+    }
+
+
+    private void setEvent(ActionEvent e){
+        this.event = e;
+    }
+
+    private void stopTimer(){
+        ((Timer)this.event.getSource()).stop();
     }
 }
