@@ -360,6 +360,7 @@ public class Tab extends JPanel {
                 ActionListener listener = new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                            setEvent(e);
                             if (count == game.returnsingleTurnNotation().size()-1){
                                 ((Timer)e.getSource()).stop();
                             }
