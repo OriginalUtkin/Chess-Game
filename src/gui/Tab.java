@@ -437,6 +437,14 @@ public class Tab extends JPanel {
 
                     squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
                             turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+
+                    for(Component movement: movements.getComponents()){
+                        ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+                    }
+
+                    if (game.getSelectedTurnNumber() > 0)
+                        ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
+                                .setBorder(BorderFactory.createLineBorder(new Color(204,204,0)));
                 }
             }
         });
