@@ -37,9 +37,9 @@ public class NotationParser {
 
         return turns;
     }
-
+//((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8])\w+)
     private List<Turn> parseNotation(final String notationString){
-
+//        transform check regex ((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8])(J|D|V|S))
         Pattern pattern = Pattern.compile("((J|K|D|V|S|)([a-h])([1-8])x(J|K|D|V|S|)([a-h])([1-8]))|((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8]))");
         Matcher matcher = pattern.matcher(notationString);
 

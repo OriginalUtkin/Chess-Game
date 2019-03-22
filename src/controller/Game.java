@@ -36,6 +36,8 @@ public class Game {
     private List<String> cancelledNotations;
 
     private boolean deleteGUINotations;
+    private boolean transformPawn;
+
 
     private char identifier;
 
@@ -65,6 +67,7 @@ public class Game {
         this.selectedTurnNumber = 0;
 
         this.deleteGUINotations = false;
+        this.transformPawn = false;
 
     }
 
@@ -82,6 +85,15 @@ public class Game {
         return this.deleteGUINotations;
     }
 
+
+    /**
+     * Getter method for transformPawn flag which signalize if pawn should be changed to the other chess piece.
+     *
+     * @return value of transformPawn field. True, if pawn was moved to the last row on the gme board, false oterwise
+     */
+    public boolean isTransformPawn(){
+        return this.transformPawn;
+    }
 
 
     /**
@@ -526,14 +538,18 @@ public class Game {
         if (this.selectedPiece.getStartedPosition()){
             this.selectedPiece.changeStartedPosition();
         }
-        String turnNotation = this.getFullNotation();
 
+        if((this.selectedPiece instanceof Pawn) && (this.destinationCell.getRow() == 7 || this.destinationCell.getRow() == 0)){
+            System.out.println("[DEBUG][movePiece] Pawn movement to the last row on the game board");
+            this.transformPawn = true;
+        }
+
+        String turnNotation = this.getFullNotation();
 
         this.destinationCell.setAbbreviation(this.selectedPiece.getColor().toString() + this.selectedPiece.toString());
         this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());
 
         this.selectedCell.setAbbreviation("");
-
 
         this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
 
@@ -545,11 +561,13 @@ public class Game {
         if (this.selectedTurnNumber >= this.singleTurnNotations.size())
             this.singleTurnNotations.add(this.selectedTurnNumber, turnNotation);
         else{
+
             this.singleTurnNotations.set(this.selectedTurnNumber, turnNotation);
 
             if(this.selectedTurnNumber < this.singleTurnNotations.size() - 1){
                 this.singleTurnNotations.subList(this.selectedTurnNumber + 1, this.singleTurnNotations.size()).clear();
             }
+
             this.deleteGUINotations = true;
             this.cancelledNotations.clear();
         }

@@ -246,6 +246,26 @@ public class Tab extends JPanel {
 
                             String turnNotation = game.movePiece();
 
+                            // Pawn piece should be transformed to other piece
+                            if (game.isTransformPawn()){
+
+                                String[] values = {"D", "V", "S", "J"};
+
+                                int selected = JOptionPane.showOptionDialog(
+                                        null,
+                                        "Transform pawn to:",
+                                        "Transform pawn to other piece",
+                                        JOptionPane.YES_NO_OPTION,
+                                        JOptionPane.QUESTION_MESSAGE,
+                                        null,
+                                        values,
+                                        null);
+
+                                System.out.println(selected);
+                                
+                            }
+
+                            // Player did own turn while old turn is shown
                             if (game.isDeleteGUINotations()){
 
                                 int lastNotation = game.getSelectedTurnNumber() - 1;
