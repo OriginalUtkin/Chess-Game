@@ -167,11 +167,7 @@ public class Game {
      * Change a turn and set color for pieces which could be selected during current turn.
      */
     private void changeTurn() {
-        if (this.currentTurn == Color.WHITE)
-            this.currentTurn = Color.BLACK;
-
-        else
-            this.currentTurn = Color.WHITE;
+        this.currentTurn = Color.getOppositeColor(this.currentTurn);
     }
 
 
@@ -553,10 +549,11 @@ public class Game {
 
         this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
 
-        this.dropSelected();
-        this.dropDestinationCell();
-
-        this.changeTurn();
+        if(!this.transformPawn){
+            this.dropSelected();
+            this.dropDestinationCell();
+            this.changeTurn();
+        }
 
         if (this.selectedTurnNumber >= this.singleTurnNotations.size())
             this.singleTurnNotations.add(this.selectedTurnNumber, turnNotation);
@@ -579,6 +576,49 @@ public class Game {
     }
 
 
+    /**
+     *
+     * @param newPieceAbbreviation
+     */
+    public void transformPawn(final String newPieceAbbreviation){
+
+        ChessPiece newPiece;
+        Color pieceColor = this.currentTurn;
+
+        switch (newPieceAbbreviation) {
+            case "P":
+                newPiece = new Pawn(pieceColor);
+                break;
+            case "J":
+                newPiece = new Knight(pieceColor);
+                break;
+            case "S":
+                newPiece = new Bishop(pieceColor);
+                break;
+            case "V":
+                newPiece = new Rook(pieceColor);
+                break;
+            case "D":
+                newPiece = new Queen(pieceColor);
+                break;
+            default:
+                newPiece = new King(pieceColor);
+                break;
+        }
+
+        this.setPiece(newPiece, this.destinationCell.getRow(),this.destinationCell.getColumn());
+
+        // TODO set turn notation
+
+        this.destinationCell.setAbbreviation(this.selectedPiece.getColor().toString() + newPieceAbbreviation);
+
+        this.dropSelected();
+        this.dropDestinationCell();
+        this.changeTurn();
+
+        this.transformPawn = false;
+
+    }
 
     /**
      * Create full turn notation.

@@ -262,7 +262,9 @@ public class Tab extends JPanel {
                                         null);
 
                                 System.out.println(selected);
-                                
+
+                                game.transformPawn(values[selected]);
+
                             }
 
                             // Player did own turn while old turn is shown
