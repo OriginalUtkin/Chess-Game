@@ -569,8 +569,8 @@ public class Game {
             this.cancelledNotations.clear();
         }
 
-        this.selectedTurnNumber += 1;
-
+        if(!this.transformPawn)
+            this.selectedTurnNumber += 1;
 
         return turnNotation;
     }
@@ -580,7 +580,7 @@ public class Game {
      *
      * @param newPieceAbbreviation
      */
-    public void transformPawn(final String newPieceAbbreviation){
+    public String transformPawn(final String newPieceAbbreviation){
 
         ChessPiece newPiece;
         Color pieceColor = this.currentTurn;
@@ -607,8 +607,11 @@ public class Game {
         }
 
         this.setPiece(newPiece, this.destinationCell.getRow(),this.destinationCell.getColumn());
+        String notation = this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
+                this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
+                newPieceAbbreviation;
 
-        // TODO set turn notation
+        this.singleTurnNotations.add(this.selectedTurnNumber, notation);
 
         this.destinationCell.setAbbreviation(this.selectedPiece.getColor().toString() + newPieceAbbreviation);
 
@@ -617,6 +620,8 @@ public class Game {
         this.changeTurn();
 
         this.transformPawn = false;
+
+        return notation;
 
     }
 

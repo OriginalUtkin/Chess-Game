@@ -261,9 +261,7 @@ public class Tab extends JPanel {
                                         values,
                                         null);
 
-                                System.out.println(selected);
-
-                                game.transformPawn(values[selected]);
+                                turnNotation = game.transformPawn(values[selected]);
 
                             }
 
