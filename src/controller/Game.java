@@ -607,11 +607,12 @@ public class Game {
         }
 
         this.setPiece(newPiece, this.destinationCell.getRow(),this.destinationCell.getColumn());
+
         String notation = this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
                 this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
                 newPieceAbbreviation;
 
-        this.singleTurnNotations.add(this.selectedTurnNumber, notation);
+        this.singleTurnNotations.set(this.selectedTurnNumber, notation);
 
         this.destinationCell.setAbbreviation(this.selectedPiece.getColor().toString() + newPieceAbbreviation);
 
@@ -620,6 +621,7 @@ public class Game {
         this.changeTurn();
 
         this.transformPawn = false;
+        this.selectedTurnNumber += 1;
 
         return notation;
 
