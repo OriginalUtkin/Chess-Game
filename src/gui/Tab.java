@@ -111,27 +111,30 @@ public class Tab extends JPanel {
         /*Players panel*/
         JPanel players = new JPanel(new GridLayout());
         players.setPreferredSize(new Dimension(330, 50));
-        players.setBackground(new Color(32,32,32));
+        players.setBackground(Color.WHITE);
 
 
         JPanel blackPlayer = new JPanel(new GridLayout());
         //blackPlayer.setPreferredSize(new Dimension(120,40));
         JLabel blackLabel = new JLabel("     Player 1");
         blackLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        blackLabel.setForeground(Color.WHITE);
+        blackLabel.setForeground(Color.BLACK);
 
         players.add(blackLabel);
         players.add(blackLabel);
 
 
         JPanel whitePlayer = new JPanel(new GridLayout());
+        whitePlayer.setBackground(new Color(32,32,32));
+        //whitePlayer.setPreferredSize(new Dimension(120,40));
         JLabel whiteLabel = new JLabel("     Player 2");
         whiteLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        whiteLabel.setForeground(Color.BLACK);
+        whiteLabel.setForeground(Color.WHITE);
         whitePlayer.add(whiteLabel);
         players.add(whitePlayer);
 
         rightPanel.add(players);
+
 
 
         /*TextField with Movements*/
@@ -243,6 +246,7 @@ public class Tab extends JPanel {
                             }
                             setCellsColor(possibleMovements, Color.black,1);
                             System.out.println("Possible movement");
+                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
 
                             String turnNotation = game.movePiece();
 
@@ -382,6 +386,7 @@ public class Tab extends JPanel {
                 if (turnInfo != null){
                     squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
                     squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                    changeColors(whiteLabel, whitePlayer, blackLabel, players);
 
                     for(Component movement: movements.getComponents()){
                         ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
@@ -418,6 +423,7 @@ public class Tab extends JPanel {
                        if (turnInfo != null){
                            squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
                            squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                           changeColors(whiteLabel, whitePlayer, blackLabel, players);
 
                            for(Component movement: movements.getComponents()){
                                ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
@@ -457,6 +463,8 @@ public class Tab extends JPanel {
 
                     squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
                             turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+
+                    changeColors(whiteLabel, whitePlayer, blackLabel, players);
 
                     for(Component movement: movements.getComponents()){
                         ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
@@ -502,6 +510,22 @@ public class Tab extends JPanel {
         });
 
         return panelBoard;
+    }
+
+    private void changeColors(JLabel whiteLabel, JPanel whitePlayer, JLabel blackLabel, JPanel players){
+        if (game.getCurrentTurn() == backend.Enums.Color.WHITE){
+            whiteLabel.setForeground(Color.WHITE);
+            whitePlayer.setBackground(new Color(32,32,32));
+            blackLabel.setForeground(Color.BLACK);
+            players.setBackground(Color.WHITE);
+            players.repaint();
+        }else {
+            whiteLabel.setForeground(Color.BLACK);
+            whitePlayer.setBackground(Color.WHITE);
+            blackLabel.setForeground(Color.WHITE);
+            players.setBackground(new Color(32,32,32));
+            players.repaint();
+        }
     }
 
 
