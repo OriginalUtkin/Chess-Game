@@ -39,7 +39,7 @@ public class NotationParser {
     }
 //((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8])\w+)
     private List<Turn> parseNotation(final String notationString){
-//        transform check regex ((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8])(J|D|V|S))
+//        transform check regex
         Pattern pattern = Pattern.compile("((J|K|D|V|S|)([a-h])([1-8])x(J|K|D|V|S|)([a-h])([1-8]))|((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8]))");
         Matcher matcher = pattern.matcher(notationString);
 
@@ -100,7 +100,6 @@ public class NotationParser {
                 turns.add(new Turn(start_row, start_column, dst_row, dst_column, piece_name, ""));
                 this.loadedNotations.add(matcher.group(8));
             }
-
         }
 
         return turns;
@@ -109,10 +108,22 @@ public class NotationParser {
 
     public Turn parseSingleNotation(final String notationString){
         // This method should prolly be refactored with previous
+
+
+        Turn turn = null;
+
+        // Try to use regex for pawn transformation. If something found -> create turn and return it to the game
+        Pattern transformPattern = Pattern.compile("(^([a-h])([1-8])([a-h])([1-8])(J|D|V|S))");
+        Matcher transformMatcher = transformPattern.matcher(notationString);
+
+        System.out.println(notationString);
+        if (transformMatcher.find()){
+            System.out.println("[DEBUG][Notation parser] Transform pawn turn found");
+        }
+
         Pattern pattern = Pattern.compile("((J|K|D|V|S|)([a-h])([1-8])x(J|K|D|V|S|)([a-h])([1-8]))|((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8]))");
         Matcher matcher = pattern.matcher(notationString);
 
-        Turn turn = null;
         while (matcher.find()) {
             // If Group 1 is empty -> common movement; piece was beaten otherwise
             if (matcher.group(1) != null){

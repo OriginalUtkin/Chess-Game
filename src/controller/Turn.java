@@ -15,8 +15,10 @@ public class Turn {
     final private String beaten;
 
     private Color color;
+    private boolean transform;
+    private String transformTo;
 
-    public Turn(
+    Turn(
             int sourceRow,
             int sourceColumn,
             int destinationRow,
@@ -30,7 +32,6 @@ public class Turn {
         this.destinationColumn = destinationColumn;
         this.abbreviation = abbreviation;
         this.beaten = beaten;
-
     }
 
     public void setColor(Color color){
@@ -39,6 +40,22 @@ public class Turn {
 
     public Color getColor(){
         return this.color;
+    }
+
+    public void setTransform(boolean transform) {
+        this.transform = transform;
+    }
+
+    public String getTransformTo() {
+        return transformTo;
+    }
+
+    public boolean isTransform() {
+        return transform;
+    }
+
+    public void setTransformTo(String transformTo) {
+        this.transformTo = transformTo;
     }
 
     public int getDestinationColumn() {
