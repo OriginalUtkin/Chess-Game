@@ -1,6 +1,5 @@
 package controller;
 
-import backend.Abstracts.ChessPiece;
 import backend.Enums.Color;
 
 public class Turn {
@@ -32,6 +31,7 @@ public class Turn {
         this.destinationColumn = destinationColumn;
         this.abbreviation = abbreviation;
         this.beaten = beaten;
+        this.transform = false;
     }
 
     public void setColor(Color color){
@@ -42,8 +42,8 @@ public class Turn {
         return this.color;
     }
 
-    public void setTransform(boolean transform) {
-        this.transform = transform;
+    void setTransform() {
+        this.transform = true;
     }
 
     public String getTransformTo() {
@@ -54,7 +54,7 @@ public class Turn {
         return transform;
     }
 
-    public void setTransformTo(String transformTo) {
+    void setTransformTo(String transformTo) {
         this.transformTo = transformTo;
     }
 

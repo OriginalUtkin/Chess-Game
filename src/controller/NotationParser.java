@@ -106,19 +106,68 @@ public class NotationParser {
     }
 
 
-    public Turn parseSingleNotation(final String notationString){
+    Turn parseSingleNotation(final String notationString){
         // This method should prolly be refactored with previous
-
 
         Turn turn = null;
 
         // Try to use regex for pawn transformation. If something found -> create turn and return it to the game
-        Pattern transformPattern = Pattern.compile("(^([a-h])([1-8])([a-h])([1-8])(J|D|V|S))");
+        Pattern transformPattern = Pattern.compile("(([a-h])([1-8])([a-h])([1-8])(J|D|V|S))|((([a-h])([1-8]))x(J|K|D|V|S|)([a-h])([1-8])(J|D|V|S))");
         Matcher transformMatcher = transformPattern.matcher(notationString);
 
-        System.out.println(notationString);
+        //((([a-h])([1-8]))x(J|K|D|V|S|)([a-h])([1-8])(J|D|V|S)) transform and beat other piece during the turn
+
         if (transformMatcher.find()){
-            System.out.println("[DEBUG][Notation parser] Transform pawn turn found");
+
+            if (transformMatcher.group(1) != null){
+                // Group 1 - full match
+                // Group 2 - start column
+                // Group 3 - start row
+                // Group 4 - destination column
+                // Group 5 - destination row
+                // Group 6 - new chess abbreviation
+                System.out.println("[DEBUG][Notation parser] Transform pawn turn found");
+
+                int start_column = transformCoordinate(transformMatcher.group(2));
+                int start_row = Integer.valueOf(transformMatcher.group(3)) - 1;
+
+                int dst_column = transformCoordinate(transformMatcher.group(4));
+                int dst_row = Integer.valueOf(transformMatcher.group(5)) - 1;
+
+                turn = new Turn(start_row, start_column, dst_row, dst_column, "P", "");
+
+                turn.setTransform();
+                turn.setTransformTo(transformMatcher.group(6));
+
+                return turn;
+            }else{
+                // Group 7 - full match
+                // Group 9 - start column
+                // Group 10 - start row
+                // Group 11 - beaten piece
+                // Group 12 - destination column
+                // Group 13 - destination row
+                // Group 14 - new chess abbreviation
+                System.out.println("[DEBUG][Notation parser] Transform pawn turn found and other piece was beaten");
+
+                int start_column = transformCoordinate(transformMatcher.group(9));
+                int start_row = Integer.valueOf(transformMatcher.group(10)) - 1;
+
+                int dst_column = transformCoordinate(transformMatcher.group(12));
+                int dst_row = Integer.valueOf(transformMatcher.group(13)) - 1;
+
+                String beatenPiece = transformMatcher.group(11);
+
+                if (beatenPiece.isEmpty())
+                    beatenPiece = "P";
+
+
+                turn = new Turn(start_row, start_column, dst_row, dst_column, "P", beatenPiece);
+                turn.setTransform();
+                turn.setTransformTo(transformMatcher.group(14));
+
+                return turn;
+            }
         }
 
         Pattern pattern = Pattern.compile("((J|K|D|V|S|)([a-h])([1-8])x(J|K|D|V|S|)([a-h])([1-8]))|((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8]))");

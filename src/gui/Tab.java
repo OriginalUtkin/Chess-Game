@@ -316,7 +316,7 @@ public class Tab extends JPanel {
                         setCellsColor(possibleMovements, Color.green, 2);
 
                         System.out.println("Selected cell is " + selectedCell.toString());
-                        System.out.println(selectedPiece);
+                        System.out.println(selectedPiece + " "  + selectedPiece.getColor());
 
                         return;
                     }
@@ -379,9 +379,15 @@ public class Tab extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Turn turnInfo = game.redo();
                 System.out.println(turnInfo);
+
                 if (turnInfo != null){
+
                     squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
-                    squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+
+                    if (!turnInfo.isTransform())
+                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                    else
+                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getTransformTo());
 
                     for(Component movement: movements.getComponents()){
                         ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));

@@ -535,42 +535,30 @@ public class Game {
             this.selectedPiece.changeStartedPosition();
         }
 
+        String turnNotation = this.getFullNotation();
+
         if((this.selectedPiece instanceof Pawn) && (this.destinationCell.getRow() == 7 || this.destinationCell.getRow() == 0)){
             System.out.println("[DEBUG][movePiece] Pawn movement to the last row on the game board");
             this.transformPawn = true;
         }
 
-        String turnNotation = this.getFullNotation();
+        if (!this.transformPawn){
+            this.destinationCell.setAbbreviation(this.selectedPiece.getColor().toString() + this.selectedPiece.toString());
+            this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());
 
-        this.destinationCell.setAbbreviation(this.selectedPiece.getColor().toString() + this.selectedPiece.toString());
-        this.setPiece(this.selectedPiece, this.destinationCell.getRow(), this.destinationCell.getColumn());
+            this.selectedCell.setAbbreviation("");
 
-        this.selectedCell.setAbbreviation("");
+            this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
 
-        this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
-
-        if(!this.transformPawn){
             this.dropSelected();
             this.dropDestinationCell();
             this.changeTurn();
-        }
 
-        if (this.selectedTurnNumber >= this.singleTurnNotations.size())
-            this.singleTurnNotations.add(this.selectedTurnNumber, turnNotation);
-        else{
+            // TODO: if turn with transform pawn is done, this part is going to work incorrect
+            this.updateTurnNotations(turnNotation);
 
-            this.singleTurnNotations.set(this.selectedTurnNumber, turnNotation);
-
-            if(this.selectedTurnNumber < this.singleTurnNotations.size() - 1){
-                this.singleTurnNotations.subList(this.selectedTurnNumber + 1, this.singleTurnNotations.size()).clear();
-            }
-
-            this.deleteGUINotations = true;
-            this.cancelledNotations.clear();
-        }
-
-        if(!this.transformPawn)
             this.selectedTurnNumber += 1;
+        }
 
         return turnNotation;
     }
@@ -606,16 +594,19 @@ public class Game {
                 break;
         }
 
+        String turnNotation = this.getFullNotation() + newPieceAbbreviation;
+
+        // update src cell
+        this.setPiece(null, this.selectedCell.getRow(), this.selectedCell.getColumn());
+        this.selectedCell.setAbbreviation("");
+
+        // update destination cell
         this.setPiece(newPiece, this.destinationCell.getRow(),this.destinationCell.getColumn());
-
-        String notation = this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
-                this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
-                newPieceAbbreviation;
-
-        this.singleTurnNotations.set(this.selectedTurnNumber, notation);
-
         this.destinationCell.setAbbreviation(this.selectedPiece.getColor().toString() + newPieceAbbreviation);
 
+        this.updateTurnNotations(turnNotation);
+
+        // drop selected
         this.dropSelected();
         this.dropDestinationCell();
         this.changeTurn();
@@ -623,8 +614,25 @@ public class Game {
         this.transformPawn = false;
         this.selectedTurnNumber += 1;
 
-        return notation;
+        return turnNotation;
 
+    }
+
+    private void updateTurnNotations(final String turnNotation){
+
+        if (this.selectedTurnNumber >= this.singleTurnNotations.size())
+            this.singleTurnNotations.add(this.selectedTurnNumber, turnNotation);
+        else{
+
+            this.singleTurnNotations.set(this.selectedTurnNumber, turnNotation);
+
+            if(this.selectedTurnNumber < this.singleTurnNotations.size() - 1){
+                this.singleTurnNotations.subList(this.selectedTurnNumber + 1, this.singleTurnNotations.size()).clear();
+            }
+
+            this.deleteGUINotations = true;
+            this.cancelledNotations.clear();
+        }
     }
 
     /**
@@ -635,6 +643,7 @@ public class Game {
     private String getFullNotation() {
         String check = "";
         String dstPart;
+        String srcPart;
 
         if (this.isCheck()) {
 
@@ -643,6 +652,10 @@ public class Game {
             if(this.isMate())
                 check = "#";
         }
+
+        // Set first part of notation
+        srcPart = this.notationAbbreviate(this.selectedPiece.toString()) +
+                this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString();
 
         if (this.beatEnemy()){
 
@@ -653,9 +666,7 @@ public class Game {
         }else
             dstPart = this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString();
 
-        return  this.notationAbbreviate(this.selectedPiece.toString()) +
-                this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].toString() +
-                dstPart + check;
+        return  srcPart + dstPart + check;
     }
 
 
@@ -880,9 +891,42 @@ public class Game {
         return false;
     }
 
+
+
+
     public void applyTurn(final Turn turn, final String turnNotation, final boolean redo){
-        ChessPiece movedPiece = this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].getPiece();
-        this.gameBoard.gameBoard[turn.getDestinationRow()][turn.getDestinationColumn()].setPiece(movedPiece);
+        if (turn.isTransform()){
+
+            ChessPiece transformedPiece;
+            Color pieceColor = this.currentTurn;
+
+            switch (turn.getTransformTo()) {
+
+                case "J":
+                    transformedPiece = new Knight(pieceColor);
+                    break;
+                case "S":
+                    transformedPiece = new Bishop(pieceColor);
+                    break;
+                case "V":
+                    transformedPiece = new Rook(pieceColor);
+                    break;
+                case "D":
+                    transformedPiece = new Queen(pieceColor);
+                    break;
+                default:
+                    transformedPiece = new King(pieceColor);
+                    break;
+            }
+
+            this.gameBoard.gameBoard[turn.getDestinationRow()][turn.getDestinationColumn()].setPiece(transformedPiece);
+
+        }else{
+            ChessPiece movedPiece = this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].getPiece();
+            this.gameBoard.gameBoard[turn.getDestinationRow()][turn.getDestinationColumn()].setPiece(movedPiece);
+        }
+
+
         this.gameBoard.gameBoard[turn.getSourceRow()][turn.getSourceColumn()].setPiece(null);
 
         this.selectedTurnNumber += 1;
@@ -945,6 +989,7 @@ public class Game {
             NotationParser notationParser = new NotationParser();
             String followingTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber);
             Turn followingTurn = notationParser.parseSingleNotation(followingTurnNotation);
+
             followingTurn.setColor(this.gameBoard.gameBoard[followingTurn.getSourceRow()][followingTurn.getSourceColumn()].getPiece().getColor());
 
             this.applyTurn(followingTurn, followingTurnNotation, true);
@@ -966,24 +1011,43 @@ public class Game {
      * @return Turn object which represents a previous turn if number of turns is greater than 0; null otherwise
      */
     public Turn undo(){
+
         if (this.selectedTurnNumber > 0){
             NotationParser notationsParser = new NotationParser();
 
             String previousTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber - 1);
             Turn previousTurn = notationsParser.parseSingleNotation(previousTurnNotation);
 
-            // Get moved piece
-            ChessPiece piece = this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].getPiece();
+            Color movedPieceColor;
 
-            this.gameBoard.gameBoard[previousTurn.getSourceRow()][previousTurn.getSourceColumn()].setPiece(piece);
+            // Pawn piece reached the last row on the game board
+            if (previousTurn.isTransform()){
+                System.out.println("[DEBUG][UNDO] Transform piece to pawn");
 
+                Color pieceColor = this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].getPiece().getColor();
+                this.gameBoard.gameBoard[previousTurn.getSourceRow()][previousTurn.getSourceColumn()].setPiece(new Pawn(pieceColor));
+
+                movedPieceColor = pieceColor;
+
+            }
+
+            // Common chess piece movement
+            else{
+                ChessPiece piece = this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].getPiece();
+                this.gameBoard.gameBoard[previousTurn.getSourceRow()][previousTurn.getSourceColumn()].setPiece(piece);
+
+                movedPieceColor = piece.getColor();
+            }
+
+            // After turn is done, any piece was beaten
             if (previousTurn.getBeaten().isEmpty())
                 this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].setPiece(null);
 
+            // Some chess piece was beaten during the previous turn
             else{
 
                 ChessPiece beatenPiece;
-                Color beatenColor = Color.getOppositeColor(piece.getColor());
+                Color beatenColor = Color.getOppositeColor(movedPieceColor);
 
                 String beatenPieceAbbr = previousTurn.getBeaten();
 
@@ -1011,8 +1075,8 @@ public class Game {
                 this.gameBoard.gameBoard[previousTurn.getDestinationRow()][previousTurn.getDestinationColumn()].setPiece(beatenPiece);
             }
 
-            this.currentTurn = piece.getColor();
-            previousTurn.setColor(piece.getColor());
+            this.currentTurn = movedPieceColor;
+            previousTurn.setColor(movedPieceColor);
 
             this.selectedTurnNumber -= 1;
             this.cancelledNotations.add(this.singleTurnNotations.get(this.selectedTurnNumber));
@@ -1029,6 +1093,8 @@ public class Game {
 
         return index > selectedTurnNumber;
     }
+
+
 
     /**
      * Get game board state for particular notation.
