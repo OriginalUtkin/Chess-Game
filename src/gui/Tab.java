@@ -83,13 +83,13 @@ public class Tab extends JPanel {
     private JComponent initializeTab() {
         /*Main panel*/
         JPanel panelBoard = new JPanel(new FlowLayout());
-        panelBoard.setPreferredSize(new Dimension(1050,680));
+        panelBoard.setPreferredSize(new Dimension(1150,680));
         panelBoard.setBackground(Color.DARK_GRAY);
         panelBoard.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY,5,true));
 
         /*Right side*/
         JPanel rightPanel = new JPanel();
-        rightPanel.setPreferredSize(new Dimension(360,600));
+        rightPanel.setPreferredSize(new Dimension(450,600));
         rightPanel.setBackground(Color.DARK_GRAY);
 
         /*Left side - coordinates board*/
@@ -159,14 +159,14 @@ public class Tab extends JPanel {
 
 
         JPanel indentPanel = new JPanel();
-        indentPanel.setPreferredSize(new Dimension(360,30));
+        indentPanel.setPreferredSize(new Dimension(420,30));
         indentPanel.setBackground(Color.DARK_GRAY);
         rightPanel.add(indentPanel);
 
 
         /*Players panel*/
         JPanel players = new JPanel(new GridLayout());
-        players.setPreferredSize(new Dimension(330, 50));
+        players.setPreferredSize(new Dimension(420, 50));
         players.setBackground(Color.WHITE);
 
 
@@ -203,10 +203,10 @@ public class Tab extends JPanel {
         JScrollPane scrollPane = new JScrollPane(movements);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(0, 0, 330, 300);
+        scrollPane.setBounds(0, 0, 420, 300);
 
         JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(330, 300));
+        contentPane.setPreferredSize(new Dimension(420, 300));
         contentPane.add(scrollPane);
 
         rightPanel.add(contentPane);
@@ -471,6 +471,50 @@ public class Tab extends JPanel {
                     ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
                             .setBorder(BorderFactory.createLineBorder(Color.yellow));
                 }
+            }
+        });
+
+        new RightPanelButton("", rightPanel, "img/play1.png", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Nothing");
+                ActionListener listener = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setEvent(e);
+
+                        Turn turnInfo = game.undo();
+                        if (turnInfo != null){
+
+                            if (turnInfo.getBeaten().isEmpty())
+                                squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
+
+                            else{
+                                squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
+                                        .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
+                                                turnInfo.getBeaten());
+                            }
+
+                            squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
+                                    turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+
+                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
+
+                            for(Component movement: movements.getComponents()){
+                                ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+                            }
+
+                            if (game.getSelectedTurnNumber() > 0)
+                                ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
+                                        .setBorder(BorderFactory.createLineBorder(Color.yellow));
+                        }
+                    }
+                };
+
+                /*play movements*/
+                Timer timer = new Timer(game.getPeriod(),listener);
+                timer.start();
+
             }
         });
 
