@@ -156,45 +156,50 @@ public class Tab extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                Component selectedMovement = movements.getComponentAt(e.getX(), e.getY());
+            Component selectedMovement = movements.getComponentAt(e.getX(), e.getY());
 
-                if(selectedMovement instanceof JMovePanel){
-                    for(Component movement: movements.getComponents()){
-                        if(!((JMovePanel)movement).equals(selectedMovement)){
-                            ((JMovePanel) movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
-                        }
+            if(selectedMovement instanceof JMovePanel){
+                for(Component movement: movements.getComponents()){
+                    if(!((JMovePanel)movement).equals(selectedMovement)){
+                        ((JMovePanel) movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
                     }
+                }
 
-                    ((JMovePanel)selectedMovement).setBorder(BorderFactory.createLineBorder(Color.yellow));
+                ((JMovePanel)selectedMovement).setBorder(BorderFactory.createLineBorder(Color.yellow));
 
-                    String notation =((JMovePanel) selectedMovement).getText();
+                String notation =((JMovePanel) selectedMovement).getText();
 
-                    boolean isRedo = game.isRedo(notation);
-                    List<Turn> turns = game.getGameboardState(notation);
-                    
-                    if (!turns.isEmpty()){
-                        // Draw turn depends on operation
-                        for(final Turn turn: turns){
-                            if (isRedo){
-                                squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation("");
+                boolean isRedo = game.isRedo(notation);
+                List<Turn> turns = game.getGameboardState(notation);
+
+                if (!turns.isEmpty()){
+                    // Draw turn depends on operation
+                    for(final Turn turn: turns){
+                        if (isRedo){
+
+                            squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation("");
+
+                            if (!turn.isTransform())
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getAbbreviation());
+                            else
+                                squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getTransformTo());
 
-                            }else{
-                                if (turn.getBeaten().isEmpty())
-                                    squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation("");
+                        }else{
+                            if (turn.getBeaten().isEmpty())
+                                squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation("");
 
-                                else{
-                                    squares[turn.getDestinationRow()][turn.getDestinationColumn()]
-                                            .setAbbreviation(backend.Enums.Color.getOppositeColor(turn.getColor()).toString() +
-                                                    turn.getBeaten());
-                                }
-
-                                squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation(
-                                        turn.getColor().toString() + turn.getAbbreviation());
+                            else{
+                                squares[turn.getDestinationRow()][turn.getDestinationColumn()]
+                                        .setAbbreviation(backend.Enums.Color.getOppositeColor(turn.getColor()).toString() +
+                                                turn.getBeaten());
                             }
+
+                            squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation(
+                                    turn.getColor().toString() + turn.getAbbreviation());
                         }
                     }
                 }
+            }
             }
         });
 
@@ -423,7 +428,12 @@ public class Tab extends JPanel {
 
                        if (turnInfo != null){
                            squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
-                           squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+
+                           if (!turnInfo.isTransform())
+                                squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                           else
+                               squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getTransformTo());
+
 
                            for(Component movement: movements.getComponents()){
                                ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
