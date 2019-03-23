@@ -89,7 +89,7 @@ public class Tab extends JPanel {
 
         /*Right side*/
         JPanel rightPanel = new JPanel();
-        rightPanel.setPreferredSize(new Dimension(330,600));
+        rightPanel.setPreferredSize(new Dimension(360,600));
         rightPanel.setBackground(Color.DARK_GRAY);
 
         /*Left side - coordinates board*/
@@ -107,6 +107,62 @@ public class Tab extends JPanel {
         initializeBoardCells(chessBoard);
         chessBoard.repaint();
         panelBoard.add(rightPanel);
+
+
+
+        /*Restart Button*/
+        JButton restartGame = new JButton("Restart Game");
+        restartGame.setBackground(new Color(   222,184,135));
+        restartGame.setFont(new Font("Verdana", Font.PLAIN, 14));
+        restartGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: test version. Doesn't work properly; add new method to controller
+                System.out.println("Restart");
+                game = new Game(true, loaded);
+                chessBoard.removeAll();
+                movements.removeAll();
+                initializeBoardCells(chessBoard);
+                movements.repaint();
+                movements.revalidate();
+                chessBoard.revalidate();
+                chessBoard.repaint();
+            }
+        });
+        rightPanel.add(restartGame);
+
+        /* Set timeout button */
+        new RightPanelButton("Set pause", rightPanel, null, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JPanel panel = new JPanel();
+                panel.add(new JLabel("Set interval between turns"));
+                JFormattedTextField textField = new JFormattedTextField(5);
+                textField.setColumns(5);
+                panel.add(textField);
+
+                int chosenOption = JOptionPane.showOptionDialog(null, panel, "Set time interval between turn",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+                if (chosenOption == JOptionPane.OK_OPTION){
+                    int periodValue = ((Number)textField.getValue()).intValue();
+
+                    /**
+                     * TODO Check if period value is possible value
+                     */
+
+                    game.setPeriod(periodValue * 1000);
+                }
+            }
+        });
+
+
+        JPanel indentPanel = new JPanel();
+        indentPanel.setPreferredSize(new Dimension(360,30));
+        indentPanel.setBackground(Color.DARK_GRAY);
+        rightPanel.add(indentPanel);
+
 
         /*Players panel*/
         JPanel players = new JPanel(new GridLayout());
@@ -329,122 +385,16 @@ public class Tab extends JPanel {
         });
 
 
-        /*Restart Button*/
-        JButton restartGame = new JButton("Restart Game");
-        restartGame.setBackground(new Color(204,204,0));
-        restartGame.setFont(new Font("Verdana", Font.PLAIN, 16));
-        restartGame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO: test version. Doesn't work properly; add new method to controller
-                System.out.println("Restart");
-                game = new Game(true, loaded);
-                chessBoard.removeAll();
-                movements.removeAll();
-                initializeBoardCells(chessBoard);
-                movements.repaint();
-                movements.revalidate();
-                chessBoard.revalidate();
-                chessBoard.repaint();
-            }
-        });
-        rightPanel.add(restartGame);
-
-        /* Set timeout button */
-        new RightPanelButton("Set pause", rightPanel, null, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                JPanel panel = new JPanel();
-                panel.add(new JLabel("Set interval between turns"));
-                JFormattedTextField textField = new JFormattedTextField(5);
-                textField.setColumns(5);
-                panel.add(textField);
-
-                int chosenOption = JOptionPane.showOptionDialog(null, panel, "Set time interval between turn",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-                if (chosenOption == JOptionPane.OK_OPTION){
-                    int periodValue = ((Number)textField.getValue()).intValue();
-
-                    /**
-                     * TODO Check if period value is possible value
-                     */
-
-                    game.setPeriod(periodValue * 1000);
-                }
-            }
-        });
-
         /*Buttons*/
-       new RightPanelButton("Redo", rightPanel, "img/redo.png", new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/previous_start.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Turn turnInfo = game.redo();
-                System.out.println(turnInfo);
-                if (turnInfo != null){
-                    squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
-                    squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
-                    changeColors(whiteLabel, whitePlayer, blackLabel, players);
-
-                    for(Component movement: movements.getComponents()){
-                        ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
-                    }
-
-                    ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
-                            .setBorder(BorderFactory.createLineBorder(new Color(204,204,0)));
-                }
+                System.out.println("To start");
             }
         });
 
-
-       new RightPanelButton("Stop", rightPanel, "img/stop.png", new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               stopTimer();
-           }
-        });
-
-
-       new RightPanelButton("Play", rightPanel, "img/play.png", new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               System.out.println("Play");
-
-               ActionListener listener = new ActionListener() {
-                   @Override
-                   public void actionPerformed(ActionEvent e) {
-                       setEvent(e);
-
-                       Turn turnInfo = game.redo();
-                       System.out.println(turnInfo);
-
-                       if (turnInfo != null){
-                           squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
-                           squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
-                           changeColors(whiteLabel, whitePlayer, blackLabel, players);
-
-                           for(Component movement: movements.getComponents()){
-                               ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
-                           }
-
-                           ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
-                                   .setBorder(BorderFactory.createLineBorder(new Color(204,204,0)));
-
-                       }else{
-                           ((Timer)e.getSource()).stop();
-                       }
-                   }
-               };
-
-               /*play movements*/
-               Timer timer = new Timer(game.getPeriod(),listener);
-               timer.start();
-           }
-       });
-
-       new RightPanelButton("Undo", rightPanel, "img/undo.png", new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/back.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -472,12 +422,86 @@ public class Tab extends JPanel {
 
                     if (game.getSelectedTurnNumber() > 0)
                         ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
-                                .setBorder(BorderFactory.createLineBorder(new Color(204,204,0)));
+                                .setBorder(BorderFactory.createLineBorder(Color.yellow));
                 }
             }
         });
 
-       new RightPanelButton("Save", rightPanel, "img/save.png", new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/ahead.png", new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Turn turnInfo = game.redo();
+                System.out.println(turnInfo);
+                if (turnInfo != null){
+                    squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
+                    squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                    changeColors(whiteLabel, whitePlayer, blackLabel, players);
+
+                    for(Component movement: movements.getComponents()){
+                        ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+                    }
+
+                    ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
+                            .setBorder(BorderFactory.createLineBorder(Color.yellow));
+                }
+            }
+        });
+
+
+       new RightPanelButton("", rightPanel, "img/play.png", new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               System.out.println("Play");
+
+               ActionListener listener = new ActionListener() {
+                   @Override
+                   public void actionPerformed(ActionEvent e) {
+                       setEvent(e);
+
+                       Turn turnInfo = game.redo();
+                       System.out.println(turnInfo);
+
+                       if (turnInfo != null){
+                           squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
+                           squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                           changeColors(whiteLabel, whitePlayer, blackLabel, players);
+
+                           for(Component movement: movements.getComponents()){
+                               ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+                           }
+
+                           ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
+                                   .setBorder(BorderFactory.createLineBorder(Color.yellow));
+
+                       }else{
+                           ((Timer)e.getSource()).stop();
+                       }
+                   }
+               };
+
+               /*play movements*/
+               Timer timer = new Timer(game.getPeriod(),listener);
+               timer.start();
+           }
+       });
+
+        new RightPanelButton("", rightPanel, "img/stop.png", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stopTimer();
+            }
+        });
+
+
+        /*Indent*/
+        JPanel emptyPanel = new JPanel();
+        emptyPanel.setPreferredSize(new Dimension(360,30));
+        emptyPanel.setBackground(Color.DARK_GRAY);
+        rightPanel.add(emptyPanel);
+
+
+        new RightPanelButton("Save", rightPanel, "img/save1.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
