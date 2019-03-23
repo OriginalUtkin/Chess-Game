@@ -42,7 +42,6 @@ public class Game {
     private char identifier;
 
 
-
     /**
      * Main game object constructor.
      *
@@ -69,6 +68,10 @@ public class Game {
         this.deleteGUINotations = false;
         this.transformPawn = false;
 
+    }
+
+    public List<String> returnsingleTurnNotation(){
+        return this.singleTurnNotations;
     }
 
     public void setDeleteGUINotations(final boolean value){

@@ -16,7 +16,7 @@ public class IJAProject {
 
         /*Initialize main frame*/
         JFrame frame= new JFrame("IJA Project");
-        frame.setSize(1100,850);
+        frame.setSize(1250,850);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout(FlowLayout.LEFT));
         Font font = new Font("Verdana", Font.PLAIN, 15);

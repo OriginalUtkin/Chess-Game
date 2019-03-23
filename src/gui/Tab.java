@@ -83,13 +83,13 @@ public class Tab extends JPanel {
     private JComponent initializeTab() {
         /*Main panel*/
         JPanel panelBoard = new JPanel(new FlowLayout());
-        panelBoard.setPreferredSize(new Dimension(1050,680));
+        panelBoard.setPreferredSize(new Dimension(1150,680));
         panelBoard.setBackground(Color.DARK_GRAY);
         panelBoard.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY,5,true));
 
         /*Right side*/
         JPanel rightPanel = new JPanel();
-        rightPanel.setPreferredSize(new Dimension(330,600));
+        rightPanel.setPreferredSize(new Dimension(450,600));
         rightPanel.setBackground(Color.DARK_GRAY);
 
         /*Left side - coordinates board*/
@@ -108,30 +108,89 @@ public class Tab extends JPanel {
         chessBoard.repaint();
         panelBoard.add(rightPanel);
 
+
+
+        /*Restart Button*/
+        JButton restartGame = new JButton("Restart Game");
+        restartGame.setBackground(new Color(   222,184,135));
+        restartGame.setFont(new Font("Verdana", Font.PLAIN, 14));
+        restartGame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: test version. Doesn't work properly; add new method to controller
+                System.out.println("Restart");
+                game = new Game(true, loaded);
+                chessBoard.removeAll();
+                movements.removeAll();
+                initializeBoardCells(chessBoard);
+                movements.repaint();
+                movements.revalidate();
+                chessBoard.revalidate();
+                chessBoard.repaint();
+            }
+        });
+        rightPanel.add(restartGame);
+
+        /* Set timeout button */
+        new RightPanelButton("Set pause", rightPanel, null, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JPanel panel = new JPanel();
+                panel.add(new JLabel("Set interval between turns"));
+                JFormattedTextField textField = new JFormattedTextField(5);
+                textField.setColumns(5);
+                panel.add(textField);
+
+                int chosenOption = JOptionPane.showOptionDialog(null, panel, "Set time interval between turn",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+                if (chosenOption == JOptionPane.OK_OPTION){
+                    int periodValue = ((Number)textField.getValue()).intValue();
+
+                    /**
+                     * TODO Check if period value is possible value
+                     */
+
+                    game.setPeriod(periodValue * 1000);
+                }
+            }
+        });
+
+
+        JPanel indentPanel = new JPanel();
+        indentPanel.setPreferredSize(new Dimension(420,30));
+        indentPanel.setBackground(Color.DARK_GRAY);
+        rightPanel.add(indentPanel);
+
+
         /*Players panel*/
         JPanel players = new JPanel(new GridLayout());
-        players.setPreferredSize(new Dimension(330, 50));
-        players.setBackground(new Color(32,32,32));
+        players.setPreferredSize(new Dimension(420, 50));
+        players.setBackground(Color.WHITE);
 
 
         JPanel blackPlayer = new JPanel(new GridLayout());
         //blackPlayer.setPreferredSize(new Dimension(120,40));
         JLabel blackLabel = new JLabel("     Player 1");
         blackLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        blackLabel.setForeground(Color.WHITE);
+        blackLabel.setForeground(Color.BLACK);
 
         players.add(blackLabel);
         players.add(blackLabel);
 
 
         JPanel whitePlayer = new JPanel(new GridLayout());
+        whitePlayer.setBackground(new Color(32,32,32));
+        //whitePlayer.setPreferredSize(new Dimension(120,40));
         JLabel whiteLabel = new JLabel("     Player 2");
         whiteLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        whiteLabel.setForeground(Color.BLACK);
+        whiteLabel.setForeground(Color.WHITE);
         whitePlayer.add(whiteLabel);
         players.add(whitePlayer);
 
         rightPanel.add(players);
+
 
 
         /*TextField with Movements*/
@@ -144,10 +203,10 @@ public class Tab extends JPanel {
         JScrollPane scrollPane = new JScrollPane(movements);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(0, 0, 330, 300);
+        scrollPane.setBounds(0, 0, 420, 300);
 
         JPanel contentPane = new JPanel(null);
-        contentPane.setPreferredSize(new Dimension(330, 300));
+        contentPane.setPreferredSize(new Dimension(420, 300));
         contentPane.add(scrollPane);
 
         rightPanel.add(contentPane);
@@ -248,6 +307,7 @@ public class Tab extends JPanel {
                             }
                             setCellsColor(possibleMovements, Color.black,1);
                             System.out.println("Possible movement");
+                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
 
                             String turnNotation = game.movePiece();
 
@@ -330,55 +390,75 @@ public class Tab extends JPanel {
         });
 
 
-        /*Restart Button*/
-        JButton restartGame = new JButton("Restart Game");
-        restartGame.setBackground(new Color(204,204,0));
-        restartGame.setFont(new Font("Verdana", Font.PLAIN, 16));
-        restartGame.addActionListener(new ActionListener() {
+        /*Buttons*/
+        new RightPanelButton("", rightPanel, "img/previous_start.png", new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: test version. Doesn't work properly; add new method to controller
-                System.out.println("Restart");
-                game = new Game(true, loaded);
-                chessBoard.removeAll();
-                movements.removeAll();
-                initializeBoardCells(chessBoard);
-                movements.repaint();
-                movements.revalidate();
-                chessBoard.revalidate();
-                chessBoard.repaint();
-            }
-        });
-        rightPanel.add(restartGame);
+                int counter = 0;
+                while (counter < game.returnsingleTurnNotation().size()){
+                    Turn turnInfo = game.undo();
 
-        /* Set timeout button */
-        new RightPanelButton("Set pause", rightPanel, null, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                    if (turnInfo != null){
 
-                JPanel panel = new JPanel();
-                panel.add(new JLabel("Set interval between turns"));
-                JFormattedTextField textField = new JFormattedTextField(5);
-                textField.setColumns(5);
-                panel.add(textField);
+                        if (turnInfo.getBeaten().isEmpty())
+                            squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
 
-                int chosenOption = JOptionPane.showOptionDialog(null, panel, "Set time interval between turn",
-                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+                        else{
+                            squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
+                                    .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
+                                            turnInfo.getBeaten());
+                        }
 
-                if (chosenOption == JOptionPane.OK_OPTION){
-                    int periodValue = ((Number)textField.getValue()).intValue();
+                        squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
+                                turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                    }
+                    for(Component movement: movements.getComponents()){
+                        ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+                    }
 
-                    /**
-                     * TODO Check if period value is possible value
-                     */
+                    ((JMovePanel)movements.getComponent(0))
+                            .setBorder(BorderFactory.createLineBorder(Color.yellow));
 
-                    game.setPeriod(periodValue * 1000);
+                    counter+=1;
                 }
             }
         });
 
-        /*Buttons*/
-       new RightPanelButton("Redo", rightPanel, "img/redo.png", new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/back.png", new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Turn turnInfo = game.undo();
+
+                if (turnInfo != null){
+
+                    if (turnInfo.getBeaten().isEmpty())
+                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
+
+                    else{
+                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
+                                .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
+                                        turnInfo.getBeaten());
+                    }
+
+                    squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
+                            turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+
+                    changeColors(whiteLabel, whitePlayer, blackLabel, players);
+
+                    for(Component movement: movements.getComponents()){
+                        ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+                    }
+
+                    if (game.getSelectedTurnNumber() > 0)
+                        ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
+                                .setBorder(BorderFactory.createLineBorder(Color.yellow));
+                }
+            }
+        });
+
+        new RightPanelButton("", rightPanel, "img/ahead.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -394,26 +474,64 @@ public class Tab extends JPanel {
                     else
                         squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getTransformTo());
 
+                    changeColors(whiteLabel, whitePlayer, blackLabel, players);
+
                     for(Component movement: movements.getComponents()){
                         ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
                     }
 
                     ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
-                            .setBorder(BorderFactory.createLineBorder(new Color(204,204,0)));
+                            .setBorder(BorderFactory.createLineBorder(Color.yellow));
                 }
             }
         });
 
+        new RightPanelButton("", rightPanel, "img/play1.png", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Nothing");
+                ActionListener listener = new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setEvent(e);
 
-       new RightPanelButton("Stop", rightPanel, "img/stop.png", new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               stopTimer();
-           }
+                        Turn turnInfo = game.undo();
+                        if (turnInfo != null){
+
+                            if (turnInfo.getBeaten().isEmpty())
+                                squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
+
+                            else{
+                                squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
+                                        .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
+                                                turnInfo.getBeaten());
+                            }
+
+                            squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
+                                    turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+
+                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
+
+                            for(Component movement: movements.getComponents()){
+                                ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+                            }
+
+                            if (game.getSelectedTurnNumber() > 0)
+                                ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
+                                        .setBorder(BorderFactory.createLineBorder(Color.yellow));
+                        }
+                    }
+                };
+
+                /*play movements*/
+                Timer timer = new Timer(game.getPeriod(),listener);
+                timer.start();
+
+            }
         });
 
 
-       new RightPanelButton("Play", rightPanel, "img/play.png", new ActionListener() {
+       new RightPanelButton("", rightPanel, "img/play.png", new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                System.out.println("Play");
@@ -434,13 +552,14 @@ public class Tab extends JPanel {
                            else
                                squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getTransformTo());
 
+                           changeColors(whiteLabel, whitePlayer, blackLabel, players);
 
                            for(Component movement: movements.getComponents()){
                                ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
                            }
 
                            ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
-                                   .setBorder(BorderFactory.createLineBorder(new Color(204,204,0)));
+                                   .setBorder(BorderFactory.createLineBorder(Color.yellow));
 
                        }else{
                            ((Timer)e.getSource()).stop();
@@ -454,38 +573,22 @@ public class Tab extends JPanel {
            }
        });
 
-       new RightPanelButton("Undo", rightPanel, "img/undo.png", new ActionListener() {
-
+        new RightPanelButton("", rightPanel, "img/stop.png", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Turn turnInfo = game.undo();
-
-                if (turnInfo != null){
-
-                    if (turnInfo.getBeaten().isEmpty())
-                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
-
-                    else{
-                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
-                                .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
-                                        turnInfo.getBeaten());
-                    }
-
-                    squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
-                            turnInfo.getColor().toString() + turnInfo.getAbbreviation());
-
-                    for(Component movement: movements.getComponents()){
-                        ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
-                    }
-
-                    if (game.getSelectedTurnNumber() > 0)
-                        ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
-                                .setBorder(BorderFactory.createLineBorder(new Color(204,204,0)));
-                }
+                stopTimer();
             }
         });
 
-       new RightPanelButton("Save", rightPanel, "img/save.png", new ActionListener() {
+
+        /*Indent*/
+        JPanel emptyPanel = new JPanel();
+        emptyPanel.setPreferredSize(new Dimension(360,30));
+        emptyPanel.setBackground(Color.DARK_GRAY);
+        rightPanel.add(emptyPanel);
+
+
+        new RightPanelButton("Save", rightPanel, "img/save1.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -518,6 +621,22 @@ public class Tab extends JPanel {
         });
 
         return panelBoard;
+    }
+
+    private void changeColors(JLabel whiteLabel, JPanel whitePlayer, JLabel blackLabel, JPanel players){
+        if (game.getCurrentTurn() == backend.Enums.Color.WHITE){
+            whiteLabel.setForeground(Color.WHITE);
+            whitePlayer.setBackground(new Color(32,32,32));
+            blackLabel.setForeground(Color.BLACK);
+            players.setBackground(Color.WHITE);
+            players.repaint();
+        }else {
+            whiteLabel.setForeground(Color.BLACK);
+            whitePlayer.setBackground(Color.WHITE);
+            blackLabel.setForeground(Color.WHITE);
+            players.setBackground(new Color(32,32,32));
+            players.repaint();
+        }
     }
 
 

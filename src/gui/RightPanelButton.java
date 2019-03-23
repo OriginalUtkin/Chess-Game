@@ -9,7 +9,11 @@ import java.awt.event.ActionListener;
 public class RightPanelButton extends JButton {
     RightPanelButton(String buttonName, JPanel rightPanel, String backgroundImage, ActionListener buttonListener){
         JButton btn = new JButton(buttonName);
-        btn.setBackground(new Color(204,204,0));
+        if (buttonName == "Set pause"){
+            btn.setBackground(new Color(  222,184,135));
+        }else{
+            btn.setBackground(new Color(   216, 199, 187));
+        }
         btn.setFont(new Font("Verdana", Font.PLAIN, 14));
 
         try {
