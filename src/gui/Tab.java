@@ -390,7 +390,33 @@ public class Tab extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("To start");
+                int counter = 0;
+                while (counter < game.returnsingleTurnNotation().size()){
+                    Turn turnInfo = game.undo();
+
+                    if (turnInfo != null){
+
+                        if (turnInfo.getBeaten().isEmpty())
+                            squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
+
+                        else{
+                            squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
+                                    .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
+                                            turnInfo.getBeaten());
+                        }
+
+                        squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
+                                turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+                    }
+                    for(Component movement: movements.getComponents()){
+                        ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+                    }
+
+                    ((JMovePanel)movements.getComponent(0))
+                            .setBorder(BorderFactory.createLineBorder(Color.yellow));
+
+                    counter+=1;
+                }
             }
         });
 
