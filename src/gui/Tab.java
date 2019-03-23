@@ -172,7 +172,7 @@ public class Tab extends JPanel {
 
         JPanel blackPlayer = new JPanel(new GridLayout());
         //blackPlayer.setPreferredSize(new Dimension(120,40));
-        JLabel blackLabel = new JLabel("     Player 1");
+        JLabel blackLabel = new JLabel("     Black player");
         blackLabel.setFont(new Font("Serif", Font.PLAIN, 20));
         blackLabel.setForeground(Color.BLACK);
 
@@ -183,7 +183,7 @@ public class Tab extends JPanel {
         JPanel whitePlayer = new JPanel(new GridLayout());
         whitePlayer.setBackground(new Color(32,32,32));
         //whitePlayer.setPreferredSize(new Dimension(120,40));
-        JLabel whiteLabel = new JLabel("     Player 2");
+        JLabel whiteLabel = new JLabel("     White player");
         whiteLabel.setFont(new Font("Serif", Font.PLAIN, 20));
         whiteLabel.setForeground(Color.WHITE);
         whitePlayer.add(whiteLabel);
