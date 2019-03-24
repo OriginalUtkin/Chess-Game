@@ -1069,6 +1069,10 @@ public class Game {
 
     public Turn checkShortNotation(String group, int cnt) {
         /*Returns Turn object*/
+        int start_column=0;
+        int dst_column = 0;
+        int start_row = 0;
+        int dst_row = 0;
         System.out.println("Check Short Notation for : " + group);
         Pattern patternShort = Pattern.compile("[\"K\",\"D\",\"V\",\"S\",\"J\",\"p\"]{1}|");
         Matcher m = patternShort.matcher(group);
@@ -1078,11 +1082,10 @@ public class Game {
                     patternShort = Pattern.compile("([a-h])([1-8])");
                     m = patternShort.matcher(group);
                     if (m.find()){
-                        String piece_name = "P";
-                        int dst_column = transformCoordinate(m.group(1));
-                        int start_column = transformCoordinate(m.group(1));
-                        int start_row=0;
-                        int dst_row = Integer.valueOf(m.group(2)) - 1;
+                        dst_column = transformCoordinate(m.group(1));
+                        start_column = transformCoordinate(m.group(1));
+                        start_row=0;
+                        dst_row = Integer.valueOf(m.group(2)) - 1;
                         if (cnt%2 == 0){
                             if (!gameBoard.gameBoard[dst_column][dst_row-1].isFree()){
                                 start_row = dst_row-1;
@@ -1100,8 +1103,42 @@ public class Game {
                         }
                         System.out.println("Result is: [DST]:" +dst_column + " " +dst_row + " [SRC]: " + start_column + " " + start_row);
                         /*TODO add beatenpiece check*/
-                        return new Turn(start_row, start_column, dst_row, dst_column, piece_name,"");
+                        return new Turn(start_row, start_column, dst_row, dst_column, "P","");
+                    }
+                }else if(group.length() == 3){
+                    System.out.println("3");
+                }else{
+                    switch (m.group()){
+                        case "J":
+                            patternShort = Pattern.compile("(([a-h])|([1-8]))([a-h])([1-8])");
+                            m = patternShort.matcher(group);
+                            if (m.find()){
+                                System.out.println( m.group(2) + " " + m.group(3));
+                                dst_column = transformCoordinate(m.group(4));
+                                dst_row = Integer.valueOf(m.group(5)) - 1;
+                                if (!m.group(2).isEmpty()){
+                                    /*Identifikator = pismeno*/
+                                    start_column = transformCoordinate(m.group(2));
+                                   for (int i=0;i<8;i++){
+                                       if (gameBoard.gameBoard[i][start_column].isFree()){
+                                           if (start_column == dst_column-2 || start_column == dst_column + 2){
+                                               start_row = dst_row-1;
+                                           }else if(start_column == dst_column-1 || start_column == dst_column + 1){
+                                               start_row = dst_row-2;
+                                           }
+                                       }else if (gameBoard.gameBoard[i][start_column].getPiece().toString() == "J"){
+                                           System.out.println("Incorrect notation");
+                                       }
+                                   }
+                                   return new Turn(start_row, start_column, dst_row, dst_column, "J", "");
+                                }else if(!m.group(3).isEmpty()){
+                                   /*Identifikator - cislo*/
 
+                                }
+                            }
+                            break;
+                        default:
+                            System.out.println("TODO");
                     }
                 }
         }
