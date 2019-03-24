@@ -67,6 +67,8 @@ public class Tab extends JPanel {
         }
     }
 
+    public Game getGame(){return this.game;}
+
     /**
      *
      * @return
@@ -237,7 +239,7 @@ public class Tab extends JPanel {
                             if (isRedo){
                                 squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation("");
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getAbbreviation());
-
+                                changeColors(whiteLabel, whitePlayer, blackLabel, players);
                             }else{
                                 if (turn.getBeaten().isEmpty())
                                     squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation("");
@@ -250,6 +252,8 @@ public class Tab extends JPanel {
 
                                 squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation(
                                         turn.getColor().toString() + turn.getAbbreviation());
+
+                                changeColors(whiteLabel, whitePlayer, blackLabel, players);
                             }
                         }
                     }

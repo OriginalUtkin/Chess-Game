@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Game {
 
@@ -1063,5 +1065,58 @@ public class Game {
             System.out.println("[DEBUG][CONTROLLER][getGameboardState] Current turn is selected");
 
         return turns;
+    }
+
+    public Turn checkShortNotation(String group, int cnt) {
+        /*Returns Turn object*/
+        System.out.println("Check Short Notation for : " + group);
+        Pattern patternShort = Pattern.compile("[\"K\",\"D\",\"V\",\"S\",\"J\",\"p\"]{1}|");
+        Matcher m = patternShort.matcher(group);
+        if (m.find()){
+                /*PAWN*/
+                if (group.length() == 2){
+                    patternShort = Pattern.compile("([a-h])([1-8])");
+                    m = patternShort.matcher(group);
+                    if (m.find()){
+                        String piece_name = "P";
+                        int dst_column = transformCoordinate(m.group(1));
+                        int start_column = transformCoordinate(m.group(1));
+                        int start_row=0;
+                        int dst_row = Integer.valueOf(m.group(2)) - 1;
+                        if (cnt%2 == 0){
+                            if (!gameBoard.gameBoard[dst_column][dst_row-1].isFree()){
+                                start_row = dst_row-1;
+                            }else if (!gameBoard.gameBoard[dst_column][dst_row-2].isFree()){
+                                start_row = dst_row-2;
+                            }
+                        }else if (cnt%2 == 1){
+                            if (!gameBoard.gameBoard[dst_column][dst_row+1].isFree()){
+                                start_row = dst_row+1;
+                            }else if (!gameBoard.gameBoard[dst_column][dst_row+2].isFree()){
+                                start_row = dst_row+2;
+                            }
+                        }else {
+                            System.out.println("Incorrect notation");
+                        }
+                        System.out.println("Result is: [DST]:" +dst_column + " " +dst_row + " [SRC]: " + start_column + " " + start_row);
+                        /*TODO add beatenpiece check*/
+                        return new Turn(start_row, start_column, dst_row, dst_column, piece_name,"");
+
+                    }
+                }
+        }
+        return null;
+    }
+
+    private static int transformCoordinate(String s){
+        int result;
+        switch (s){
+            case "a": result=0;break; case "b": result=1; break; case "c":result=2; break;
+            case "d": result=3;break; case "e":result=4; break; case "f":result=5; break;
+            case "g": result = 6;break; case "h": result=7;break;
+            default:
+                return -1;
+        }
+        return result;
     }
 }

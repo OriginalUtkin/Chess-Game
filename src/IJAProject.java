@@ -58,14 +58,15 @@ public class IJAProject {
 
                 if (fileChooser.showOpenDialog(chooserFrame) == JFileChooser.APPROVE_OPTION) {
                     File fileName = fileChooser.getSelectedFile();
-                    NotationParser loader = new NotationParser();
-                    List<Turn> turns = loader.fileReader(fileName.toString());
                     Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1), true);
-
+                    NotationParser loader = new NotationParser();
+                    loader.setGame(loadedTab.getGame());
+                    List<Turn> turns = loader.fileReader(fileName.toString());
                     for(int counter = 0; counter < turns.size(); counter++){
                         loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
                         loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
                     }
+
                 }
             }
         });
