@@ -47,10 +47,6 @@ public class Game {
     private boolean deleteGUINotations;
     private boolean transformPawn;
 
-
-    private char identifier;
-
-
     /**
      * Main game object constructor.
      *

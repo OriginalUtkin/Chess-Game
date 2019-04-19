@@ -315,21 +315,15 @@ public class Tab extends JPanel {
 
                             // Pawn piece should be transformed to other piece
                             if (game.isTransformPawn()){
-
                                 String[] values = {"D", "V", "S", "J"};
 
-                                int selected = JOptionPane.showOptionDialog(
-                                        null,
-                                        "Transform pawn to:",
-                                        "Transform pawn to other piece",
-                                        JOptionPane.YES_NO_OPTION,
-                                        JOptionPane.QUESTION_MESSAGE,
-                                        null,
-                                        values,
-                                        null);
+                                int new_piece_index = getPawnTransformValue();
 
-                                turnNotation = game.transformPawn(values[selected]);
+                                while (new_piece_index == -1){
+                                    new_piece_index = getPawnTransformValue();
+                                }
 
+                                turnNotation = game.transformPawn(values[new_piece_index]);
                             }
 
                             // Player did own turn while old turn is shown
@@ -731,7 +725,19 @@ public class Tab extends JPanel {
             }
         }
     }
+    private int getPawnTransformValue(){
+        String[] values = {"D", "V", "S", "J"};
 
+        return JOptionPane.showOptionDialog(
+                null,
+                "Transform pawn to:",
+                "Transform pawn to other piece",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                values,
+                null);
+    }
 
     private void setEvent(ActionEvent e){
         this.event = e;
