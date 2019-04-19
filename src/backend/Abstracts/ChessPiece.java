@@ -5,16 +5,19 @@ import backend.Enums.Color;
 import backend.Enums.Direction;
 import backend.Figures.Movement;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author xutkin00, xpolis03
+ * Project: Chess game IJA project
+ * File: ChessPiece.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Abstract class that used for extends by other chess pieces
  */
 
-abstract public class ChessPiece implements Serializable {
+abstract public class ChessPiece{
 
     final protected Color color;
 
@@ -61,24 +64,25 @@ abstract public class ChessPiece implements Serializable {
     final public String getFullPieceString(){return this.color.toString() + this.abbreviation;}
 
 
+    /**
+     * Piece color getter
+     *
+     * @return color of piece
+     */
     final public Color getColor(){
-        /**
-         * Piece color getter
-         *
-         * @return color of piece
-         */
+
         return this.color;
     }
 
 
+    /**
+     * Return all possible diagonal movements for chess piece.
+     *
+     * @param maxDiagonalStep maximum step of piece on the chess board.
+     *
+     * @return list of all diagonal movements.
+     */
     final protected List<Movement> getDiagonalMovements(final int maxDiagonalStep){
-        /**
-         * Return all possible diagonal movements for chess piece.
-         *
-         * @param maxDiagonalStep maximum step of piece on the chess board.
-         *
-         * @return list of all diagonal movements.
-         */
 
         List<Movement> diagonalMovements = new ArrayList<>();
 
@@ -126,14 +130,15 @@ abstract public class ChessPiece implements Serializable {
     }
 
 
+    /**
+     * Return all possible vertical movements for chess piece.
+     *
+     * @param maxVerticalStep maximum step of piece on the chess board.
+     *
+     * @return list of all vertical movements.
+     */
     final protected List<Movement> getVerticalMovements(final int maxVerticalStep){
-        /**
-         * Return all possible vertical movements for chess piece.
-         *
-         * @param maxVerticalStep maximum step of piece on the chess board.
-         *
-         * @return list of all vertical movements.
-         */
+
 
         List<Movement> verticalMovements = new ArrayList<>();
 
@@ -172,14 +177,15 @@ abstract public class ChessPiece implements Serializable {
     }
 
 
+    /**
+     * Return all possible horizontal movements for chess piece.
+     *
+     * @param maxHorizontalStep maximum step of piece on the chess board.
+     *
+     * @return list of all horizontal movements.
+     */
     final protected List<Movement> getHorizontalMovements(final int maxHorizontalStep){
-        /**
-         * Return all possible horizontal movements for chess piece.
-         *
-         * @param maxHorizontalStep maximum step of piece on the chess board.
-         *
-         * @return list of all horizontal movements.
-         */
+
 
         List<Movement> horizontalMovements = new ArrayList<>();
 
@@ -207,6 +213,4 @@ abstract public class ChessPiece implements Serializable {
 
     abstract public List<Movement> calculatePossibleMovements();
 
-    // TODO: Calculate path from current position to dst
-//    abstract public List<Movement> calculatePath();
 }

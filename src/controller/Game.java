@@ -12,6 +12,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Project: Chess game IJA project
+ * File: Game.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Controller class which used for cooperate graphical interface and game logic
+ */
+
 public class Game {
 
     // Game backend
@@ -809,57 +818,6 @@ public class Game {
         return true;
     }
 
-
-    private void setFlagForTheShortNotation ( char identifier){
-        this.identifier = identifier;
-    }
-
-    private String representBriefNotation () {
-
-        for (int i = 7; i >= 0; i--) {
-            for (int j = 0; j < this.gameBoard.gameBoard[i].length; j++) {
-
-                ChessPiece currentPiece = getBoardPiece(i, j);
-                if ((this.selectedCell.getRow() == i && (selectedCell.getColumn() != j))) {
-                    if (currentPiece != null && selectedPiece.toString().equals(currentPiece.toString())) {
-                        setFlagForTheShortNotation('s');
-                    }
-                } else if ((this.selectedCell.getColumn() == j && (this.selectedCell.getRow() != i))) {
-                    if (currentPiece != null && selectedPiece.toString().equals(currentPiece.toString())) {
-                        setFlagForTheShortNotation('n');
-                    }
-                }
-            }
-        }
-
-        String mate = "";
-        String turnNotation = "";
-        String abbreviation = this.selectedPiece.toString();
-
-        if (abbreviation.equals("p"))
-            abbreviation = "";
-
-        if (this.isCheck()) {
-            mate = "+";
-        }
-
-        if (identifier == 's') {
-            turnNotation = "[short] " + Integer.valueOf(this.turnNumber).toString() + ". " + abbreviation +
-                    this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].returnLetter() +
-                    this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
-                    mate;
-        } else {
-            turnNotation = "[short] " + Integer.valueOf(this.turnNumber).toString() + ". " + abbreviation +
-                    this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].returnNumber() +
-                    this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
-                    mate;
-        }
-
-        return turnNotation;
-    }
-
-
-
     /**
      * Check if piece will be beaten by other piece with opposite color after move to new cell with coordinates
      * row and cell.
@@ -895,8 +853,12 @@ public class Game {
     }
 
 
-
-
+    /**
+     * Apply turn on the game board after redo or undo operation.
+     * @param turn object which represents turn
+     * @param turnNotation string representation of turn
+     * @param redo specify which operation was used
+     */
     public void applyTurn(final Turn turn, final String turnNotation, final boolean redo){
         if (turn.isTransform()){
 

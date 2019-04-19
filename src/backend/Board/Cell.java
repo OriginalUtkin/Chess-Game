@@ -4,8 +4,12 @@ import backend.Enums.Color;
 
 
 /**
- *
- * @author xutkin00, xpolis03
+ * Project: Chess game IJA project
+ * File: Cell.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Class that represents a cell on the game board for the backend
  */
 
 public class Cell {

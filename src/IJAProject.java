@@ -11,6 +11,14 @@ import java.io.File;
 import java.lang.String;
 import java.util.List;
 
+/**
+ * Project: Chess game IJA project
+ * File: IJAProject.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Main class of the project
+ */
 public class IJAProject {
     public static void main(String args[]) {
 
@@ -80,21 +88,10 @@ public class IJAProject {
             }
         });
 
-        JMenu menuView = new JMenu("View");
-        menuView.setFont(font);
-
         frame.setJMenuBar(menuBar);
         menuBar.add(menuGame);
-        menuBar.add(menuView);
         frame.add(tabPane);
 
         frame.setVisible(true);
-
-        /**
-         * Move string:
-         * if returned piece not Pawn -> To string
-         * Before calling setPiece get dst cell and call toString (dst)
-         */
-        System.out.println();
     }
 }

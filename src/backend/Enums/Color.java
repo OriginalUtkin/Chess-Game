@@ -1,8 +1,12 @@
 package backend.Enums;
 
 /**
- *
- * @author xutkin00, xpolis03
+ * Project: Chess game IJA project
+ * File: Color.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Enum class that represents a color of the chess piece
  */
 
 public enum Color {

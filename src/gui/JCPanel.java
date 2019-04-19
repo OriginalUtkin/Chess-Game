@@ -5,6 +5,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Project: Chess game IJA project
+ * File: JCPanel.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Background for the game coordinates of the board on gui part
+ */
 public class JCPanel extends JPanel {
     private BufferedImage image;
 
@@ -17,7 +25,6 @@ public class JCPanel extends JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

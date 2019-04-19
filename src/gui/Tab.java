@@ -20,8 +20,12 @@ import java.awt.event.*;
 
 
 /**
- *
- * @author xutkin00, xpolis03
+ * Project: Chess game IJA project
+ * File: Tab.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Class that represents a gui representation of the game tab
  */
 
 public class Tab extends JPanel {
@@ -39,11 +43,11 @@ public class Tab extends JPanel {
 
 
     /**
-     *
+     * Create a gui representation of the game tab.
      * @param tabbedPane
      * @param frame
-     * @param tab_name
-     * @param loaded
+     * @param tab_name name of the tab
+     * @param loaded represents if current tab was loaded
      */
     public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name, boolean loaded) {
         if (Tab.countOfTabs <= 5) {
@@ -77,8 +81,8 @@ public class Tab extends JPanel {
 
 
     /**
-     *
-     * @return
+     * Tab initializer
+     * @return new created tab for the game
      */
     private JComponent initializeTab() {
         /*Main panel*/
@@ -147,10 +151,6 @@ public class Tab extends JPanel {
 
                 if (chosenOption == JOptionPane.OK_OPTION){
                     int periodValue = ((Number)textField.getValue()).intValue();
-
-                    /**
-                     * TODO Check if period value is possible value
-                     */
 
                     game.setPeriod(periodValue * 1000);
                 }
@@ -242,7 +242,7 @@ public class Tab extends JPanel {
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getAbbreviation());
                             else
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getTransformTo());
-
+                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
                         }else{
                             if (turn.getBeaten().isEmpty())
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation("");
@@ -255,6 +255,8 @@ public class Tab extends JPanel {
 
                             squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation(
                                     turn.getColor().toString() + turn.getAbbreviation());
+
+                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
                         }
                     }
                 }
@@ -391,7 +393,7 @@ public class Tab extends JPanel {
 
 
         /*Buttons*/
-        new RightPanelButton("", rightPanel, "img/previous_start.png", new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/back_to_start.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -425,7 +427,7 @@ public class Tab extends JPanel {
             }
         });
 
-        new RightPanelButton("", rightPanel, "img/back.png", new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/step_back.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -458,7 +460,7 @@ public class Tab extends JPanel {
             }
         });
 
-        new RightPanelButton("", rightPanel, "img/ahead.png", new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/step_ahead.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -486,7 +488,8 @@ public class Tab extends JPanel {
             }
         });
 
-        new RightPanelButton("", rightPanel, "img/play1.png", new ActionListener() {
+
+        new RightPanelButton("", rightPanel, "img/automatic_reply_back.png", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Nothing");
@@ -531,7 +534,7 @@ public class Tab extends JPanel {
         });
 
 
-       new RightPanelButton("", rightPanel, "img/play.png", new ActionListener() {
+       new RightPanelButton("", rightPanel, "img/automatic_reply_ahead.png", new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                System.out.println("Play");
@@ -588,7 +591,7 @@ public class Tab extends JPanel {
         rightPanel.add(emptyPanel);
 
 
-        new RightPanelButton("Save", rightPanel, "img/save1.png", new ActionListener() {
+        new RightPanelButton("Save", rightPanel, "img/save_game.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -641,10 +644,10 @@ public class Tab extends JPanel {
 
 
     /**
-     *
-     * @param turn
-     * @param counter
-     * @param notation
+     * Load new turn during the game loading process
+     * @param turn turn object which should be applied on the game board
+     * @param counter turn number
+     * @param notation string representation of the turn
      */
     public void loadTurn(final Turn turn, final int counter, final String notation){
 
@@ -657,19 +660,19 @@ public class Tab extends JPanel {
 
 
     /**
-     *
-     * @param str
-     * @param color
+     * Set new turn notation in gui part.
+     * @param turnStringRepresentation string representation of turn
+     * @param color set color of border for inserted notation.
      */
-    public void setTurnNotation(String str, Color color){
+    public void setTurnNotation(String turnStringRepresentation, Color color){
         move = new JMovePanel();
 
-        JLabel moveLabel = new JLabel(str);
+        JLabel moveLabel = new JLabel(turnStringRepresentation);
         moveLabel.setFont(new Font("Serif", Font.PLAIN, 15));
         moveLabel.setForeground(Color.WHITE);
         moveLabel.setText(moveLabel.getText() + "");
         move.setMaximumSize(new Dimension(300,40));
-        move.setText(str);
+        move.setText(turnStringRepresentation);
 
         for(Component movement: movements.getComponents()){
             ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
@@ -683,8 +686,8 @@ public class Tab extends JPanel {
 
 
     /**
-     *
-     * @param possibleMovements
+     * Set color for particular cell during the game process.
+     * @param possibleMovements list with possible movements
      * @param color
      * @param thickness
      */
@@ -698,8 +701,8 @@ public class Tab extends JPanel {
 
 
     /**
-     *
-     * @param panel
+     * Initialize board cells view.
+     * @param panel object that represents view for the game board.
      */
     private void initializeBoardCells(JPanel panel){
 
