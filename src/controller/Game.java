@@ -43,6 +43,8 @@ public class Game {
     private List<String> singleTurnNotations;
     private List<String> cancelledNotations;
 
+    private int lastLoadedTurn;
+
     private boolean deleteGUINotations;
     private boolean transformPawn;
 
@@ -70,6 +72,12 @@ public class Game {
         this.deleteGUINotations = false;
         this.transformPawn = false;
 
+        this.lastLoadedTurn = -1;
+
+    }
+
+    public void setLastLoadedTurn(){
+        this.lastLoadedTurn = this.selectedTurnNumber;
     }
 
     public List<String> getTurnNotations(){
@@ -967,7 +975,12 @@ public class Game {
      *
      * @return Turn object which represents a previous turn if number of turns is greater than 0; null otherwise
      */
-    public Turn undo(){
+    public Turn undo(boolean checkRequired){
+
+        if (checkRequired){
+            if (this.selectedTurnNumber - 1 < this.lastLoadedTurn)
+                return null;
+        }
 
         if (this.selectedTurnNumber > 0){
             NotationParser notationsParser = new NotationParser();
@@ -1076,7 +1089,7 @@ public class Game {
             if (max_index < 0) max_index = Math.abs(max_index);
 
             while(counter < max_index){
-                turns.add(redo? this.redo() : this.undo());
+                turns.add(redo? this.redo() : this.undo(false));
                 counter+=1;
             }
         }else

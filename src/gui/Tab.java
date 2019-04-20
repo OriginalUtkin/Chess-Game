@@ -107,7 +107,6 @@ public class Tab extends JPanel {
         restartGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: test version. Doesn't work properly; add new method to controller
                 System.out.println("Restart");
                 game = new Game(true);
                 chessBoard.removeAll();
@@ -363,7 +362,7 @@ public class Tab extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(String turnNotation: game.getTurnNotations())
-                    apply_undo(null);
+                    apply_undo(null, false);
             }
         });
 
@@ -372,7 +371,7 @@ public class Tab extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                apply_undo(null);
+                apply_undo(null, false);
             }
         });
 
@@ -391,7 +390,7 @@ public class Tab extends JPanel {
                 ActionListener listener = new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        apply_undo(e);
+                        apply_undo(e, false);
                     }
                 };
 
@@ -433,7 +432,7 @@ public class Tab extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                apply_undo(null);
+                apply_undo(null, true);
             }
         });
 
@@ -487,6 +486,9 @@ public class Tab extends JPanel {
         return panelBoard;
     }
 
+    /**
+     * Switch and show the color of player that could do turn.
+     */
     private void showCurrentTurn(){
         ((JLabel)players.getComponent(1)).setText(this.game.getCurrentTurn().equals(backend.Enums.Color.WHITE)?
                 "WHITE PLAYER TURN":"BLACK PLAYER TURN");
@@ -534,6 +536,10 @@ public class Tab extends JPanel {
         move.add(moveLabel);
         movements.add(move);
         movements.repaint();
+    }
+
+    public void setLoadedTurns(){
+        this.game.setLastLoadedTurn();
     }
 
 
@@ -647,13 +653,13 @@ public class Tab extends JPanel {
      * Send request to the controller for undo operation and redraw the graphical interface after operation is done.
      * @param requiredEvent set event which should be processed. Could be null
      */
-    private void apply_undo(ActionEvent requiredEvent){
+    private void apply_undo(ActionEvent requiredEvent, boolean checkRequired){
 
         if (requiredEvent != null){
             setEvent(requiredEvent);
         }
 
-        Turn turnInfo = this.game.undo();
+        Turn turnInfo = this.game.undo(checkRequired);
 
         if (turnInfo != null){
 

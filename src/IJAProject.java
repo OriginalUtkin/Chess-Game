@@ -75,6 +75,7 @@ public class IJAProject {
                         loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
                         loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
                     }
+                    loadedTab.setLoadedTurns();
                 }
             }
         });
