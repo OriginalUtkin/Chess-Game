@@ -45,6 +45,8 @@ public class IJAProject {
         newGame.setFont(font);
         menuGame.add(newGame);
 
+        newGame.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+
         newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 new Tab(tabPane,frame, "Game" + (tabPane.getComponentCount() + 1));
@@ -54,7 +56,7 @@ public class IJAProject {
         JMenuItem loadGame = new JMenuItem("Load");
         menuGame.add(loadGame);
         loadGame.setFont(font);
-
+        loadGame.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
 
         loadGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
@@ -81,6 +83,8 @@ public class IJAProject {
         });
 
         JMenuItem exitGame = new JMenuItem("Exit");
+        exitGame.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+
         exitGame.setFont(font);
         menuGame.add(exitGame);
 
