@@ -75,7 +75,7 @@ public class Game {
 
     }
 
-    public List<String> returnsingleTurnNotation(){
+    public List<String> getTurnNotations(){
         return this.singleTurnNotations;
     }
 
@@ -573,8 +573,8 @@ public class Game {
 
 
     /**
-     *
-     * @param newPieceAbbreviation
+     * Get chess piece object using the abbreviation
+     * @param newPieceAbbreviation abbreviation of the chess piece which will be used for creating a new chess object
      */
     public String transformPawn(final String newPieceAbbreviation){
 
