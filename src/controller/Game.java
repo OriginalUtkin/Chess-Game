@@ -783,7 +783,6 @@ public class Game {
                             this.gameBoard.gameBoard[currentSelectedRow][currentSelectedColumn].setPiece(this.selectedPiece);
                         }
                     }
-
                 }
 
                 // Try to move King piece from current position cell to other and check if it is safe position

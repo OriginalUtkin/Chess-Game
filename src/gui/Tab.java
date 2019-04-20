@@ -168,25 +168,17 @@ public class Tab extends JPanel {
 
 
         /* Add player components to the panel */
+        this.players.setLayout(new BoxLayout(this.players, BoxLayout.X_AXIS ));
+        this.players.add(Box.createHorizontalGlue());
+        this.players.add(new JLabel());
+        this.players.add(Box.createHorizontalGlue());
+        this.players.setBackground(new Color(32,32,32));
 
-        JLabel blackLabel = new JLabel("     Black player");
-        blackLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        blackLabel.setForeground(Color.BLACK);
-
-        this.players.add(blackLabel);
-
-
-        JPanel whitePlayer = new JPanel(new GridLayout());
-        whitePlayer.setBackground(new Color(32,32,32));
-
-        JLabel whiteLabel = new JLabel("     White player");
-        whiteLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        whiteLabel.setForeground(Color.WHITE);
-        whitePlayer.add(whiteLabel);
-
-        this.players.add(whitePlayer);
+        this.players.setBorder(BorderFactory.createLineBorder(new Color(255,255,255)));
 
         rightPanel.add(this.players);
+
+        this.changeColors();
 
         /*TextField with Movements*/
         movements = new JPanel();
@@ -237,7 +229,7 @@ public class Tab extends JPanel {
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getAbbreviation());
                             else
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getTransformTo());
-                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
+                            changeColors();
                         }else{
                             if (turn.getBeaten().isEmpty())
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation("");
@@ -251,7 +243,7 @@ public class Tab extends JPanel {
                             squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation(
                                     turn.getColor().toString() + turn.getAbbreviation());
 
-                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
+                            changeColors();
                         }
                     }
                 }
@@ -304,9 +296,9 @@ public class Tab extends JPanel {
                             }
                             setCellsColor(possibleMovements, Color.black,1);
                             System.out.println("Possible movement");
-                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
 
                             String turnNotation = game.movePiece();
+                            changeColors();
 
                             // Pawn piece should be transformed to other piece
                             if (game.isTransformPawn()){
@@ -493,20 +485,13 @@ public class Tab extends JPanel {
         return panelBoard;
     }
 
-    private void changeColors(JLabel whiteLabel, JPanel whitePlayer, JLabel blackLabel, JPanel players){
-        if (game.getCurrentTurn() == backend.Enums.Color.WHITE){
-            whiteLabel.setForeground(Color.WHITE);
-            whitePlayer.setBackground(new Color(32,32,32));
-            blackLabel.setForeground(Color.BLACK);
-            players.setBackground(Color.WHITE);
-            players.repaint();
-        }else {
-            whiteLabel.setForeground(Color.BLACK);
-            whitePlayer.setBackground(Color.WHITE);
-            blackLabel.setForeground(Color.WHITE);
-            players.setBackground(new Color(32,32,32));
-            players.repaint();
-        }
+    private void changeColors(){
+        ((JLabel)players.getComponent(1)).setText(this.game.getCurrentTurn().equals(backend.Enums.Color.WHITE)?
+                "WHITE PLAYER TURN":"BLACK PLAYER TURN");
+
+        ((JLabel)players.getComponent(1)).setForeground(Color.WHITE);
+
+        players.repaint();
     }
 
 
@@ -642,7 +627,7 @@ public class Tab extends JPanel {
             else
                 this.squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getTransformTo());
 
-//            changeColors(whiteLabel, whitePlayer, blackLabel, players);
+            changeColors();
 
             for(Component movement: this.movements.getComponents()){
                 ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
@@ -684,7 +669,7 @@ public class Tab extends JPanel {
             this.squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
                     turnInfo.getColor().toString() + turnInfo.getAbbreviation());
 
-//            changeColors(this.players.getComponent(0), whitePlayer, blackLabel, players);
+            changeColors();
 
             for(Component movement: movements.getComponents()){
                 ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
