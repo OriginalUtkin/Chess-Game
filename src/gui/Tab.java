@@ -589,6 +589,11 @@ public class Tab extends JPanel {
             }
         }
     }
+
+    /**
+     * Open the panel for choosing the new chess piece instead of pawn.
+     * @return string abbreviation of the new chess piece
+     */
     private int getPawnTransformValue(){
         String[] values = {"D", "V", "S", "J"};
 
