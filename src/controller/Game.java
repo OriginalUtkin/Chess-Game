@@ -957,7 +957,12 @@ public class Game {
      * @return Turn object which represents a following turn if number of turns is less than all turns number; null
      * otherwise
      */
-    public Turn redo(){
+    public Turn redo(boolean checkRequired){
+
+        if (checkRequired)
+            if (this.selectedTurnNumber + 1 <= this.lastLoadedTurn)
+                return null;
+
         if (this.selectedTurnNumber <= this.singleTurnNotations.size() - 1){
             NotationParser notationParser = new NotationParser();
             String followingTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber);
@@ -985,10 +990,9 @@ public class Game {
      */
     public Turn undo(boolean checkRequired){
 
-        if (checkRequired){
+        if (checkRequired)
             if (this.selectedTurnNumber - 1 < this.lastLoadedTurn)
                 return null;
-        }
 
         if (this.selectedTurnNumber > 0){
             NotationParser notationsParser = new NotationParser();
@@ -1073,7 +1077,6 @@ public class Game {
     }
 
 
-
     /**
      * Get game board state for particular notation.
      *
@@ -1097,7 +1100,7 @@ public class Game {
             if (max_index < 0) max_index = Math.abs(max_index);
 
             while(counter < max_index){
-                turns.add(redo? this.redo() : this.undo(false));
+                turns.add(redo? this.redo(false) : this.undo(false));
                 counter+=1;
             }
         }else

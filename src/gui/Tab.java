@@ -379,7 +379,7 @@ public class Tab extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                apply_redo(null);
+                apply_redo(null, false);
             }
         });
 
@@ -417,7 +417,7 @@ public class Tab extends JPanel {
                ActionListener listener = new ActionListener() {
                    @Override
                    public void actionPerformed(ActionEvent e) {
-                       apply_redo(e);
+                       apply_redo(e, false);
                    }
                };
 
@@ -441,7 +441,7 @@ public class Tab extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                apply_redo(null);
+                apply_redo(null, true);
             }
         });
 
@@ -614,14 +614,15 @@ public class Tab extends JPanel {
     /**
      * Send request to the controller for redo operation and redraw the graphical interface after operation is done.
      * @param requiredEvent set event which should be processed. Could be null
+     * @param checkRequired provide additional check for user redo operation
      */
-    private void apply_redo(ActionEvent requiredEvent){
+    private void apply_redo(ActionEvent requiredEvent, boolean checkRequired){
 
         if (requiredEvent != null){
             setEvent(requiredEvent);
         }
 
-        Turn turnInfo = this.game.redo();
+        Turn turnInfo = this.game.redo(checkRequired);
         System.out.println(turnInfo);
 
         if (turnInfo != null){
@@ -652,6 +653,7 @@ public class Tab extends JPanel {
     /**
      * Send request to the controller for undo operation and redraw the graphical interface after operation is done.
      * @param requiredEvent set event which should be processed. Could be null
+     * @param checkRequired provide additional check for user undo operation
      */
     private void apply_undo(ActionEvent requiredEvent, boolean checkRequired){
 
