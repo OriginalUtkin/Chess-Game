@@ -25,7 +25,6 @@ public class Game {
 
     // Game backend
     private Board gameBoard;
-    private boolean loaded;
 
     // Game board interaction specification
     private ChessPiece selectedPiece;
@@ -51,11 +50,9 @@ public class Game {
      * Main game object constructor.
      *
      * @param initFlag define if pieces will be added to the board. If false any pieces won't be created
-     * @param loaded define if game is loaded or not
      */
-    public Game(boolean initFlag, boolean loaded) {
+    public Game(boolean initFlag) {
         this.gameBoard = new Board(initFlag);
-        this.loaded = loaded;
 
         this.selectedPiece = null;
         this.selectedCell = null;

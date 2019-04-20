@@ -35,7 +35,6 @@ public class Tab extends JPanel {
     private Cell[][] squares;
     private Game game;
     private JMovePanel move;
-    private boolean loaded;
 
     private ActionEvent event;
 
@@ -48,16 +47,14 @@ public class Tab extends JPanel {
      * @param tabbedPane
      * @param frame
      * @param tab_name name of the tab
-     * @param loaded represents if current tab was loaded
      */
-    public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name, boolean loaded) {
+    public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
         if (Tab.countOfTabs <= 5) {
 
             // initialise Tab variables
             this.tabName = tab_name;
-            this.loaded = loaded;
             this.squares = new Cell[8][8];
-            this.game = new Game(true, this.loaded);
+            this.game = new Game(true);
             this.move = new JMovePanel();
             this.players = new JPanel(new GridLayout());
             this.players.setPreferredSize(new Dimension(420, 50));
@@ -126,7 +123,7 @@ public class Tab extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // TODO: test version. Doesn't work properly; add new method to controller
                 System.out.println("Restart");
-                game = new Game(true, loaded);
+                game = new Game(true);
                 chessBoard.removeAll();
                 movements.removeAll();
                 initializeBoardCells(chessBoard);
@@ -384,6 +381,7 @@ public class Tab extends JPanel {
             }
         });
 
+
         new RightPanelButton("", rightPanel, "img/step_back.png", new ActionListener() {
 
             @Override
@@ -418,6 +416,14 @@ public class Tab extends JPanel {
         });
 
 
+        new RightPanelButton("", rightPanel, "img/stop.png", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stopTimer();
+            }
+        });
+
+
        new RightPanelButton("", rightPanel, "img/automatic_reply_ahead.png", new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
@@ -436,19 +442,28 @@ public class Tab extends JPanel {
            }
        });
 
-        new RightPanelButton("", rightPanel, "img/stop.png", new ActionListener() {
+
+        new RightPanelButton("", rightPanel, "img/undo.png", new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                stopTimer();
+                apply_undo(null);
             }
         });
 
 
-        /*Indent*/
-        JPanel emptyPanel = new JPanel();
-        emptyPanel.setPreferredSize(new Dimension(360,30));
-        emptyPanel.setBackground(Color.DARK_GRAY);
-        rightPanel.add(emptyPanel);
+        new RightPanelButton("", rightPanel, "img/redo.png", new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                apply_redo(null);
+            }
+        });
+
+        JPanel emptyPanel1 = new JPanel();
+        emptyPanel1.setPreferredSize(new Dimension(360,30));
+        emptyPanel1.setBackground(Color.DARK_GRAY);
+        rightPanel.add(emptyPanel1);
 
 
         new RightPanelButton("Save", rightPanel, "img/save_game.png", new ActionListener() {

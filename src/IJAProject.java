@@ -24,16 +24,17 @@ public class IJAProject {
 
         /*Initialize main frame*/
         JFrame frame= new JFrame("IJA Project");
-        frame.setSize(1250,850);
+        frame.setSize(1185,785);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout(FlowLayout.LEFT));
+        frame.setLocationRelativeTo(null);
         Font font = new Font("Verdana", Font.PLAIN, 15);
 
 
         /*Initialize JTabbedPane*/
         JTabbedPane tabPane = new JTabbedPane();
         tabPane.setFont( new Font( "Dialog", Font.BOLD|Font.ITALIC, 20 ) );
-        Tab tabs = new Tab(tabPane, frame, "Game1", false); // implicitly one game
+        Tab tabs = new Tab(tabPane, frame, "Game1"); // implicitly one game
 
 
         /*Menu panel*/
@@ -46,7 +47,7 @@ public class IJAProject {
 
         newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new Tab(tabPane,frame, "Game" + (Tab.getNumOfTabs()+1), false);
+                new Tab(tabPane,frame, "Game" + (Tab.getNumOfTabs()+1));
             }
         });
 
@@ -68,7 +69,7 @@ public class IJAProject {
                     File fileName = fileChooser.getSelectedFile();
                     NotationParser loader = new NotationParser();
                     List<Turn> turns = loader.fileReader(fileName.toString());
-                    Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1), true);
+                    Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1));
 
                     for(int counter = 0; counter < turns.size(); counter++){
                         loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
