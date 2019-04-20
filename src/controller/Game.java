@@ -631,6 +631,11 @@ public class Game {
 
     }
 
+    /**
+     * Update turn notations in the right panel. In case that new turn was done, add notation to list. Update existing
+     * selected notation and remove others otherwise.
+     * @param turnNotation string representation of the turn notation
+     */
     private void updateTurnNotations(final String turnNotation){
 
         if (this.selectedTurnNumber >= this.singleTurnNotations.size())
@@ -645,6 +650,9 @@ public class Game {
 
             this.deleteGUINotations = true;
             this.cancelledNotations.clear();
+
+            // add possibility use redo and undo operations
+            this.lastLoadedTurn = this.selectedTurnNumber;
         }
     }
 
