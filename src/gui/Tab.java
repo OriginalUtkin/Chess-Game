@@ -173,12 +173,13 @@ public class Tab extends JPanel {
         this.players.add(new JLabel());
         this.players.add(Box.createHorizontalGlue());
         this.players.setBackground(new Color(32,32,32));
+        ((JLabel)this.players.getComponent(1)).setForeground(Color.WHITE);
 
         this.players.setBorder(BorderFactory.createLineBorder(new Color(255,255,255)));
 
         rightPanel.add(this.players);
 
-        this.changeColors();
+        this.showCurrentTurn();
 
         /*TextField with Movements*/
         movements = new JPanel();
@@ -229,7 +230,7 @@ public class Tab extends JPanel {
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getAbbreviation());
                             else
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getTransformTo());
-                            changeColors();
+                            showCurrentTurn();
                         }else{
                             if (turn.getBeaten().isEmpty())
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation("");
@@ -243,7 +244,7 @@ public class Tab extends JPanel {
                             squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation(
                                     turn.getColor().toString() + turn.getAbbreviation());
 
-                            changeColors();
+                            showCurrentTurn();
                         }
                     }
                 }
@@ -298,7 +299,7 @@ public class Tab extends JPanel {
                             System.out.println("Possible movement");
 
                             String turnNotation = game.movePiece();
-                            changeColors();
+                            showCurrentTurn();
 
                             // Pawn piece should be transformed to other piece
                             if (game.isTransformPawn()){
@@ -485,11 +486,9 @@ public class Tab extends JPanel {
         return panelBoard;
     }
 
-    private void changeColors(){
+    private void showCurrentTurn(){
         ((JLabel)players.getComponent(1)).setText(this.game.getCurrentTurn().equals(backend.Enums.Color.WHITE)?
                 "WHITE PLAYER TURN":"BLACK PLAYER TURN");
-
-        ((JLabel)players.getComponent(1)).setForeground(Color.WHITE);
 
         players.repaint();
     }
@@ -627,7 +626,7 @@ public class Tab extends JPanel {
             else
                 this.squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getTransformTo());
 
-            changeColors();
+            showCurrentTurn();
 
             for(Component movement: this.movements.getComponents()){
                 ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
@@ -669,7 +668,7 @@ public class Tab extends JPanel {
             this.squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
                     turnInfo.getColor().toString() + turnInfo.getAbbreviation());
 
-            changeColors();
+            showCurrentTurn();
 
             for(Component movement: movements.getComponents()){
                 ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
