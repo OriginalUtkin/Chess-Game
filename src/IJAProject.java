@@ -47,7 +47,7 @@ public class IJAProject {
 
         newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new Tab(tabPane,frame, "Game" + (Tab.getNumOfTabs()+1));
+                new Tab(tabPane,frame, "Game" + (tabPane.getComponentCount() + 1));
             }
         });
 
@@ -69,7 +69,7 @@ public class IJAProject {
                     File fileName = fileChooser.getSelectedFile();
                     NotationParser loader = new NotationParser();
                     List<Turn> turns = loader.fileReader(fileName.toString());
-                    Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1));
+                    Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (tabPane.getComponentCount() + 1));
 
                     for(int counter = 0; counter < turns.size(); counter++){
                         loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
