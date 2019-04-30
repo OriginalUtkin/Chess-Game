@@ -2,9 +2,15 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
+/**
+ * Project: Chess game IJA project
+ * File: JMovePanel.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Class that represents a turn on the gui part.
+ */
 public class JMovePanel extends JPanel {
     private String text;
 
@@ -15,9 +21,6 @@ public class JMovePanel extends JPanel {
 
     public void setText(String text){
         this.text = text;
-    }
-    public void repaintPanel(){
-        this.repaint();
     }
     public String getText(){return this.text;}
 }

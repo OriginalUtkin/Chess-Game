@@ -12,11 +12,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Project: Chess game IJA project
+ * File: Game.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Controller class which used for cooperate graphical interface and game logic
+ */
+
 public class Game {
 
     // Game backend
     private Board gameBoard;
-    private boolean loaded;
 
     // Game board interaction specification
     private ChessPiece selectedPiece;
@@ -35,22 +43,18 @@ public class Game {
     private List<String> singleTurnNotations;
     private List<String> cancelledNotations;
 
+    private int lastLoadedTurn;
+
     private boolean deleteGUINotations;
     private boolean transformPawn;
-
-
-    private char identifier;
-
 
     /**
      * Main game object constructor.
      *
      * @param initFlag define if pieces will be added to the board. If false any pieces won't be created
-     * @param loaded define if game is loaded or not
      */
-    public Game(boolean initFlag, boolean loaded) {
+    public Game(boolean initFlag) {
         this.gameBoard = new Board(initFlag);
-        this.loaded = loaded;
 
         this.selectedPiece = null;
         this.selectedCell = null;
@@ -68,9 +72,15 @@ public class Game {
         this.deleteGUINotations = false;
         this.transformPawn = false;
 
+        this.lastLoadedTurn = -1;
+
     }
 
-    public List<String> returnsingleTurnNotation(){
+    public void setLastLoadedTurn(){
+        this.lastLoadedTurn = this.selectedTurnNumber;
+    }
+
+    public List<String> getTurnNotations(){
         return this.singleTurnNotations;
     }
 
@@ -568,8 +578,8 @@ public class Game {
 
 
     /**
-     *
-     * @param newPieceAbbreviation
+     * Get chess piece object using the abbreviation
+     * @param newPieceAbbreviation abbreviation of the chess piece which will be used for creating a new chess object
      */
     public String transformPawn(final String newPieceAbbreviation){
 
@@ -621,6 +631,11 @@ public class Game {
 
     }
 
+    /**
+     * Update turn notations in the right panel. In case that new turn was done, add notation to list. Update existing
+     * selected notation and remove others otherwise.
+     * @param turnNotation string representation of the turn notation
+     */
     private void updateTurnNotations(final String turnNotation){
 
         if (this.selectedTurnNumber >= this.singleTurnNotations.size())
@@ -635,6 +650,9 @@ public class Game {
 
             this.deleteGUINotations = true;
             this.cancelledNotations.clear();
+
+            // add possibility use redo and undo operations
+            this.lastLoadedTurn = this.selectedTurnNumber;
         }
     }
 
@@ -778,7 +796,6 @@ public class Game {
                             this.gameBoard.gameBoard[currentSelectedRow][currentSelectedColumn].setPiece(this.selectedPiece);
                         }
                     }
-
                 }
 
                 // Try to move King piece from current position cell to other and check if it is safe position
@@ -808,57 +825,6 @@ public class Game {
 
         return true;
     }
-
-
-    private void setFlagForTheShortNotation ( char identifier){
-        this.identifier = identifier;
-    }
-
-    private String representBriefNotation () {
-
-        for (int i = 7; i >= 0; i--) {
-            for (int j = 0; j < this.gameBoard.gameBoard[i].length; j++) {
-
-                ChessPiece currentPiece = getBoardPiece(i, j);
-                if ((this.selectedCell.getRow() == i && (selectedCell.getColumn() != j))) {
-                    if (currentPiece != null && selectedPiece.toString().equals(currentPiece.toString())) {
-                        setFlagForTheShortNotation('s');
-                    }
-                } else if ((this.selectedCell.getColumn() == j && (this.selectedCell.getRow() != i))) {
-                    if (currentPiece != null && selectedPiece.toString().equals(currentPiece.toString())) {
-                        setFlagForTheShortNotation('n');
-                    }
-                }
-            }
-        }
-
-        String mate = "";
-        String turnNotation = "";
-        String abbreviation = this.selectedPiece.toString();
-
-        if (abbreviation.equals("p"))
-            abbreviation = "";
-
-        if (this.isCheck()) {
-            mate = "+";
-        }
-
-        if (identifier == 's') {
-            turnNotation = "[short] " + Integer.valueOf(this.turnNumber).toString() + ". " + abbreviation +
-                    this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].returnLetter() +
-                    this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
-                    mate;
-        } else {
-            turnNotation = "[short] " + Integer.valueOf(this.turnNumber).toString() + ". " + abbreviation +
-                    this.gameBoard.gameBoard[selectedCell.getRow()][selectedCell.getColumn()].returnNumber() +
-                    this.gameBoard.gameBoard[destinationCell.getRow()][destinationCell.getColumn()].toString() +
-                    mate;
-        }
-
-        return turnNotation;
-    }
-
-
 
     /**
      * Check if piece will be beaten by other piece with opposite color after move to new cell with coordinates
@@ -895,8 +861,12 @@ public class Game {
     }
 
 
-
-
+    /**
+     * Apply turn on the game board after redo or undo operation.
+     * @param turn object which represents turn
+     * @param turnNotation string representation of turn
+     * @param redo specify which operation was used
+     */
     public void applyTurn(final Turn turn, final String turnNotation, final boolean redo){
         if (turn.isTransform()){
 
@@ -987,7 +957,12 @@ public class Game {
      * @return Turn object which represents a following turn if number of turns is less than all turns number; null
      * otherwise
      */
-    public Turn redo(){
+    public Turn redo(boolean checkRequired){
+
+        if (checkRequired)
+            if (this.selectedTurnNumber + 1 <= this.lastLoadedTurn)
+                return null;
+
         if (this.selectedTurnNumber <= this.singleTurnNotations.size() - 1){
             NotationParser notationParser = new NotationParser();
             String followingTurnNotation = this.singleTurnNotations.get(this.selectedTurnNumber);
@@ -1013,7 +988,11 @@ public class Game {
      *
      * @return Turn object which represents a previous turn if number of turns is greater than 0; null otherwise
      */
-    public Turn undo(){
+    public Turn undo(boolean checkRequired){
+
+        if (checkRequired)
+            if (this.selectedTurnNumber - 1 < this.lastLoadedTurn)
+                return null;
 
         if (this.selectedTurnNumber > 0){
             NotationParser notationsParser = new NotationParser();
@@ -1098,7 +1077,6 @@ public class Game {
     }
 
 
-
     /**
      * Get game board state for particular notation.
      *
@@ -1122,7 +1100,7 @@ public class Game {
             if (max_index < 0) max_index = Math.abs(max_index);
 
             while(counter < max_index){
-                turns.add(redo? this.redo() : this.undo());
+                turns.add(redo? this.redo(false) : this.undo(false));
                 counter+=1;
             }
         }else

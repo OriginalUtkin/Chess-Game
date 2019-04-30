@@ -7,8 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author xutkin00, xpolis03
+ * Project: Chess game IJA project
+ * File: Rook.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Class rook represents a king chess piece and define all possible movements for this piece according
+ * to the game rules.
  */
 
 public class Rook extends ChessPiece {

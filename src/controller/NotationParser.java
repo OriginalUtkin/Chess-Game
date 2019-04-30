@@ -8,17 +8,39 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Project: Chess game IJA project
+ * File: NotationParser.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Helper class which is used for parse turn notations during the game.
+ */
+
 public class NotationParser {
     private List<String> loadedNotations;
 
+    /**
+     * Basic constructor of the parser
+     */
     public NotationParser(){
         loadedNotations = new ArrayList<>();
     }
 
+    /**
+     * Get particular turn notation from the list with all loaded turns
+     * @param index number of element in list with turn notation
+     * @return string representation of turn in specified position
+     */
     public String getLine(final int index){
         return this.loadedNotations.get(index);
     }
 
+    /**
+     * Read and parse all turn if file which contains turns from previous game
+     * @param path path to the file with the saved game
+     * @return list of turns that were made in loaded game
+     */
     public List<Turn> fileReader(String path){
         List<Turn> turns = new ArrayList<>();
 
@@ -38,6 +60,11 @@ public class NotationParser {
         return turns;
     }
 //((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8])\w+)
+    /**
+     * Parse a single selected turn notation. This method could be used for parse notation while game is being loaded
+     * @param notationString string representation of turn
+     * @return List of turn objects which contains all information about turn.
+     */
     private List<Turn> parseNotation(final String notationString){
 //        transform check regex
         Pattern pattern = Pattern.compile("((J|K|D|V|S|)([a-h])([1-8])x(J|K|D|V|S|)([a-h])([1-8]))|((J|K|D|V|S|)([a-h])([1-8])([a-h])([1-8]))");
@@ -105,7 +132,11 @@ public class NotationParser {
         return turns;
     }
 
-
+    /**
+     * Parse a single selected turn notation.
+     * @param notationString string representation of turn
+     * @return Turn object which contains all information about turn
+     */
     Turn parseSingleNotation(final String notationString){
         // This method should prolly be refactored with previous
 
@@ -232,10 +263,14 @@ public class NotationParser {
         return turn;
     }
 
-
-    private static int transformCoordinate(String s){
+    /**
+     * Transform cell coordinates from human readable format to the integer value
+     * @param coordinateRepresentation string representation of cell coordinate
+     * @return integer value that could be used for getting cell from the backend
+     */
+    private static int transformCoordinate(String coordinateRepresentation){
         int result;
-        switch (s){
+        switch (coordinateRepresentation){
             case "a": result=0;break; case "b": result=1; break; case "c":result=2; break;
             case "d": result=3;break; case "e":result=4; break; case "f":result=5; break;
             case "g": result = 6;break; case "h": result=7;break;

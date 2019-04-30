@@ -11,21 +11,30 @@ import java.io.File;
 import java.lang.String;
 import java.util.List;
 
+/**
+ * Project: Chess game IJA project
+ * File: IJAProject.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Main class of the project
+ */
 public class IJAProject {
     public static void main(String args[]) {
 
         /*Initialize main frame*/
         JFrame frame= new JFrame("IJA Project");
-        frame.setSize(1250,850);
+        frame.setSize(1185,785);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout(FlowLayout.LEFT));
+        frame.setLocationRelativeTo(null);
         Font font = new Font("Verdana", Font.PLAIN, 15);
 
 
         /*Initialize JTabbedPane*/
         JTabbedPane tabPane = new JTabbedPane();
         tabPane.setFont( new Font( "Dialog", Font.BOLD|Font.ITALIC, 20 ) );
-        Tab tabs = new Tab(tabPane, frame, "Game1", false); // implicitly one game
+        Tab tabs = new Tab(tabPane, frame, "Game1"); // implicitly one game
 
 
         /*Menu panel*/
@@ -36,16 +45,18 @@ public class IJAProject {
         newGame.setFont(font);
         menuGame.add(newGame);
 
+        newGame.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+
         newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new Tab(tabPane,frame, "Game" + (Tab.getNumOfTabs()+1), false);
+                new Tab(tabPane,frame, "Game" + (tabPane.getComponentCount() + 1));
             }
         });
 
         JMenuItem loadGame = new JMenuItem("Load");
         menuGame.add(loadGame);
         loadGame.setFont(font);
-
+        loadGame.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
 
         loadGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
@@ -60,17 +71,20 @@ public class IJAProject {
                     File fileName = fileChooser.getSelectedFile();
                     NotationParser loader = new NotationParser();
                     List<Turn> turns = loader.fileReader(fileName.toString());
-                    Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (Tab.getNumOfTabs()+1), true);
+                    Tab loadedTab = new Tab(tabPane,frame, "(l) Game" + (tabPane.getComponentCount() + 1));
 
                     for(int counter = 0; counter < turns.size(); counter++){
                         loadedTab.loadTurn(turns.get(counter), counter, loader.getLine(counter));
                         loadedTab.setTurnNotation(loader.getLine(counter), Color.yellow);
                     }
+                    loadedTab.setLoadedTurns();
                 }
             }
         });
 
         JMenuItem exitGame = new JMenuItem("Exit");
+        exitGame.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+
         exitGame.setFont(font);
         menuGame.add(exitGame);
 
@@ -80,21 +94,10 @@ public class IJAProject {
             }
         });
 
-        JMenu menuView = new JMenu("View");
-        menuView.setFont(font);
-
         frame.setJMenuBar(menuBar);
         menuBar.add(menuGame);
-        menuBar.add(menuView);
         frame.add(tabPane);
 
         frame.setVisible(true);
-
-        /**
-         * Move string:
-         * if returned piece not Pawn -> To string
-         * Before calling setPiece get dst cell and call toString (dst)
-         */
-        System.out.println();
     }
 }

@@ -2,6 +2,16 @@ package controller;
 
 import backend.Enums.Color;
 
+/**
+ * Project: Chess game IJA project
+ * File: Turn.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Class that represents a Turn object. This class is used for recreate made turn for redo and undo
+ * operations
+ */
+
 public class Turn {
 
     final private int sourceRow;
@@ -17,6 +27,15 @@ public class Turn {
     private boolean transform;
     private String transformTo;
 
+    /**
+     * Base constructor of the turn object.
+     * @param sourceRow previous row position of the chess piece
+     * @param sourceColumn previous column position of the chess piece
+     * @param destinationRow new row position of the chess piece
+     * @param destinationColumn new column position of the chess piece
+     * @param abbreviation abbreviation of the chess piece which was moved
+     * @param beaten abbreviation of the chess piece which was beaten during the turn
+     */
     Turn(
             int sourceRow,
             int sourceColumn,

@@ -20,47 +20,47 @@ import java.awt.event.*;
 
 
 /**
- *
- * @author xutkin00, xpolis03
+ * Project: Chess game IJA project
+ * File: Tab.java
+ * Date: 27.04.2019
+ * Authors: xutkin00 <xutkin00@stud.fit.vutbr.cz>
+ *          xpolis03 <xpolis03@stud.fit.vutbr.cz>
+ * Description: Class that represents a gui representation of the game tab
  */
 
 public class Tab extends JPanel {
-    private static int countOfTabs = 0;
 
-    private String tabName;
     private Cell[][] squares;
     private Game game;
     private JMovePanel move;
-    private boolean loaded;
 
     private ActionEvent event;
 
     private JPanel movements;
+    private JPanel players;
 
 
     /**
-     *
-     * @param tabbedPane
-     * @param frame
-     * @param tab_name
-     * @param loaded
+     * Create a gui representation of the game tab.
+     * @param tabbedPane the container of tabs
+     * @param frame main window frame
+     * @param tab_name name of the tab
      */
-    public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name, boolean loaded) {
-        if (Tab.countOfTabs <= 5) {
+    public Tab(JTabbedPane tabbedPane, JFrame frame, String tab_name) {
+        if (tabbedPane.getComponentCount() <= 5) {
 
             // initialise Tab variables
-            this.tabName = tab_name;
-            this.loaded = loaded;
             this.squares = new Cell[8][8];
-            this.game = new Game(true, this.loaded);
+            this.game = new Game(true);
             this.move = new JMovePanel();
+            this.players = new JPanel(new GridLayout());
+            this.players.setPreferredSize(new Dimension(420, 50));
+            this.players.setBackground(Color.WHITE);
 
             // initialise graphical part of tab
             JComponent panel = initializeTab();
             tabbedPane.addTab(tab_name, panel);
             tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-
-            countOfTabs += 1;
 
         } else {
             JOptionPane.showMessageDialog(frame, "Too many tabs");
@@ -68,17 +68,8 @@ public class Tab extends JPanel {
     }
 
     /**
-     *
-     * @return
-     */
-    public static int getNumOfTabs() {
-        return countOfTabs;
-    }
-
-
-    /**
-     *
-     * @return
+     * Tab initializer
+     * @return new created tab for the game
      */
     private JComponent initializeTab() {
         /*Main panel*/
@@ -109,7 +100,6 @@ public class Tab extends JPanel {
         panelBoard.add(rightPanel);
 
 
-
         /*Restart Button*/
         JButton restartGame = new JButton("Restart Game");
         restartGame.setBackground(new Color(   222,184,135));
@@ -117,9 +107,8 @@ public class Tab extends JPanel {
         restartGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: test version. Doesn't work properly; add new method to controller
                 System.out.println("Restart");
-                game = new Game(true, loaded);
+                game = new Game(true);
                 chessBoard.removeAll();
                 movements.removeAll();
                 initializeBoardCells(chessBoard);
@@ -148,10 +137,6 @@ public class Tab extends JPanel {
                 if (chosenOption == JOptionPane.OK_OPTION){
                     int periodValue = ((Number)textField.getValue()).intValue();
 
-                    /**
-                     * TODO Check if period value is possible value
-                     */
-
                     game.setPeriod(periodValue * 1000);
                 }
             }
@@ -164,34 +149,19 @@ public class Tab extends JPanel {
         rightPanel.add(indentPanel);
 
 
-        /*Players panel*/
-        JPanel players = new JPanel(new GridLayout());
-        players.setPreferredSize(new Dimension(420, 50));
-        players.setBackground(Color.WHITE);
+        /* Add player components to the panel */
+        this.players.setLayout(new BoxLayout(this.players, BoxLayout.X_AXIS ));
+        this.players.add(Box.createHorizontalGlue());
+        this.players.add(new JLabel());
+        this.players.add(Box.createHorizontalGlue());
+        this.players.setBackground(new Color(32,32,32));
+        ((JLabel)this.players.getComponent(1)).setForeground(Color.WHITE);
 
+        this.players.setBorder(BorderFactory.createLineBorder(new Color(255,255,255)));
 
-        JPanel blackPlayer = new JPanel(new GridLayout());
-        //blackPlayer.setPreferredSize(new Dimension(120,40));
-        JLabel blackLabel = new JLabel("     Black player");
-        blackLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        blackLabel.setForeground(Color.BLACK);
+        rightPanel.add(this.players);
 
-        players.add(blackLabel);
-        players.add(blackLabel);
-
-
-        JPanel whitePlayer = new JPanel(new GridLayout());
-        whitePlayer.setBackground(new Color(32,32,32));
-        //whitePlayer.setPreferredSize(new Dimension(120,40));
-        JLabel whiteLabel = new JLabel("     White player");
-        whiteLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        whiteLabel.setForeground(Color.WHITE);
-        whitePlayer.add(whiteLabel);
-        players.add(whitePlayer);
-
-        rightPanel.add(players);
-
-
+        this.showCurrentTurn();
 
         /*TextField with Movements*/
         movements = new JPanel();
@@ -242,7 +212,7 @@ public class Tab extends JPanel {
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getAbbreviation());
                             else
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation(turn.getColor().toString() + turn.getTransformTo());
-
+                            showCurrentTurn();
                         }else{
                             if (turn.getBeaten().isEmpty())
                                 squares[turn.getDestinationRow()][turn.getDestinationColumn()].setAbbreviation("");
@@ -255,6 +225,8 @@ public class Tab extends JPanel {
 
                             squares[turn.getSourceRow()][turn.getSourceColumn()].setAbbreviation(
                                     turn.getColor().toString() + turn.getAbbreviation());
+
+                            showCurrentTurn();
                         }
                     }
                 }
@@ -307,27 +279,21 @@ public class Tab extends JPanel {
                             }
                             setCellsColor(possibleMovements, Color.black,1);
                             System.out.println("Possible movement");
-                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
 
                             String turnNotation = game.movePiece();
+                            showCurrentTurn();
 
                             // Pawn piece should be transformed to other piece
                             if (game.isTransformPawn()){
-
                                 String[] values = {"D", "V", "S", "J"};
 
-                                int selected = JOptionPane.showOptionDialog(
-                                        null,
-                                        "Transform pawn to:",
-                                        "Transform pawn to other piece",
-                                        JOptionPane.YES_NO_OPTION,
-                                        JOptionPane.QUESTION_MESSAGE,
-                                        null,
-                                        values,
-                                        null);
+                                int new_piece_index = getPawnTransformValue();
 
-                                turnNotation = game.transformPawn(values[selected]);
+                                while (new_piece_index == -1){
+                                    new_piece_index = getPawnTransformValue();
+                                }
 
+                                turnNotation = game.transformPawn(values[new_piece_index]);
                             }
 
                             // Player did own turn while old turn is shown
@@ -391,187 +357,49 @@ public class Tab extends JPanel {
 
 
         /*Buttons*/
-        new RightPanelButton("", rightPanel, "img/previous_start.png", new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/back_to_start.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                int counter = 0;
-                while (counter < game.returnsingleTurnNotation().size()){
-                    Turn turnInfo = game.undo();
-
-                    if (turnInfo != null){
-
-                        if (turnInfo.getBeaten().isEmpty())
-                            squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
-
-                        else{
-                            squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
-                                    .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
-                                            turnInfo.getBeaten());
-                        }
-
-                        squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
-                                turnInfo.getColor().toString() + turnInfo.getAbbreviation());
-                    }
-                    for(Component movement: movements.getComponents()){
-                        ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
-                    }
-
-                    ((JMovePanel)movements.getComponent(0))
-                            .setBorder(BorderFactory.createLineBorder(Color.yellow));
-
-                    counter+=1;
-                }
+                for(String turnNotation: game.getTurnNotations())
+                    apply_undo(null, false);
             }
         });
 
-        new RightPanelButton("", rightPanel, "img/back.png", new ActionListener() {
+
+        new RightPanelButton("", rightPanel, "img/step_back.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Turn turnInfo = game.undo();
-
-                if (turnInfo != null){
-
-                    if (turnInfo.getBeaten().isEmpty())
-                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
-
-                    else{
-                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
-                                .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
-                                        turnInfo.getBeaten());
-                    }
-
-                    squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
-                            turnInfo.getColor().toString() + turnInfo.getAbbreviation());
-
-                    changeColors(whiteLabel, whitePlayer, blackLabel, players);
-
-                    for(Component movement: movements.getComponents()){
-                        ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
-                    }
-
-                    if (game.getSelectedTurnNumber() > 0)
-                        ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
-                                .setBorder(BorderFactory.createLineBorder(Color.yellow));
-                }
+                apply_undo(null, false);
             }
         });
 
-        new RightPanelButton("", rightPanel, "img/ahead.png", new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/step_ahead.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Turn turnInfo = game.redo();
-                System.out.println(turnInfo);
-
-                if (turnInfo != null){
-
-                    squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
-
-                    if (!turnInfo.isTransform())
-                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
-                    else
-                        squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getTransformTo());
-
-                    changeColors(whiteLabel, whitePlayer, blackLabel, players);
-
-                    for(Component movement: movements.getComponents()){
-                        ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
-                    }
-
-                    ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
-                            .setBorder(BorderFactory.createLineBorder(Color.yellow));
-                }
+                apply_redo(null, false);
             }
         });
 
-        new RightPanelButton("", rightPanel, "img/play1.png", new ActionListener() {
+
+        new RightPanelButton("", rightPanel, "img/automatic_reply_back.png", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Nothing");
                 ActionListener listener = new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        setEvent(e);
-
-                        Turn turnInfo = game.undo();
-                        if (turnInfo != null){
-
-                            if (turnInfo.getBeaten().isEmpty())
-                                squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
-
-                            else{
-                                squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
-                                        .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
-                                                turnInfo.getBeaten());
-                            }
-
-                            squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
-                                    turnInfo.getColor().toString() + turnInfo.getAbbreviation());
-
-                            changeColors(whiteLabel, whitePlayer, blackLabel, players);
-
-                            for(Component movement: movements.getComponents()){
-                                ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
-                            }
-
-                            if (game.getSelectedTurnNumber() > 0)
-                                ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
-                                        .setBorder(BorderFactory.createLineBorder(Color.yellow));
-                        }
+                        apply_undo(e, false);
                     }
                 };
 
                 /*play movements*/
                 Timer timer = new Timer(game.getPeriod(),listener);
                 timer.start();
-
             }
         });
 
-
-       new RightPanelButton("", rightPanel, "img/play.png", new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               System.out.println("Play");
-
-               ActionListener listener = new ActionListener() {
-                   @Override
-                   public void actionPerformed(ActionEvent e) {
-                       setEvent(e);
-
-                       Turn turnInfo = game.redo();
-                       System.out.println(turnInfo);
-
-                       if (turnInfo != null){
-                           squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
-
-                           if (!turnInfo.isTransform())
-                                squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
-                           else
-                               squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getTransformTo());
-
-                           changeColors(whiteLabel, whitePlayer, blackLabel, players);
-
-                           for(Component movement: movements.getComponents()){
-                               ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
-                           }
-
-                           ((JMovePanel)movements.getComponent(game.getSelectedTurnNumber() - 1))
-                                   .setBorder(BorderFactory.createLineBorder(Color.yellow));
-
-                       }else{
-                           ((Timer)e.getSource()).stop();
-                       }
-                   }
-               };
-
-               /*play movements*/
-               Timer timer = new Timer(game.getPeriod(),listener);
-               timer.start();
-           }
-       });
 
         new RightPanelButton("", rightPanel, "img/stop.png", new ActionListener() {
             @Override
@@ -581,14 +409,49 @@ public class Tab extends JPanel {
         });
 
 
-        /*Indent*/
-        JPanel emptyPanel = new JPanel();
-        emptyPanel.setPreferredSize(new Dimension(360,30));
-        emptyPanel.setBackground(Color.DARK_GRAY);
-        rightPanel.add(emptyPanel);
+       new RightPanelButton("", rightPanel, "img/automatic_reply_ahead.png", new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               System.out.println("Play");
+
+               ActionListener listener = new ActionListener() {
+                   @Override
+                   public void actionPerformed(ActionEvent e) {
+                       apply_redo(e, false);
+                   }
+               };
+
+               /*play movements*/
+               Timer timer = new Timer(game.getPeriod(),listener);
+               timer.start();
+           }
+       });
 
 
-        new RightPanelButton("Save", rightPanel, "img/save1.png", new ActionListener() {
+        new RightPanelButton("", rightPanel, "img/undo.png", new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                apply_undo(null, true);
+            }
+        });
+
+
+        new RightPanelButton("", rightPanel, "img/redo.png", new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                apply_redo(null, true);
+            }
+        });
+
+        JPanel emptyPanel1 = new JPanel();
+        emptyPanel1.setPreferredSize(new Dimension(360,30));
+        emptyPanel1.setBackground(Color.DARK_GRAY);
+        rightPanel.add(emptyPanel1);
+
+
+        new RightPanelButton("Save", rightPanel, "img/save_game.png", new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -623,28 +486,22 @@ public class Tab extends JPanel {
         return panelBoard;
     }
 
-    private void changeColors(JLabel whiteLabel, JPanel whitePlayer, JLabel blackLabel, JPanel players){
-        if (game.getCurrentTurn() == backend.Enums.Color.WHITE){
-            whiteLabel.setForeground(Color.WHITE);
-            whitePlayer.setBackground(new Color(32,32,32));
-            blackLabel.setForeground(Color.BLACK);
-            players.setBackground(Color.WHITE);
-            players.repaint();
-        }else {
-            whiteLabel.setForeground(Color.BLACK);
-            whitePlayer.setBackground(Color.WHITE);
-            blackLabel.setForeground(Color.WHITE);
-            players.setBackground(new Color(32,32,32));
-            players.repaint();
-        }
+    /**
+     * Switch and show the color of player that could do turn.
+     */
+    private void showCurrentTurn(){
+        ((JLabel)players.getComponent(1)).setText(this.game.getCurrentTurn().equals(backend.Enums.Color.WHITE)?
+                "WHITE PLAYER TURN":"BLACK PLAYER TURN");
+
+        players.repaint();
     }
 
 
     /**
-     *
-     * @param turn
-     * @param counter
-     * @param notation
+     * Load new turn during the game loading process
+     * @param turn turn object which should be applied on the game board
+     * @param counter turn number
+     * @param notation string representation of the turn
      */
     public void loadTurn(final Turn turn, final int counter, final String notation){
 
@@ -657,19 +514,19 @@ public class Tab extends JPanel {
 
 
     /**
-     *
-     * @param str
-     * @param color
+     * Set new turn notation in gui part.
+     * @param turnStringRepresentation string representation of turn
+     * @param color set color of border for inserted notation.
      */
-    public void setTurnNotation(String str, Color color){
+    public void setTurnNotation(String turnStringRepresentation, Color color){
         move = new JMovePanel();
 
-        JLabel moveLabel = new JLabel(str);
+        JLabel moveLabel = new JLabel(turnStringRepresentation);
         moveLabel.setFont(new Font("Serif", Font.PLAIN, 15));
         moveLabel.setForeground(Color.WHITE);
         moveLabel.setText(moveLabel.getText() + "");
         move.setMaximumSize(new Dimension(300,40));
-        move.setText(str);
+        move.setText(turnStringRepresentation);
 
         for(Component movement: movements.getComponents()){
             ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
@@ -681,12 +538,16 @@ public class Tab extends JPanel {
         movements.repaint();
     }
 
+    public void setLoadedTurns(){
+        this.game.setLastLoadedTurn();
+    }
+
 
     /**
-     *
-     * @param possibleMovements
-     * @param color
-     * @param thickness
+     * Set color for particular cell during the game process.
+     * @param possibleMovements list with possible movements
+     * @param color collor of the cell
+     * @param thickness color of the cell border
      */
     private void setCellsColor(List<Movement> possibleMovements, Color color, int thickness){
 
@@ -698,8 +559,8 @@ public class Tab extends JPanel {
 
 
     /**
-     *
-     * @param panel
+     * Initialize board cells view.
+     * @param panel object that represents view for the game board.
      */
     private void initializeBoardCells(JPanel panel){
 
@@ -729,6 +590,23 @@ public class Tab extends JPanel {
         }
     }
 
+    /**
+     * Open the panel for choosing the new chess piece instead of pawn.
+     * @return string abbreviation of the new chess piece
+     */
+    private int getPawnTransformValue(){
+        String[] values = {"D", "V", "S", "J"};
+
+        return JOptionPane.showOptionDialog(
+                null,
+                "Transform pawn to:",
+                "Transform pawn to other piece",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                values,
+                null);
+    }
 
     private void setEvent(ActionEvent e){
         this.event = e;
@@ -736,5 +614,83 @@ public class Tab extends JPanel {
 
     private void stopTimer(){
         ((Timer)this.event.getSource()).stop();
+    }
+
+    /**
+     * Send request to the controller for redo operation and redraw the graphical interface after operation is done.
+     * @param requiredEvent set event which should be processed. Could be null
+     * @param checkRequired provide additional check for user redo operation
+     */
+    private void apply_redo(ActionEvent requiredEvent, boolean checkRequired){
+
+        if (requiredEvent != null){
+            setEvent(requiredEvent);
+        }
+
+        Turn turnInfo = this.game.redo(checkRequired);
+        System.out.println(turnInfo);
+
+        if (turnInfo != null){
+
+            this.squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation("");
+
+            if (!turnInfo.isTransform())
+                this.squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+            else
+                this.squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation(turnInfo.getColor().toString() + turnInfo.getTransformTo());
+
+            showCurrentTurn();
+
+            for(Component movement: this.movements.getComponents()){
+                ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+            }
+
+            ((JMovePanel)this.movements.getComponent(this.game.getSelectedTurnNumber() - 1))
+                    .setBorder(BorderFactory.createLineBorder(Color.yellow));
+        }else{
+
+            if (requiredEvent != null){
+                ((Timer)requiredEvent.getSource()).stop();
+            }
+        }
+    }
+
+    /**
+     * Send request to the controller for undo operation and redraw the graphical interface after operation is done.
+     * @param requiredEvent set event which should be processed. Could be null
+     * @param checkRequired provide additional check for user undo operation
+     */
+    private void apply_undo(ActionEvent requiredEvent, boolean checkRequired){
+
+        if (requiredEvent != null){
+            setEvent(requiredEvent);
+        }
+
+        Turn turnInfo = this.game.undo(checkRequired);
+
+        if (turnInfo != null){
+
+            if (turnInfo.getBeaten().isEmpty())
+                this.squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()].setAbbreviation("");
+
+            else{
+                this.squares[turnInfo.getDestinationRow()][turnInfo.getDestinationColumn()]
+                        .setAbbreviation(backend.Enums.Color.getOppositeColor(turnInfo.getColor()).toString() +
+                                turnInfo.getBeaten());
+            }
+
+            this.squares[turnInfo.getSourceRow()][turnInfo.getSourceColumn()].setAbbreviation(
+                    turnInfo.getColor().toString() + turnInfo.getAbbreviation());
+
+            showCurrentTurn();
+
+            for(Component movement: movements.getComponents()){
+                ((JMovePanel)movement).setBorder(BorderFactory.createLineBorder(new Color(32,32,32)));
+            }
+
+            if (this.game.getSelectedTurnNumber() > 0)
+                ((JMovePanel)this.movements.getComponent(game.getSelectedTurnNumber() - 1))
+                        .setBorder(BorderFactory.createLineBorder(Color.yellow));
+        }
     }
 }
